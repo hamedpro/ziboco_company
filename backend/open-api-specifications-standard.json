@@ -1,0 +1,219 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "OTP Login API",
+      "version": "1.0.0",
+      "description": "API for OTP-based login system implemented with Express and TypeScript."
+    },
+    "servers": [
+      {
+        "url": "http://localhost:8000",
+        "description": "Development server"
+      }
+    ],
+    "paths": {
+      "/request-otp": {
+        "post": {
+          "summary": "Request OTP",
+          "description": "Generates a new OTP for the provided phone number only if a non-expired one does not exist. If a valid OTP exists, it is reused. OTPs are 6-digit strings containing only English digits.",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "phoneNumber": {
+                      "type": "string",
+                      "description": "The 11-digit phone number starting with '09' to generate OTP for. Only contains English digits.",
+                      "example": "09123456789"
+                    }
+                  },
+                  "required": ["phoneNumber"]
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "OTP issued successfully.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "issuedAt": {
+                        "type": "number",
+                        "description": "The JavaScript epoch timestamp when the OTP was issued.",
+                        "example": 1672531200000
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Bad Request: Phone number is missing or invalid.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/otp-status": {
+        "get": {
+          "summary": "Check OTP Status",
+          "description": "Checks if a valid OTP exists for the given phone number. OTPs are 6-digit strings containing only English digits.",
+          "parameters": [
+            {
+              "name": "phoneNumber",
+              "in": "query",
+              "required": true,
+              "schema": {
+                "type": "string",
+                "description": "The 11-digit phone number starting with '09' to check OTP status for. Only contains English digits.",
+                "example": "09123456789"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OTP status retrieved successfully.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "issuedAt": {
+                        "type": "number",
+                        "description": "The JavaScript epoch timestamp when the OTP was issued, if valid.",
+                        "example": 1672531200000
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Bad Request: Phone number is missing or invalid.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/verify-otp": {
+        "post": {
+          "summary": "Verify OTP",
+          "description": "Verifies the provided OTP for the given phone number. OTPs are 6-digit strings containing only English digits.",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "phoneNumber": {
+                      "type": "string",
+                      "description": "The 11-digit phone number starting with '09' to verify the OTP for. Only contains English digits.",
+                      "example": "09123456789"
+                    },
+                    "otp": {
+                      "type": "string",
+                      "description": "The OTP to be verified. Must be a 6-digit string containing only English digits.",
+                      "example": "123456"
+                    }
+                  },
+                  "required": ["phoneNumber", "otp"]
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "OTP verified successfully.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "JWT": {
+                        "type": "string",
+                        "description": "JWT token issued upon successful OTP verification."
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Bad Request: Missing phone number or OTP.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "No OTP found for this phone number.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Unauthorized: OTP expired or invalid.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  
