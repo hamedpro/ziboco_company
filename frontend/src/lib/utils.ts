@@ -78,25 +78,36 @@ export function generateRange(max: number): number[] {
 }
 
 export function waitForSeconds(x: number): Promise<void> {
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            resolve();
-        }, x * 1000); // Convert seconds to milliseconds
-    });
+	return new Promise((resolve) => {
+		setTimeout(() => {
+			resolve();
+		}, x * 1000); // Convert seconds to milliseconds
+	});
 }
 export function formatDateTo12HourTime(date: Date): string {
-    let hours: number = date.getHours();
-    const minutes: number = date.getMinutes();
+	let hours: number = date.getHours();
+	const minutes: number = date.getMinutes();
 
-    // Determine AM or PM suffix
-    const ampm: string = hours >= 12 ? 'PM' : 'AM';
+	// Determine AM or PM suffix
+	const ampm: string = hours >= 12 ? "PM" : "AM";
 
-    // Convert to 12-hour format
-    hours = hours % 12;
-    hours = hours ? hours : 12; // the hour '0' should be '12'
+	// Convert to 12-hour format
+	hours = hours % 12;
+	hours = hours ? hours : 12; // the hour '0' should be '12'
 
-    // Format minutes to always be two digits
-    const formattedMinutes: string = minutes < 10 ? '0' + minutes : minutes.toString();
+	// Format minutes to always be two digits
+	const formattedMinutes: string = minutes < 10 ? "0" + minutes : minutes.toString();
 
-    return `${hours}:${formattedMinutes} ${ampm}`;
+	return `${hours}:${formattedMinutes} ${ampm}`;
+}
+
+export function setJwtCookie(token: string, cookieName: string, expInHours: number): void {
+	const cookieValue = token; // The JWT token
+	const expires = new Date();
+	expires.setHours(expires.getHours() + expInHours); // Set cookie to expire in specified hours
+
+	// Set the cookie with options
+	let newCookie = `${cookieName}=${cookieValue}; expires=${expires.toUTCString()}; path=/; Secure; SameSite=Strict;`;
+	console.log(newCookie);
+	document.cookie = newCookie;
 }

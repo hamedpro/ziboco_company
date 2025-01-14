@@ -3,24 +3,25 @@
 import { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Loader, Loader2 } from "lucide-react";
+import { ArrowRight, Loader } from "lucide-react";
 import {
-	createUrlFromOriginWithPort,
 	generateRange,
 	getEnglishValue,
 	getPersianValue,
+	setJwtCookie,
 	waitForSeconds,
 } from "@/lib/utils";
 import Link from "next/link";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 import { toast } from "sonner";
-import axios, { Axios, AxiosError } from "axios";
+import axios, { AxiosError } from "axios";
 import { Loader as LoaderComponent } from "@/components/Loader";
 
 function VerifyOTP() {
 	const router = useRouter();
 	const searchParams = useSearchParams();
 	const phoneNumber = searchParams.get("phoneNumber");
+	const userId = searchParams.get("userId");
 	const [otp, setOtp] = useState("");
 	const [resendingSMS, setResendingSMS] = useState(false);
 	const [recalling, setRecalling] = useState(false);
@@ -29,14 +30,15 @@ function VerifyOTP() {
 		if (!phoneNumber) return;
 
 		try {
-			const { data } = await axios({
-				baseURL: "http://localhost:8000",
-				url: "/verify-otp",
-				method: "POST",
-				data: { phoneNumber, otp },
-			});
-
-			localStorage.setItem("token", data.JWT);
+			const { token } = (
+				await axios({
+					baseURL: "https://helphub.ir",
+					url: "/api/Account/Activate",
+					method: "POST",
+					data: { smsToken: otp, userId },
+				})
+			).data;
+			setJwtCookie(token, "JWT", 2);
 			router.push("/dashboard");
 		} catch (error) {
 			toast.error("خطایی رخ داد", {
@@ -53,12 +55,20 @@ function VerifyOTP() {
 		setOtp("");
 		setResendingSMS(true);
 		try {
-			await waitForSeconds(1.5);
+			await waitForSeconds(0.5);
 			await axios({
-				baseURL: createUrlFromOriginWithPort(8000),
-				url: "/request-otp",
+				baseURL: "https://helphub.ir",
+				url: "/api/Account/SendSMS",
 				method: "POST",
-				data: { phoneNumber },
+				data: {
+					cellNumber: phoneNumber,
+					device: {
+						deviceId: "string",
+						deviceModel: "string",
+						deviceAPI: "string",
+						osName: "string",
+					},
+				},
 			});
 			toast.success("عملیات موفق", { description: "کد تایید جدید با موفقیت ارسال شد" });
 		} catch (error) {
@@ -75,7 +85,7 @@ function VerifyOTP() {
 	async function recall() {
 		setOtp("");
 		setRecalling(true);
-		await waitForSeconds(1.5);
+		await waitForSeconds(0.5);
 		toast.error("به زودی", { description: "این قابلیت به زودی در دسترس قرار خواهد گرفت" });
 		setRecalling(false);
 	}
@@ -168,7 +178,7 @@ function VerifyOTP() {
 }
 export default function VerifyOTPPAGE() {
 	return (
-		<Suspense fallback={<LoaderComponent isFullScreen/>}>
+		<Suspense fallback={<LoaderComponent isFullScreen />}>
 			<VerifyOTP />
 		</Suspense>
 	);

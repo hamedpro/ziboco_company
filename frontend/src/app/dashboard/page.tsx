@@ -19,7 +19,7 @@ export default function Page() {
 	let [otps, setOtps] = useState<any>();
 	useEffect(() => {
 		async function fetchData() {
-			await waitForSeconds(1.5);
+			await waitForSeconds(0.5);
 			setOtps((await axios("http://localhost:8000/otps")).data);
 		}
 		fetchData();

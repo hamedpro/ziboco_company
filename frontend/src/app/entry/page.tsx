@@ -17,6 +17,7 @@ import axios from "axios";
 import { toast } from "sonner";
 
 export default function LoginPage() {
+	const [phoneNumber, setPhoneNumber] = useState<string>("");
 	const [loading, setLoading] = useState(false);
 	const router = useRouter();
 
@@ -24,15 +25,25 @@ export default function LoginPage() {
 		setLoading(true);
 
 		try {
-			await waitForSeconds(1.5);
-			await axios({
-				baseURL: createUrlFromOriginWithPort(8000),
-				url: "/request-otp",
-				method: "POST",
-				data: { phoneNumber },
-			});
+			await waitForSeconds(0.5);
+			let { userId } = (
+				await axios({
+					baseURL: "http://helphub.ir",
+					url: "/api/Account/SendSMS",
+					method: "POST",
+					data: {
+						cellNumber: phoneNumber,
+						device: {
+							deviceId: "string",
+							deviceModel: "string",
+							deviceAPI: "string",
+							osName: "string",
+						},
+					},
+				})
+			).data;
 
-			router.push(`/verify-otp?phoneNumber=${phoneNumber}`);
+			router.push(`/verify-otp?phoneNumber=${phoneNumber}&userId=${userId}`);
 		} catch (error) {
 			// console.error(error);
 			toast.error("خطا در ارتباط", {
@@ -42,8 +53,6 @@ export default function LoginPage() {
 			setLoading(false);
 		}
 	};
-
-	const [phoneNumber, setPhoneNumber] = useState<string>("");
 
 	return (
 		<div
