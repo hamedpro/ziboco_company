@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Loader, Loader2 } from "lucide-react";
@@ -15,8 +15,9 @@ import Link from "next/link";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 import { toast } from "sonner";
 import axios, { Axios, AxiosError } from "axios";
+import { Loader as LoaderComponent } from "@/components/Loader";
 
-export default function VerifyOTP() {
+function VerifyOTP() {
 	const router = useRouter();
 	const searchParams = useSearchParams();
 	const phoneNumber = searchParams.get("phoneNumber");
@@ -163,5 +164,12 @@ export default function VerifyOTP() {
 				</Button>
 			</div>
 		</div>
+	);
+}
+export default function VerifyOTPPAGE() {
+	return (
+		<Suspense fallback={<LoaderComponent isFullScreen/>}>
+			<VerifyOTP />
+		</Suspense>
 	);
 }
