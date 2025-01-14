@@ -16,6 +16,7 @@ import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp
 import { toast } from "sonner";
 import axios, { AxiosError } from "axios";
 import { Loader as LoaderComponent } from "@/components/Loader";
+import { API_BASE_URL } from "../../../configs";
 
 function VerifyOTP() {
 	const router = useRouter();
@@ -32,7 +33,7 @@ function VerifyOTP() {
 		try {
 			const { token } = (
 				await axios({
-					baseURL: "https://helphub.ir",
+					baseURL: API_BASE_URL,
 					url: "/api/Account/Activate",
 					method: "POST",
 					data: { smsToken: otp, userId },
@@ -57,7 +58,7 @@ function VerifyOTP() {
 		try {
 			await waitForSeconds(0.5);
 			await axios({
-				baseURL: "https://helphub.ir",
+				baseURL: API_BASE_URL,
 				url: "/api/Account/SendSMS",
 				method: "POST",
 				data: {

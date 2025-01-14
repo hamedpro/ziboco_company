@@ -15,6 +15,7 @@ import {
 } from "@/lib/utils";
 import axios from "axios";
 import { toast } from "sonner";
+import { API_BASE_URL } from "../../../configs";
 
 export default function LoginPage() {
 	const [phoneNumber, setPhoneNumber] = useState<string>("");
@@ -28,7 +29,7 @@ export default function LoginPage() {
 			await waitForSeconds(0.5);
 			let { userId } = (
 				await axios({
-					baseURL: "http://helphub.ir",
+					baseURL: API_BASE_URL,
 					url: "/api/Account/SendSMS",
 					method: "POST",
 					data: {
