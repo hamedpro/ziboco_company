@@ -23,6 +23,9 @@ const vazirmatn = localFont({
 export const metadata: Metadata = {
 	title: "زیب و کو",
 	description: "طلا نقره کالای لوکس",
+	icons: {
+        icon: '/favicon.png',
+    },
 };
 
 export default function RootLayout({
