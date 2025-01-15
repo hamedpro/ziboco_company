@@ -14,13 +14,14 @@ import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/s
 import { waitForSeconds } from "@/lib/utils";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { API_BASE_URL } from "../../../configs";
 
 export default function Page() {
 	let [otps, setOtps] = useState<any>();
 	useEffect(() => {
 		async function fetchData() {
 			await waitForSeconds(0.5);
-			setOtps((await axios("http://localhost:8000/otps")).data);
+			setOtps((await axios({ baseURL: API_BASE_URL, url: "/otps" })).data);
 		}
 		fetchData();
 	}, []);
