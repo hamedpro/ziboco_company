@@ -56,6 +56,16 @@ function VerifyOTP() {
 			setOtp("");
 		}
 	};
+	const updateSearchParam = (key: string, value: string) => {
+		// Create a new URLSearchParams object from the existing ones
+		const params = new URLSearchParams(searchParams.toString());
+
+		// Update the specific key-value pair
+		params.set(key, value);
+
+		// Push the updated search parameters to the router
+		router.push(`?${params.toString()}`);
+	};
 	async function resendSMS() {
 		setOtp("");
 		setResendingSMS(true);
@@ -84,6 +94,7 @@ function VerifyOTP() {
 				toast.error("خطای ارسال پیامک", { description: message });
 				return;
 			}
+			updateSearchParam("userId", userId);
 			toast.success("عملیات موفق", { description: "کد تایید جدید با موفقیت ارسال شد" });
 		} catch (error) {
 			toast.error("خطای ناشناخته", {
