@@ -134,7 +134,7 @@ function VerifyOTP() {
 					className="flex w-full justify-center my-8"
 				>
 					<InputOTP
-						maxLength={6}
+						maxLength={4}
 						onChange={(newValue) => setOtp(getEnglishValue(newValue))}
 						value={getPersianValue(otp)}
 						onComplete={(value) => {
@@ -142,7 +142,7 @@ function VerifyOTP() {
 						}}
 					>
 						<InputOTPGroup>
-							{generateRange(6).map((item) => (
+							{generateRange(4).map((item) => (
 								<InputOTPSlot
 									className="w-14 h-14"
 									index={item}
