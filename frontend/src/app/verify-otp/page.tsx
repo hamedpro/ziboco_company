@@ -37,6 +37,7 @@ function VerifyOTP() {
 					url: "/api/Account/Activate",
 					method: "POST",
 					data: { smsToken: otp, userId },
+					withCredentials : false 
 				})
 			).data;
 			setJwtCookie(token, "JWT", 2);
@@ -70,6 +71,7 @@ function VerifyOTP() {
 						osName: "string",
 					},
 				},
+				withCredentials : false 
 			});
 			toast.success("عملیات موفق", { description: "کد تایید جدید با موفقیت ارسال شد" });
 		} catch (error) {

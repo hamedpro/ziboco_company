@@ -41,6 +41,7 @@ export default function LoginPage() {
 							osName: "string",
 						},
 					},
+					withCredentials: false,
 				})
 			).data;
 

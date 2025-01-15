@@ -21,7 +21,9 @@ export default function Page() {
 	useEffect(() => {
 		async function fetchData() {
 			await waitForSeconds(0.5);
-			setOtps((await axios({ baseURL: API_BASE_URL, url: "/otps" })).data);
+			setOtps(
+				(await axios({ baseURL: API_BASE_URL, url: "/otps", withCredentials: false })).data
+			);
 		}
 		fetchData();
 	}, []);
