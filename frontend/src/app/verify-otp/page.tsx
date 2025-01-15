@@ -31,23 +31,26 @@ function VerifyOTP() {
 		if (!phoneNumber) return;
 
 		try {
-			const { token } = (
-				await axios({
-					baseURL: API_BASE_URL,
-					url: "/api/Account/Activate",
-					method: "POST",
-					data: { smsToken: otp, userId },
-					withCredentials : false 
-				})
-			).data;
+			const response = await axios({
+				baseURL: API_BASE_URL,
+				url: "/api/Account/Activate",
+				method: "POST",
+				data: { smsToken: otp, userId },
+				withCredentials: false,
+			});
+			let {
+				token,
+				result: { status, message },
+			} = response.data;
+			if (status === 1) {
+				toast.error("خطای ارسال پیامک", { description: message });
+				return;
+			}
 			setJwtCookie(token, "JWT", 2);
 			router.push("/dashboard");
 		} catch (error) {
-			toast.error("خطایی رخ داد", {
-				description:
-					error instanceof AxiosError
-						? error.response?.data.message
-						: "خطای ناشناخته رخ داده است",
+			toast.error("خطای ناشناخته", {
+				description: "پس از چند دقیقه دوباره امتحان کنید یا با پشتیبانی در تماس باشید.",
 			});
 		} finally {
 			setOtp("");
@@ -58,7 +61,7 @@ function VerifyOTP() {
 		setResendingSMS(true);
 		try {
 			await waitForSeconds(0.5);
-			await axios({
+			let response = await axios({
 				baseURL: API_BASE_URL,
 				url: "/api/Account/SendSMS",
 				method: "POST",
@@ -71,15 +74,20 @@ function VerifyOTP() {
 						osName: "string",
 					},
 				},
-				withCredentials : false 
+				withCredentials: false,
 			});
+			let {
+				userId,
+				result: { message, status },
+			} = response.data;
+			if (status === 1) {
+				toast.error("خطای ارسال پیامک", { description: message });
+				return;
+			}
 			toast.success("عملیات موفق", { description: "کد تایید جدید با موفقیت ارسال شد" });
 		} catch (error) {
-			toast.error("خطا در ارتباط", {
-				description:
-					error instanceof AxiosError
-						? error.response?.data.message
-						: "خطای ناشناخته رخ داده است",
+			toast.error("خطای ناشناخته", {
+				description: "پس از چند دقیقه دوباره امتحان کنید یا با پشتیبانی در تماس باشید.",
 			});
 		} finally {
 			setResendingSMS(false);

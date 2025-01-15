@@ -1,6 +1,5 @@
 "use client";
 import { AppSidebar } from "@/components/app-sidebar";
-import { Loader } from "@/components/Loader";
 import {
 	Breadcrumb,
 	BreadcrumbItem,
@@ -11,24 +10,8 @@ import {
 } from "@/components/ui/breadcrumb";
 import { Separator } from "@/components/ui/separator";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { waitForSeconds } from "@/lib/utils";
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { API_BASE_URL } from "../../../configs";
 
 export default function Page() {
-	let [otps, setOtps] = useState<any>();
-	useEffect(() => {
-		async function fetchData() {
-			await waitForSeconds(0.5);
-			setOtps(
-				(await axios({ baseURL: API_BASE_URL, url: "/otps", withCredentials: false })).data
-			);
-		}
-		fetchData();
-	}, []);
-	if (otps === undefined) return <Loader isFullScreen />;
-	console.log(otps);
 	return (
 		<SidebarProvider
 			style={
@@ -37,7 +20,7 @@ export default function Page() {
 				} as React.CSSProperties
 			}
 		>
-			<AppSidebar otps={otps} />
+			<AppSidebar/>
 			<SidebarInset>
 				<header className="sticky top-0 flex shrink-0 items-center gap-2 border-b bg-background p-4">
 					<SidebarTrigger className="-ml-1" />

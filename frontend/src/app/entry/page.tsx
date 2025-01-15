@@ -27,29 +27,34 @@ export default function LoginPage() {
 
 		try {
 			await waitForSeconds(0.5);
-			let { userId } = (
-				await axios({
-					baseURL: API_BASE_URL,
-					url: "/api/Account/SendSMS",
-					method: "POST",
-					data: {
-						cellNumber: phoneNumber,
-						device: {
-							deviceId: "string",
-							deviceModel: "string",
-							deviceAPI: "string",
-							osName: "string",
-						},
+			let response = await axios({
+				baseURL: API_BASE_URL,
+				url: "/api/Account/SendSMS",
+				method: "POST",
+				data: {
+					cellNumber: phoneNumber,
+					device: {
+						deviceId: "string",
+						deviceModel: "string",
+						deviceAPI: "string",
+						osName: "string",
 					},
-					withCredentials: false,
-				})
-			).data;
+				},
+				withCredentials: false,
+			});
 
+			let {
+				userId,
+				result: { message, status },
+			} = response.data;
+			if (status === 1) {
+				toast.error("خطای ارسال پیامک", { description: message });
+				return;
+			}
 			router.push(`/verify-otp?phoneNumber=${phoneNumber}&userId=${userId}`);
 		} catch (error) {
-			// console.error(error);
-			toast.error("خطا در ارتباط", {
-				description: "لطفا اتصال اینترنت خود را بررسی کنید",
+			toast.error("خطای ناشناخته", {
+				description: "پس از چند دقیقه دوباره امتحان کنید یا با پشتیبانی در تماس باشید.",
 			});
 		} finally {
 			setLoading(false);

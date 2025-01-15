@@ -21,7 +21,7 @@ import {
 import { Switch } from "@/components/ui/switch";
 import { formatDateTo12HourTime } from "@/lib/utils";
 
-export function AppSidebar({ otps }: { otps: any }) {
+export function AppSidebar() {
 	// This is sample data
 	const data = {
 		user: {
@@ -134,15 +134,15 @@ export function AppSidebar({ otps }: { otps: any }) {
 			},
 		],
 	};
-	if (Object.keys(otps).length !== 0) {
-		data["mails"] = Object.keys(otps).map((phoneNumber) => ({
-			name: "Verification Code",
-			email: "williamsmith@example.com",
-			subject: phoneNumber,
-			date: formatDateTo12HourTime(new Date(otps[phoneNumber].issuedAt)),
-			teaser: `Hi! Your verification code = ${otps[phoneNumber].otp}`,
-		}));
-	}
+	// if (Object.keys(otps).length !== 0) {
+	// 	data["mails"] = Object.keys(otps).map((phoneNumber) => ({
+	// 		name: "Verification Code",
+	// 		email: "williamsmith@example.com",
+	// 		subject: phoneNumber,
+	// 		date: formatDateTo12HourTime(new Date(otps[phoneNumber].issuedAt)),
+	// 		teaser: `Hi! Your verification code = ${otps[phoneNumber].otp}`,
+	// 	}));
+	// }
 
 	// Note: I'm using state to show active item.
 	// IRL you should use the url/router.
