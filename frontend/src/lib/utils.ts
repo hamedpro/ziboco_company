@@ -111,3 +111,10 @@ export function setJwtCookie(token: string, cookieName: string, expInHours: numb
 	console.log(newCookie);
 	document.cookie = newCookie;
 }
+export const authLayoutColors = [
+	"#1c1c1c",
+	"#ede9bc",
+	"#e5e3e4",
+	"#58534d",
+	"#81807c",
+];
