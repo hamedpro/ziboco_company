@@ -1,24 +1,29 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { ArrowLeft, Loader2, X } from "lucide-react";
 import {
-	convertToEnglish,
-	createUrlFromOriginWithPort,
 	getEnglishValue,
 	getPersianValue,
 	validatePhoneNumber,
 	waitForSeconds,
 } from "@/lib/utils";
 import axios from "axios";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { toast } from "sonner";
 import { API_BASE_URL } from "../../../configs";
+import { Input } from "@/components/ui/input";
+import { Loader2, Phone, UserSearch } from "lucide-react";
+import LuxuryButton from "@/components/ui/components_LuxuryButton";
+import AuthToggle from "@/components/AuthToggle";
+import { AuthLayout } from "@/components/AuthLayout";
 
-export default function LoginPage() {
+export default function NewEntry() {
 	const [phoneNumber, setPhoneNumber] = useState<string>("");
+	const [inviterPhoneNumber, setInviterPhoneNumber] = useState<string>("");
+	const [enteryMode, setEntryMode] = useState<"register" | "login">(
+		"register"
+	);
+
 	const [loading, setLoading] = useState(false);
 	const router = useRouter();
 
@@ -33,6 +38,7 @@ export default function LoginPage() {
 				method: "POST",
 				data: {
 					cellNumber: phoneNumber,
+					inviterPhoneNumber: inviterPhoneNumber,
 					device: {
 						deviceId: "string",
 						deviceModel: "string",
@@ -51,10 +57,13 @@ export default function LoginPage() {
 				toast.error("خطای ارسال پیامک", { description: message });
 				return;
 			}
-			router.push(`/verify-otp?phoneNumber=${phoneNumber}&userId=${userId}`);
+			router.push(
+				`/verify-otp?phoneNumber=${phoneNumber}&userId=${userId}`
+			);
 		} catch (error) {
 			toast.error("خطای ناشناخته", {
-				description: "پس از چند دقیقه دوباره امتحان کنید یا با پشتیبانی در تماس باشید.",
+				description:
+					"پس از چند دقیقه دوباره امتحان کنید یا با پشتیبانی در تماس باشید.",
 			});
 		} finally {
 			setLoading(false);
@@ -62,80 +71,93 @@ export default function LoginPage() {
 	};
 
 	return (
-		<div
-			className="min-h-screen"
-			dir="rtl"
-		>
-			<div className="flex w-full items-center justify-end p-6">
-				<p className="text-blue-400 font-medium cursor-pointer">EN</p>
-			</div>
-			<div className="flex flex-col px-6 w-full">
-				<h1 className="text-3xl font-bold mb-10">خوش آمدید!</h1>
-			</div>
-			<div className="flex flex-col gap-y-5 px-6 w-full">
-				<p className="text-muted-foreground text-sm leading-6">
-					لطفا شمارۀ موبایلتان را وارد کنید تا بتوانیم با شما در ارتباط باشیم
-				</p>
-
-				<label className="block text-sm text-muted-foreground mb-2">شمارۀ موبایل :</label>
-				<div className="relative w-full">
+		<AuthLayout>
+			<div
+				className="flex flex-col gap-y-4 p-8"
+				dir="rtl"
+			>
+				<AuthToggle
+					className="text-primary"
+					options={[
+						{ label: "ورود", value: "login" },
+						{ label: "ثبت نام", value: "register" },
+					]}
+					value={enteryMode}
+					onChange={(newValue) =>
+						setEntryMode(newValue as "register" | "login")
+					}
+					style={{ height: "50px" }}
+				/>
+				<div
+					className="relative"
+					style={{ height: "50px" }}
+				>
 					<Input
-						type="tel"
+						className="bg-neutral-50 placeholder:text-base md:text-lg text-lg"
+						placeholder="شماره همراه خود را وارد کنید"
+						style={{
+							paddingRight: "40px",
+							height: "100%",
+						}}
 						value={getPersianValue(phoneNumber)}
-						onChange={(e) => setPhoneNumber(getEnglishValue(e.target.value))}
-						className="w-full h-14 text-right border rounded-lg text-lg md:text-lg focus:border-muted focus:ring-0"
-						required
-						placeholder="مثلا ۰۹۱۲۳۴۵۶۷۸۹"
+						onChange={(e) =>
+							setPhoneNumber(getEnglishValue(e.target.value))
+						}
 					/>
-					{phoneNumber && (
-						<button
-							type="button"
-							onClick={() => setPhoneNumber("")}
-							className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-primary-foreground"
-						>
-							<X className="h-5 w-5" />
-						</button>
-					)}
+					<Phone
+						className="absolute -translate-y-1/2 top-1/2"
+						style={{ right: "10px" }}
+					/>
 				</div>
-
-				<p className="text-sm text-primary-foreground">
-					با ثبت نام در زیب و کو، {"  "}
-					<a
-						href="#"
-						className="text-blue-500 hover:text-blue-600"
+				{enteryMode === "register" && (
+					<div
+						className="relative"
+						style={{ height: "50px" }}
 					>
-						قوانین و شرایط
-					</a>{" "}
-					و{" "}
-					<a
-						href="#"
-						className="text-blue-500 hover:text-blue-600"
-					>
-						بیانیه حریم خصوصی
-					</a>{" "}
-					را می‌پذیرم
-				</p>
-			</div>
-			<div className="flex flex-row p-6 w-full justify-end">
-				<Button
-					size="icon"
-					className="rounded-full w-10 h-10 bg-green-500 hover:bg-green-600 shadow-lg"
-					disabled={loading || validatePhoneNumber(phoneNumber) === false}
+						<Input
+							style={{
+								paddingRight: "40px",
+								height: "100%",
+							}}
+							className="bg-neutral-50 placeholder:text-base md:text-lg text-lg"
+							placeholder="شماره تلفن معرف (اختیاری)"
+							value={getPersianValue(inviterPhoneNumber)}
+							onChange={(e) =>
+								setInviterPhoneNumber(
+									getEnglishValue(e.target.value)
+								)
+							}
+						/>
+						<UserSearch
+							className="absolute -translate-y-1/2 top-1/2"
+							style={{ right: "10px" }}
+						/>
+					</div>
+				)}
+				<LuxuryButton
+					themeVariant="modern"
+					style={{ width: "100%", height: "40px" }}
+					className="flex items-center justify-center"
+					disabled={
+						loading ||
+						validatePhoneNumber(phoneNumber) === false ||
+						(enteryMode === "register" &&
+							Boolean(inviterPhoneNumber) &&
+							validatePhoneNumber(inviterPhoneNumber) === false)
+					}
 					onClick={handleSubmit}
 				>
-					{loading ? (
-						<Loader2
-							className="h-8 w-8 animate-spin text-white"
-							style={{ flex: "auto 1 1", height: "18px" }}
-						/>
-					) : (
-						<ArrowLeft
-							className="h-8 w-8 text-white"
-							style={{ flex: "auto 1 1", height: "18px" }}
-						/>
-					)}
-				</Button>
+					<div className="flex items-center gap-2">
+						{enteryMode === "login" ? "ورود" : "ثبت نام"}
+						{loading === true && (
+							<Loader2
+								className="h-8 w-8 animate-spin text-white"
+								style={{ flex: "auto 1 1", height: "18px" }}
+							/>
+						)}
+					</div>
+				</LuxuryButton>
 			</div>
-		</div>
+		</AuthLayout>
 	);
 }

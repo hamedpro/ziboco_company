@@ -1,31 +1,35 @@
 "use client";
+import { AuthLayout } from "@/components/AuthLayout";
 
 import { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import { ArrowRight, Loader } from "lucide-react";
+import { Loader } from "lucide-react";
 import {
+	authLayoutColors,
 	generateRange,
 	getEnglishValue,
 	getPersianValue,
 	setJwtCookie,
 	waitForSeconds,
 } from "@/lib/utils";
-import Link from "next/link";
-import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
+import {
+	InputOTP,
+	InputOTPGroup,
+	InputOTPSlot,
+} from "@/components/ui/input-otp";
 import { toast } from "sonner";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { Loader as LoaderComponent } from "@/components/Loader";
 import { API_BASE_URL } from "../../../configs";
+import LuxuryButton from "@/components/ui/components_LuxuryButton";
 
-function VerifyOTP() {
+function NewVerifyOTP() {
 	const router = useRouter();
 	const searchParams = useSearchParams();
 	const phoneNumber = searchParams.get("phoneNumber");
 	const userId = searchParams.get("userId");
 	const [otp, setOtp] = useState("");
 	const [resendingSMS, setResendingSMS] = useState(false);
-	const [recalling, setRecalling] = useState(false);
 
 	const handleVerify = async (otp: string) => {
 		if (!phoneNumber) return;
@@ -50,7 +54,8 @@ function VerifyOTP() {
 			router.push("/dashboard");
 		} catch (error) {
 			toast.error("خطای ناشناخته", {
-				description: "پس از چند دقیقه دوباره امتحان کنید یا با پشتیبانی در تماس باشید.",
+				description:
+					"پس از چند دقیقه دوباره امتحان کنید یا با پشتیبانی در تماس باشید.",
 			});
 		} finally {
 			setOtp("");
@@ -95,21 +100,17 @@ function VerifyOTP() {
 				return;
 			}
 			updateSearchParam("userId", userId);
-			toast.success("عملیات موفق", { description: "کد تایید جدید با موفقیت ارسال شد" });
+			toast.success("عملیات موفق", {
+				description: "کد تایید جدید با موفقیت ارسال شد",
+			});
 		} catch (error) {
 			toast.error("خطای ناشناخته", {
-				description: "پس از چند دقیقه دوباره امتحان کنید یا با پشتیبانی در تماس باشید.",
+				description:
+					"پس از چند دقیقه دوباره امتحان کنید یا با پشتیبانی در تماس باشید.",
 			});
 		} finally {
 			setResendingSMS(false);
 		}
-	}
-	async function recall() {
-		setOtp("");
-		setRecalling(true);
-		await waitForSeconds(0.5);
-		toast.error("به زودی", { description: "این قابلیت به زودی در دسترس قرار خواهد گرفت" });
-		setRecalling(false);
 	}
 
 	const formatTime = (seconds: number) => {
@@ -119,43 +120,40 @@ function VerifyOTP() {
 	};
 
 	return (
-		<div
-			className="min-h-screen"
-			dir="rtl"
-		>
-			<div className="flex w-full p-6 justify-between">
-				<ArrowRight /> <p className="text-blue-400 font-medium cursor-pointer">EN</p>
-			</div>
-			<div className="flex flex-col w-full gap-y-5 px-6">
-				<h1 className="text-2xl">کد تایید را وارد کنید</h1>
-				<p className="text-sm text-secondary-foreground">
-					کد تایید را به شماره {getPersianValue(phoneNumber || "")} فرستادیم
+		<AuthLayout>
+			<div
+				className="flex flex-col gap-y-4 px-8 items-center"
+				dir="rtl"
+			>
+				<h1
+					className="text-2xl"
+					style={{ color: authLayoutColors[1] }}
+				>
+					کد تایید را وارد کنید
+				</h1>
+				<p
+					className=""
+					style={{ color: authLayoutColors[2] }}
+				>
+					کد تایید را به شماره {getPersianValue(phoneNumber || "")}{" "}
+					فرستادیم
 				</p>
-				<div className="flex items-center gap-x-2">
-					<span>شماره موبایل اشتباه است؟</span>
-					<Link
-						href={"/entry"}
-						className="text-blue-400"
-					>
-						ویرایش
-					</Link>
-				</div>
+
 				<div
 					dir="ltr"
-					className="flex w-full justify-center my-8"
+					className="flex w-full justify-center my-4 text-primary"
 				>
 					<InputOTP
 						maxLength={4}
-						onChange={(newValue) => setOtp(getEnglishValue(newValue))}
+						onChange={(newValue) =>
+							setOtp(getEnglishValue(newValue))
+						}
 						value={getPersianValue(otp)}
-						onComplete={(value) => {
-							handleVerify(getEnglishValue(value));
-						}}
 					>
 						<InputOTPGroup>
 							{generateRange(4).map((item) => (
 								<InputOTPSlot
-									className="w-14 h-14"
+									className="w-14 h-14 ring-0"
 									index={item}
 									key={item}
 								></InputOTPSlot>
@@ -163,45 +161,43 @@ function VerifyOTP() {
 						</InputOTPGroup>
 					</InputOTP>
 				</div>
+				<LuxuryButton
+					themeVariant="modern"
+					onClick={() => handleVerify(otp)}
+					disabled={otp.length !== 4}
+					style={{ maxWidth: "350px" }}
+				>
+					ورود
+				</LuxuryButton>
 
-				<Button
-					className={`text-sm text-blue-400 hover:bg-blue-100 w-fit px-2`}
-					variant={"ghost"}
+				<div
+					className="flex items-center gap-x-2"
+					style={{ color: authLayoutColors[2] }}
 					onClick={resendSMS}
 				>
-					<div className="flex items-center gap-x-2">
-						<span>ارسال دوباره کد با پیامک</span>
-						{resendingSMS && (
-							<Loader
-								style={{ height: "17px", width: "17px" }}
-								className="animate-spin"
-							/>
-						)}
-					</div>
-				</Button>
-				<Button
-					className={`text-sm text-blue-400 hover:bg-blue-100 w-fit px-2`}
-					variant={"ghost"}
-					onClick={recall}
+					<span>ارسال دوباره کد با پیامک</span>
+					{resendingSMS && (
+						<Loader
+							style={{ height: "17px", width: "17px" }}
+							className="animate-spin"
+						/>
+					)}
+				</div>
+				<div
+					className="flex items-center gap-x-2 cursor-pointer"
+					style={{ color: authLayoutColors[2] }}
+					onClick={() => router.push(`/entry`)}
 				>
-					<div className="flex items-center gap-x-2">
-						<span>ارسال دوباره کد با تماس تلفنی</span>
-						{recalling && (
-							<Loader
-								style={{ height: "17px", width: "17px" }}
-								className="animate-spin"
-							/>
-						)}
-					</div>
-				</Button>
+					ویرایش شماره همراه
+				</div>
 			</div>
-		</div>
+		</AuthLayout>
 	);
 }
-export default function VerifyOTPPAGE() {
+export default function NewVerifyOTPWrapper() {
 	return (
 		<Suspense fallback={<LoaderComponent isFullScreen />}>
-			<VerifyOTP />
+			<NewVerifyOTP />
 		</Suspense>
 	);
 }
