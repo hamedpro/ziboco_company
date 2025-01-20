@@ -21,47 +21,35 @@ export default function TransactionItem({
 				backgroundColor: localColors[3],
 			}}
 		>
-			<div className="flex w-full gap-x-6">
-				<div
-					className="text-neutral-600 flex-none hover:text-neutral-400 transition flex justify-center items-center"
+			<div className="flex w-full gap-x-6 items-center">
+				<ChevronLeft
 					onClick={() => setOpen((prev) => !prev)}
-				>
-					<ChevronLeft
-						size={25}
-						className={`${open ? "-rotate-90" : ""}`}
-					/>
-				</div>
+					size={25}
+					className={`${
+						open ? "-rotate-90" : ""
+					} text-neutral-500 flex-none hover:text-neutral-400 transition`}
+				/>
+
 				<div
-					className="flex flex-col gap-y-3"
+					className="flex flex-row-reverse justify-between text-neutral-50 items-center"
 					style={{ flex: "auto 1 1" }}
 				>
-					<div className="flex flex-row-reverse justify-between text-neutral-50">
-						<p>
-							{translateValue(
-								{
-									cashWithdraw: "برداشت نقدی",
-									sell: "فروش",
-									buy: "خرید",
-									rebuy: "خرید دوباره",
-								},
-								trans.operationType
-							)}
-						</p>
-						<p>{getPersianDate(trans.date)}</p>
-					</div>
+					<p>
+						{translateValue(
+							{
+								cashWithdraw: "برداشت نقدی",
+								sell: "فروش",
+								buy: "خرید",
+								rebuy: "خرید دوباره",
+							},
+							trans.operationType
+						)}
+					</p>
+					<p>{getPersianDate(trans.date)}</p>
 				</div>
 			</div>
-			{open === false && (
-				<div
-					className="flex flex-row-reverse justify-between text-neutral-50"
-					dir="rtl"
-				>
-					<p className="">
-						توضیحات مختصری در مورد این تراکنش نمایش داده خواهد شد
-					</p>
-				</div>
-			)}
-			{open && (
+
+			{open ? (
 				<div
 					className="flex text-neutral-50 flex-col w-full"
 					dir="rtl"
@@ -71,6 +59,15 @@ export default function TransactionItem({
 							{key} : {String(value)}
 						</p>
 					))}
+				</div>
+			) : (
+				<div
+					className="flex flex-row-reverse justify-between text-neutral-50"
+					dir="rtl"
+				>
+					<p className="">
+						توضیحات مختصری در مورد این تراکنش نمایش داده خواهد شد
+					</p>
 				</div>
 			)}
 		</div>

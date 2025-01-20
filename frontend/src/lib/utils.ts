@@ -143,3 +143,20 @@ export function getPersianDate(date: Date): string {
 	const persianDate = moment(date).format("jYYYY-jMM-jDD"); // Persian date format
 	return persianDate.replace(/\d/g, (d) => "۰۱۲۳۴۵۶۷۸۹"[parseInt(d)]); // Convert to Persian digits
 }
+
+export async function shareContent(
+	title: string,
+	text: string,
+	url: string
+): Promise<void> {
+	if (navigator.share) {
+		try {
+			await navigator.share({ title, text, url });
+			console.log("Share successful");
+		} catch (error) {
+			console.error("Error sharing:", error);
+		}
+	} else {
+		alert("Sharing is not supported in this browser.");
+	}
+}

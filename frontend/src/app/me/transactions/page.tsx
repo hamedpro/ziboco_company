@@ -1,65 +1,65 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { ChevronLeft } from "lucide-react";
 import TransactionItem from "./TransactionItem";
 
 export let localColors = ["#838486", "#411357", "#6a3482", "#2b313f"];
 
-export default function Transactions() {
-	let transactionsData = [
-		{
-			operationType: "cashWithdraw",
-			date: new Date(new Date().getTime() - 10 * 24 * 3600 * 1000),
-			fields: {
-				"پرداخت کننده": "رضا موسوی",
-				"دریافت کننده": "پروانه فرهاد بیگی",
-				"نحوه انتقال": "پایا",
-				"قابلیت بازگشت": "ندارد",
-			},
+let transactionsData = [
+	{
+		operationType: "cashWithdraw",
+		date: new Date(new Date().getTime() - 10 * 24 * 3600 * 1000),
+		fields: {
+			"پرداخت کننده": "رضا موسوی",
+			"دریافت کننده": "پروانه فرهاد بیگی",
+			"نحوه انتقال": "پایا",
+			"قابلیت بازگشت": "ندارد",
 		},
-		{
-			operationType: "cashWithdraw",
-			date: new Date(new Date().getTime() - 9 * 24 * 3600 * 1000),
-			fields: {
-				"پرداخت کننده": "رضا موسوی",
-				"دریافت کننده": "پروانه فرهاد بیگی",
-				"نحوه انتقال": "پایا",
-				"قابلیت بازگشت": "ندارد",
-			},
+	},
+	{
+		operationType: "cashWithdraw",
+		date: new Date(new Date().getTime() - 9 * 24 * 3600 * 1000),
+		fields: {
+			"پرداخت کننده": "رضا موسوی",
+			"دریافت کننده": "پروانه فرهاد بیگی",
+			"نحوه انتقال": "پایا",
+			"قابلیت بازگشت": "ندارد",
 		},
-		{
-			operationType: "sell",
-			date: new Date(new Date().getTime() - 8 * 24 * 3600 * 1000),
-			fields: {
-				"پرداخت کننده": "رضا موسوی",
-				"دریافت کننده": "پروانه فرهاد بیگی",
-				"نحوه انتقال": "پایا",
-				"قابلیت بازگشت": "ندارد",
-			},
+	},
+	{
+		operationType: "sell",
+		date: new Date(new Date().getTime() - 8 * 24 * 3600 * 1000),
+		fields: {
+			"پرداخت کننده": "رضا موسوی",
+			"دریافت کننده": "پروانه فرهاد بیگی",
+			"نحوه انتقال": "پایا",
+			"قابلیت بازگشت": "ندارد",
 		},
+	},
 
-		{
-			operationType: "buy",
-			date: new Date(new Date().getTime() - 7 * 24 * 3600 * 1000),
-			fields: {
-				"پرداخت کننده": "رضا موسوی",
-				"دریافت کننده": "پروانه فرهاد بیگی",
-				"نحوه انتقال": "پایا",
-				"قابلیت بازگشت": "ندارد",
-			},
+	{
+		operationType: "buy",
+		date: new Date(new Date().getTime() - 7 * 24 * 3600 * 1000),
+		fields: {
+			"پرداخت کننده": "رضا موسوی",
+			"دریافت کننده": "پروانه فرهاد بیگی",
+			"نحوه انتقال": "پایا",
+			"قابلیت بازگشت": "ندارد",
 		},
-		{
-			operationType: "rebuy",
-			date: new Date(new Date().getTime() - 6 * 24 * 3600 * 1000),
-			fields: {
-				"پرداخت کننده": "رضا موسوی",
-				"دریافت کننده": "پروانه فرهاد بیگی",
-				"نحوه انتقال": "پایا",
-				"قابلیت بازگشت": "ندارد",
-			},
+	},
+	{
+		operationType: "rebuy",
+		date: new Date(new Date().getTime() - 6 * 24 * 3600 * 1000),
+		fields: {
+			"پرداخت کننده": "رضا موسوی",
+			"دریافت کننده": "پروانه فرهاد بیگی",
+			"نحوه انتقال": "پایا",
+			"قابلیت بازگشت": "ندارد",
 		},
-	];
+	},
+];
+
+export default function Transactions() {
 	return (
 		<>
 			<div
@@ -92,7 +92,7 @@ export default function Transactions() {
 					<TransactionItem
 						key={transIndex}
 						trans={trans}
-						defaultOpen={transIndex === 0}
+						defaultOpen={transIndex === 1}
 					/>
 				))}
 			</div>
