@@ -26,6 +26,7 @@
     "@types/moment-jalaali": "^0.7.9",
     "@types/react": "^18.3.1",
     "@types/react-dom": "^18.3.1",
+    "@types/recharts": "^1.8.29",
     "axios": "^1.7.9",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -37,6 +38,7 @@
     "react": "^18.3.1",
     "react-creditcard": "^1.1.2",
     "react-dom": "^18.3.1",
+    "recharts": "^2.15.0",
     "sonner": "^1.7.1",
     "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7"
