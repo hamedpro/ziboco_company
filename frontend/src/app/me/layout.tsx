@@ -4,6 +4,7 @@ import {
 	ArrowLeftRight,
 	CalendarRange,
 	CircleUser,
+	MenuIcon,
 	ReceiptText,
 	Wallet,
 } from "lucide-react";
@@ -22,18 +23,47 @@ const menuItems = [
 export default function ({ children }: { children: ReactNode }) {
 	const pathname = usePathname(); // Get the current route
 	const router = useRouter(); // Navigate between routes
+	let pageTitle: string;
+	switch (pathname) {
+		case "/me/profile":
+			pageTitle = "پروفایل من";
+			break;
+		case "/me/transactions":
+			pageTitle = "تاریخچه تراکنش ها";
+			break;
+		case "/me/wallet":
+			pageTitle = "کیف پول من";
+			break;
+		default:
+			pageTitle = "مسیر بی نام";
+			break;
+	}
 	return (
 		<>
 			<div
 				style={{
-					height: "90vh",
+					height: "80vh",
 					width: "100%",
 					position: "absolute",
-					top: 0,
+					top: "10vh",
 					overflowY: "scroll",
+					scrollbarWidth: "none",
 				}}
 			>
 				{children}
+			</div>
+			<div
+				style={{
+					height: "10vh",
+					width: "100%",
+					position: "absolute",
+					top: "0vh",
+				}}
+				className="flex justify-between items-center px-6 text-neutral-50"
+			>
+				<div></div>
+				<h1>{pageTitle} </h1>
+				<MenuIcon />
 			</div>
 			<div
 				style={{

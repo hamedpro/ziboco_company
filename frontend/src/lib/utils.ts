@@ -1,5 +1,6 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import moment from "moment-jalaali";
 
 export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs));
@@ -118,3 +119,27 @@ export const authLayoutColors = [
 	"#58534d",
 	"#81807c",
 ];
+
+type TranslationDictionary = { [key: string]: string };
+
+/**
+ * Translates a key to its corresponding value from a dictionary.
+ * If the key is missing, it returns the default fallback.
+ *
+ * @param dictionary - The mapping object with keys and their translations
+ * @param key - The key to translate
+ * @param fallback - The value to return if the key is not found (default: "Translation not found")
+ * @returns The translated value or the fallback
+ */
+export function translateValue(
+	dictionary: TranslationDictionary,
+	key: string,
+	fallback: string = "Translation not found"
+): string {
+	return dictionary[key] || fallback;
+}
+
+export function getPersianDate(date: Date): string {
+	const persianDate = moment(date).format("jYYYY-jMM-jDD"); // Persian date format
+	return persianDate.replace(/\d/g, (d) => "۰۱۲۳۴۵۶۷۸۹"[parseInt(d)]); // Convert to Persian digits
+}
