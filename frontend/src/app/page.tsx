@@ -6,7 +6,7 @@ export default function LandingPage() {
 		<div className="min-h-screen flex flex-col items-center justify-center bg-white p-4 text-center">
 			<img
 				src="/IMG_20250113_191141.jpg"
-				style={{ width: "32vw" }}
+				style={{ width: "32dvw" }}
 				className="mb-6 shadow-md rounded-sm"
 			/>
 			<h1 className="text-4xl font-bold mb-6">به زیب و کو خوش آمدید</h1>
