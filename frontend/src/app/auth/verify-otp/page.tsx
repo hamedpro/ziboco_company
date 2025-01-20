@@ -1,5 +1,4 @@
 "use client";
-import { AuthLayout } from "@/components/AuthLayout";
 
 import { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -20,10 +19,10 @@ import {
 import { toast } from "sonner";
 import axios from "axios";
 import { Loader as LoaderComponent } from "@/components/Loader";
-import { API_BASE_URL } from "../../../configs";
+import { API_BASE_URL } from "../../../../configs";
 import LuxuryButton from "@/components/ui/components_LuxuryButton";
 
-function NewVerifyOTP() {
+function VerifyOTP() {
 	const router = useRouter();
 	const searchParams = useSearchParams();
 	const phoneNumber = searchParams.get("phoneNumber");
@@ -120,84 +119,80 @@ function NewVerifyOTP() {
 	};
 
 	return (
-		<AuthLayout>
-			<div
-				className="flex flex-col gap-y-4 px-8 items-center"
-				dir="rtl"
+		<div
+			className="flex flex-col gap-y-4 px-8 items-center"
+			dir="rtl"
+		>
+			<h1
+				className="text-2xl"
+				style={{ color: authLayoutColors[1] }}
 			>
-				<h1
-					className="text-2xl"
-					style={{ color: authLayoutColors[1] }}
-				>
-					کد تایید را وارد کنید
-				</h1>
-				<p
-					className=""
-					style={{ color: authLayoutColors[2] }}
-				>
-					کد تایید را به شماره {getPersianValue(phoneNumber || "")}{" "}
-					فرستادیم
-				</p>
+				کد تایید را وارد کنید
+			</h1>
+			<p
+				className=""
+				style={{ color: authLayoutColors[2] }}
+			>
+				کد تایید را به شماره {getPersianValue(phoneNumber || "")}{" "}
+				فرستادیم
+			</p>
 
-				<div
-					dir="ltr"
-					className="flex w-full justify-center my-4 text-primary"
+			<div
+				dir="ltr"
+				className="flex w-full justify-center my-4 text-primary"
+			>
+				<InputOTP
+					maxLength={4}
+					onChange={(newValue) => setOtp(getEnglishValue(newValue))}
+					value={getPersianValue(otp)}
 				>
-					<InputOTP
-						maxLength={4}
-						onChange={(newValue) =>
-							setOtp(getEnglishValue(newValue))
-						}
-						value={getPersianValue(otp)}
-					>
-						<InputOTPGroup>
-							{generateRange(4).map((item) => (
-								<InputOTPSlot
-									className="w-14 h-14 ring-0"
-									index={item}
-									key={item}
-								></InputOTPSlot>
-							))}
-						</InputOTPGroup>
-					</InputOTP>
-				</div>
-				<LuxuryButton
-					themeVariant="modern"
-					onClick={() => handleVerify(otp)}
-					disabled={otp.length !== 4}
-					style={{ maxWidth: "350px" }}
-				>
-					ورود
-				</LuxuryButton>
-
-				<div
-					className="flex items-center gap-x-2"
-					style={{ color: authLayoutColors[2] }}
-					onClick={resendSMS}
-				>
-					<span>ارسال دوباره کد با پیامک</span>
-					{resendingSMS && (
-						<Loader
-							style={{ height: "17px", width: "17px" }}
-							className="animate-spin"
-						/>
-					)}
-				</div>
-				<div
-					className="flex items-center gap-x-2 cursor-pointer"
-					style={{ color: authLayoutColors[2] }}
-					onClick={() => router.push(`/entry`)}
-				>
-					ویرایش شماره همراه
-				</div>
+					<InputOTPGroup>
+						{generateRange(4).map((item) => (
+							<InputOTPSlot
+								className="w-14 h-14 ring-0"
+								index={item}
+								key={item}
+							></InputOTPSlot>
+						))}
+					</InputOTPGroup>
+				</InputOTP>
 			</div>
-		</AuthLayout>
+			<LuxuryButton
+				themeVariant="modern"
+				onClick={() => handleVerify(otp)}
+				disabled={otp.length !== 4}
+				style={{ maxWidth: "350px" }}
+			>
+				ورود
+			</LuxuryButton>
+
+			<div
+				className="flex items-center gap-x-2"
+				style={{ color: authLayoutColors[2] }}
+				onClick={resendSMS}
+			>
+				<span>ارسال دوباره کد با پیامک</span>
+				{resendingSMS && (
+					<Loader
+						style={{ height: "17px", width: "17px" }}
+						className="animate-spin"
+					/>
+				)}
+			</div>
+			<div
+				className="flex items-center gap-x-2 cursor-pointer"
+				style={{ color: authLayoutColors[2] }}
+				onClick={() => router.push(`/auth/entry`)}
+			>
+				ویرایش شماره همراه
+			</div>
+		</div>
 	);
 }
-export default function NewVerifyOTPWrapper() {
+export default function VerifyOTPWrapper() {
 	return (
 		<Suspense fallback={<LoaderComponent isFullScreen />}>
-			<NewVerifyOTP />
+			<VerifyOTP />
 		</Suspense>
 	);
 }
