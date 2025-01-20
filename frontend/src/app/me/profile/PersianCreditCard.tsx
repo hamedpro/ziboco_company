@@ -2,8 +2,8 @@ import type React from "react";
 
 const LuxeLogo = () => (
 	<svg
-		width="60"
-		height="60"
+		width="48"
+		height="48"
 		viewBox="0 0 60 60"
 		fill="none"
 		xmlns="http://www.w3.org/2000/svg"
@@ -41,16 +41,16 @@ const LuxeLogo = () => (
 const PersianCreditCard: React.FC = () => {
 	return (
 		<div
-			className="w-96 h-56 bg-gradient-to-br from-purple-600 to-indigo-900 rounded-xl shadow-2xl overflow-hidden p-6 text-white font-sans"
+			className="w-full h-48 bg-gradient-to-br from-purple-600 to-indigo-900 rounded-xl shadow-2xl overflow-hidden p-4 text-white font-sans"
 			dir="rtl"
 		>
-			<div className="flex justify-between items-start mb-8">
-				<div className="text-xl font-bold tracking-wider">
+			<div className="flex justify-between items-start mb-6">
+				<div className="text-lg font-bold tracking-wider">
 					بانک صادرات ایران
 				</div>
 				<LuxeLogo />
 			</div>
-			<div className="mb-6 text-2xl tracking-widest text-left font-mono">
+			<div className="mb-4 text-xl tracking-widest text-left font-mono">
 				6219 8619 7754 5614
 			</div>
 			<div className="flex justify-between items-center">
@@ -67,7 +67,7 @@ const PersianCreditCard: React.FC = () => {
 					۱۴۰۷/۰۹
 				</div>
 			</div>
-			<div className="mt-4 text-lg tracking-wide">جان دو</div>
+			<div className="mt-4 text-base tracking-wide">جان دو</div>
 		</div>
 	);
 };

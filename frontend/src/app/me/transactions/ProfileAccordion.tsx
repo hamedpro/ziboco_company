@@ -12,6 +12,7 @@ export function ProfileAccordin({
 	children?: ReactNode;
 	isTheFirst: boolean;
 }) {
+	console.log({ children });
 	let [open, setOpen] = useState(false);
 	return (
 		<div
@@ -38,7 +39,7 @@ export function ProfileAccordin({
 				</div>
 			</div>
 
-			{open && (
+			{open && children && (
 				<div
 					className="flex text-neutral-50 flex-col w-full"
 					dir="rtl"
