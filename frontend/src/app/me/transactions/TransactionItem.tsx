@@ -21,9 +21,11 @@ export default function TransactionItem({
 				backgroundColor: localColors[3],
 			}}
 		>
-			<div className="flex w-full gap-x-6 items-center">
+			<div
+				className="flex w-full gap-x-6 items-center cursor-pointer"
+				onClick={() => setOpen((prev) => !prev)}
+			>
 				<ChevronLeft
-					onClick={() => setOpen((prev) => !prev)}
 					size={25}
 					className={`${
 						open ? "-rotate-90" : ""
