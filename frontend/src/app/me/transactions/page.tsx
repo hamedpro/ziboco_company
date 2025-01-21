@@ -2,8 +2,8 @@
 
 import { Button } from "@/components/ui/button";
 import TransactionItem from "./TransactionItem";
+import { localColors } from "./variables";
 
-export let localColors = ["#838486", "#411357", "#6a3482", "#2b313f"];
 
 let transactionsData = [
 	{

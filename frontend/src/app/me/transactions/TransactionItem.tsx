@@ -1,9 +1,9 @@
 "use client";
 
 import { ChevronLeft } from "lucide-react";
-import { localColors } from "./page";
 import { getPersianDate, translateValue } from "@/lib/utils";
 import { useState } from "react";
+import { localColors } from "./variables";
 
 export default function TransactionItem({
 	trans,

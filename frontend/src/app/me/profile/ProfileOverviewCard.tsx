@@ -1,6 +1,6 @@
 import React from "react";
-import { localColors } from "./page";
 import { Calendar1, Hash, Phone, User } from "lucide-react";
+import { localColors } from "./variables";
 
 export const ProfileOverviewCard = () => {
 	return (

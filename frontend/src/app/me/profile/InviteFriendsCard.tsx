@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { localColors } from "./page";
 import { Button } from "@/components/ui/button";
 import { waitForSeconds } from "@/lib/utils";
 import { ClipboardCheck, Loader } from "lucide-react";
+import { localColors } from "./variables";
 
 export const InviteFriendsCard = () => {
 	let [copyingState, setCopyingState] = useState<

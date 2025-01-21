@@ -1,6 +1,6 @@
 import React from "react";
-import { localColors } from "./page";
 import { MoveLeft } from "lucide-react";
+import { localColors } from "./variables";
 
 export const IdentityVerificationCard = () => {
 	return (
