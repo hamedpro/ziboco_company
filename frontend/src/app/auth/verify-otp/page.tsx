@@ -50,7 +50,7 @@ function VerifyOTP() {
 				return;
 			}
 			setJwtCookie(token, "JWT", 2);
-			router.push("/dashboard");
+			router.push("/me/profile");
 		} catch (error) {
 			toast.error("خطای ناشناخته", {
 				description:
@@ -81,6 +81,7 @@ function VerifyOTP() {
 				method: "POST",
 				data: {
 					cellNumber: phoneNumber,
+					referralCode: "",
 					device: {
 						deviceId: "string",
 						deviceModel: "string",

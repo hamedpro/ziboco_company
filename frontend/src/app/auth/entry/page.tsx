@@ -37,7 +37,7 @@ export default function Entry() {
 				method: "POST",
 				data: {
 					cellNumber: phoneNumber,
-					inviterPhoneNumber: inviterPhoneNumber,
+					referralCode: inviterPhoneNumber,
 					device: {
 						deviceId: "string",
 						deviceModel: "string",
