@@ -12,7 +12,7 @@ export function CustomAccordion({
 	children?: ReactNode;
 	isTheFirst: boolean;
 }) {
-	console.log({ children });
+	// console.log({ children });
 	let [open, setOpen] = useState(false);
 	return (
 		<div

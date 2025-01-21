@@ -102,14 +102,18 @@ export function formatDateTo12HourTime(date: Date): string {
 	return `${hours}:${formattedMinutes} ${ampm}`;
 }
 
-export function setJwtCookie(token: string, cookieName: string, expInHours: number): void {
+export function setJwtCookie(
+	token: string,
+	cookieName: string,
+	expInHours: number
+): void {
 	const cookieValue = token; // The JWT token
 	const expires = new Date();
 	expires.setHours(expires.getHours() + expInHours); // Set cookie to expire in specified hours
 
 	// Set the cookie with options
 	let newCookie = `${cookieName}=${cookieValue}; expires=${expires.toUTCString()}; path=/; Secure; SameSite=Strict;`;
-	console.log(newCookie);
+	// console.log(newCookie);
 	document.cookie = newCookie;
 }
 export const authLayoutColors = [
@@ -152,7 +156,7 @@ export async function shareContent(
 	if (navigator.share) {
 		try {
 			await navigator.share({ title, text, url });
-			console.log("Share successful");
+			// console.log("Share successful");
 		} catch (error) {
 			console.error("Error sharing:", error);
 		}

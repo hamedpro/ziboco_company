@@ -48,7 +48,7 @@ app.post("/request-otp", (req: Request, res: Response) => {
 
 	otps[phoneNumber] = { otp, issuedAt };
 
-	console.log(`Generated OTP for ${phoneNumber}: ${otp}`);
+	// console.log(`Generated OTP for ${phoneNumber}: ${otp}`);
 
 	res.status(200).json({ issuedAt });
 	return;
