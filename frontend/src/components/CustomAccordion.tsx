@@ -3,7 +3,7 @@
 import { ChevronLeft } from "lucide-react";
 import { ReactNode, useState } from "react";
 
-export function ProfileAccordin({
+export function CustomAccordion({
 	title,
 	children,
 	isTheFirst,

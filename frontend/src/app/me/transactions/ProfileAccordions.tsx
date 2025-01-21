@@ -1,11 +1,11 @@
 import React from "react";
-import { ProfileAccordin } from "./ProfileAccordion";
+import { CustomAccordion } from "../../../components/CustomAccordion";
 import PersianLuxuryCreditCard from "../profile/PersianCreditCard";
 
 export const ProfileAccordions = () => {
 	return (
 		<div className="flex flex-col my-4">
-			<ProfileAccordin
+			<CustomAccordion
 				title="آدرس ها"
 				isTheFirst={true}
 			>
@@ -18,19 +18,19 @@ export const ProfileAccordions = () => {
 					</li>
 					<li>خیابان شریعتی - خیابان سهروردی - کوچه نیکو - واحد ۵</li>
 				</ul>
-			</ProfileAccordin>
-			<ProfileAccordin
+			</CustomAccordion>
+			<CustomAccordion
 				title="کارت بانکی"
 				isTheFirst={false}
 			>
 				<div className="my-2">
 					<PersianLuxuryCreditCard />
 				</div>
-			</ProfileAccordin>
-			<ProfileAccordin
+			</CustomAccordion>
+			<CustomAccordion
 				title="دارایی های من"
 				isTheFirst={false}
-			></ProfileAccordin>
+			></CustomAccordion>
 		</div>
 	);
 };
