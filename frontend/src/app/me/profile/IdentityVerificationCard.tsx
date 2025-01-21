@@ -12,7 +12,7 @@ export const IdentityVerificationCard = () => {
 			<p>برای دسترسی به خدمات توکنیکو احراز هویت خود را تکمیل نمایید. </p>
 			<p
 				style={{ color: localColors[2] }}
-				className="flex gap-x-2"
+				className="flex gap-x-2 cursor-pointer"
 			>
 				تکمیل فرآیند احراز هویت <MoveLeft />
 			</p>

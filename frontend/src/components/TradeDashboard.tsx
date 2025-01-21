@@ -45,12 +45,12 @@ export default function TradeDashboard() {
 
 	return (
 		<section className="p-8 bg-neutral-800">
-			<h2
+			{/* <h2
 				className="text-4xl font-bold mb-8 text-neutral-300 text-center"
 				style={{ fontFamily: "Vazirmatn, sans-serif" }}
 			>
 				داشبورد معاملات
-			</h2>
+			</h2> */}
 			<div className="flex flex-wrap gap-6 justify-center">
 				{assets.toReversed().map((asset, index) => (
 					<TradeCard

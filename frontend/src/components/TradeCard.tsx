@@ -101,7 +101,7 @@ export function TradeCard({
 							})}
 						</p>
 					</div>
-					<button className="bg-blue-500 hover:bg-blue-600 text-white text-lg font-bold py-2 px-6 rounded-full transition duration-300 shadow-md">
+					<button className="bg-blue-500 hover:bg-blue-600 text-white text-lg font-bold py-2 px-6 rounded-lg transition duration-300 shadow-md">
 						معامله
 					</button>
 				</div>
