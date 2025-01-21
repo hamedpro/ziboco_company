@@ -15,10 +15,10 @@ const routes = [
 		path: "/auth/entry",
 	},
 	{
-		name: "کیف پول من",
+		name: "حساب کاربری",
 		description:
-			"وضعیت فعلی اعتبار حسابتون رو مشاهده کنید و واریز و برداشت انجام بدید",
-		path: "/me/wallet",
+			"اطلاعات مربوط به احراز هویت و حساب کاربری خودتون رو از اینجا مشاهده کنید",
+		path: "/me/profile",
 	},
 	{
 		name: "تاریخچه تراکنش ها",
@@ -26,10 +26,10 @@ const routes = [
 		path: "/me/transactions",
 	},
 	{
-		name: "حساب کاربری",
+		name: "کیف پول من",
 		description:
-			"اطلاعات مربوط به احراز هویت و حساب کاربری خودتون رو از اینجا مشاهده کنید",
-		path: "/me/profile",
+			"وضعیت فعلی اعتبار حسابتون رو مشاهده کنید و واریز و برداشت انجام بدید",
+		path: "/me/wallet",
 	},
 	{
 		name: "معامله جدید",
@@ -46,50 +46,48 @@ const routes = [
 
 export default function Home() {
 	return (
-		<div
-			className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center"
-			dir="rtl"
-		>
-			<div className="container mx-auto px-4 py-16">
-				<header className="text-center mb-12 mt-12">
-					<h1 className="text-5xl font-extralight mb-2 text-gray-800">
-						<span className="">ZIBOCO</span>
-					</h1>
-					<p className="text-sm text-gray-500 uppercase tracking-widest">
-						طلا / نقره / کالای لوکس
-					</p>
-				</header>
-				<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-					{routes.map((route, index) => (
-						<Link
-							key={route.path}
-							href={route.path}
-						>
-							<Card className="h-full bg-white border-0 shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden group">
-								<CardHeader className="p-4">
-									<CardTitle className="text-lg font-normal text-gray-700 group-hover:text-primary transition-colors duration-300">
-										{route.name}
-									</CardTitle>
-									<CardDescription className="text-xs text-gray-500 mt-1">
-										{route.description}
-									</CardDescription>
-								</CardHeader>
-								<CardContent className="p-4 pt-0">
-									<div className="w-full h-1 bg-gray-100 overflow-hidden">
-										<div
-											className="h-full bg-primary transition-all duration-300 ease-out"
-											style={{
-												width: "0%",
-												transform: "translateX(-100%)",
-											}}
-										/>
-									</div>
-								</CardContent>
-							</Card>
-						</Link>
-					))}
-				</div>
+		<>
+			<header className="text-center p-6">
+				<h1 className="text-5xl font-extralight mb-2 text-neutral-50">
+					<span className="">ZIBOCO</span>
+				</h1>
+				<p className="text-sm text-gray-500 uppercase tracking-widest">
+					طلا / نقره / کالای لوکس
+				</p>
+			</header>
+			<div
+				className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6"
+				dir="rtl"
+			>
+				{routes.map((route, index) => (
+					<Link
+						key={route.path}
+						href={route.path}
+					>
+						<Card className="h-full bg-white border-0 shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden group">
+							<CardHeader className="p-4">
+								<CardTitle className="text-lg font-normal text-gray-700 group-hover:text-primary transition-colors duration-300">
+									{route.name}
+								</CardTitle>
+								<CardDescription className="text-xs text-gray-500 mt-1">
+									{route.description}
+								</CardDescription>
+							</CardHeader>
+							<CardContent className="p-4 pt-0">
+								<div className="w-full h-1 bg-gray-100 overflow-hidden">
+									<div
+										className="h-full bg-primary transition-all duration-300 ease-out"
+										style={{
+											width: "0%",
+											transform: "translateX(-100%)",
+										}}
+									/>
+								</div>
+							</CardContent>
+						</Card>
+					</Link>
+				))}
 			</div>
-		</div>
+		</>
 	);
 }
