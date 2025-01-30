@@ -11,6 +11,7 @@ import {
 import { ReactNode } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { authLayoutColors } from "@/lib/utils";
+import PhoneWrapper from "@/components/layouts/PhoneWrapper";
 
 const menuItems = [
 	{ id: 1, icon: <CalendarRange />, route: "/me/events" },
@@ -20,9 +21,14 @@ const menuItems = [
 	{ id: 5, icon: <Wallet />, route: "/me/wallet" },
 ];
 
-export default function ({ children }: { children: ReactNode }) {
-	const pathname = usePathname(); // Get the current route
-	const router = useRouter(); // Navigate between routes
+export default function MeLayout({
+	children,
+}: {
+	children: React.ReactNode;
+}) {
+	const pathname = usePathname();
+	const router = useRouter();
+	
 	let pageTitle: string;
 	switch (pathname) {
 		case "/me/profile":
@@ -44,7 +50,8 @@ export default function ({ children }: { children: ReactNode }) {
 			pageTitle = "مسیر بی نام";
 			break;
 	}
-	return (
+
+	const innerLayout = (
 		<>
 			<div
 				style={{
@@ -68,7 +75,7 @@ export default function ({ children }: { children: ReactNode }) {
 				className="flex justify-between items-center px-6 text-neutral-50"
 			>
 				<div></div>
-				<h1>{pageTitle} </h1>
+				<h1>{pageTitle}</h1>
 				<MenuIcon />
 			</div>
 			<div
@@ -84,23 +91,10 @@ export default function ({ children }: { children: ReactNode }) {
 					<div
 						key={item.id}
 						className={`w-1/5 cursor-pointer relative h-full flex items-center justify-center border-neutral-900 
-                                ${
-									index !== menuItems.length - 1
-										? "border-r-2"
-										: ""
-								} 
-                                ${
-									pathname === item.route
-										? ""
-										: "text-neutral-500 hover:text-neutral-400 transition-colors"
-								}
-								
-                            `}
-						style={
-							pathname === item.route
-								? { color: authLayoutColors[1] }
-								: {}
-						}
+								   ${index !== menuItems.length - 1 ? "border-r-2" : ""} 
+								   ${pathname === item.route ? "" : "text-neutral-500 hover:text-neutral-400 transition-colors"}
+								`}
+						style={pathname === item.route ? { color: authLayoutColors[1] } : {}}
 						onClick={() => router.push(item.route)}
 					>
 						{index === 2 ? (
@@ -115,4 +109,6 @@ export default function ({ children }: { children: ReactNode }) {
 			</div>
 		</>
 	);
+
+	return <PhoneWrapper>{innerLayout}</PhoneWrapper>;
 }

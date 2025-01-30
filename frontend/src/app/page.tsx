@@ -1,93 +1,72 @@
-import {
-	Card,
-	CardHeader,
-	CardTitle,
-	CardDescription,
-	CardContent,
-} from "@/components/ui/card";
-import Link from "next/link";
-
-const routes = [
-	{
-		name: "ورود به حساب",
-		description:
-			"با شماره موبایل و کد یک بار مصرف وارد حساب کاربری خودتون بشید",
-		path: "/auth/entry",
-	},
-	{
-		name: "حساب کاربری",
-		description:
-			"اطلاعات مربوط به احراز هویت و حساب کاربری خودتون رو از اینجا مشاهده کنید",
-		path: "/me/profile",
-	},
-	{
-		name: "تاریخچه تراکنش ها",
-		description: "جزئیات تراکنش های خودتون رو میتونید اینجا ببینید",
-		path: "/me/transactions",
-	},
-	{
-		name: "کیف پول من",
-		description:
-			"وضعیت فعلی اعتبار حسابتون رو مشاهده کنید و واریز و برداشت انجام بدید",
-		path: "/me/wallet",
-	},
-	{
-		name: "معامله جدید",
-		description:
-			"از این بخش نرخ لحظه ای محصولات موجود رو بررسی کنید و در صورت تمایل خریداری کنید",
-		path: "/me/trade",
-	},
-	{
-		name: "رویداد های مالی",
-		description: "این بخش هنوز در دست توسعه است",
-		path: "/me/events",
-	},
-];
+import TopHeader from "@/components/top-header"
+import MainHeader from "@/components/main-header"
+import PriceTicker from "@/components/price-ticker"
+import Navigation from "@/components/navigation"
+import CategoryCard from "@/components/category-card"
+import PopularCategories from "@/components/popular-categories"
+import FeaturedProducts from "@/components/featured-products"
+import NewsSection from "@/components/news-section"
+import HotItems from "@/components/hot-items"
+import NewsViews from "@/components/news-views"
+import NewsletterIRA from "@/components/newsletter-ira"
+import Footer from "@/components/footer"
 
 export default function Home() {
-	return (
-		<>
-			<header className="text-center p-6">
-				<h1 className="text-5xl font-extralight mb-2 text-neutral-50">
-					<span className="">ZIBOCO</span>
-				</h1>
-				<p className="text-sm text-gray-500 uppercase tracking-widest">
-					طلا / نقره / کالای لوکس
-				</p>
-			</header>
-			<div
-				className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6"
-				dir="rtl"
-			>
-				{routes.map((route, index) => (
-					<Link
-						key={route.path}
-						href={route.path}
-					>
-						<Card className="h-full bg-white border-0 shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden group">
-							<CardHeader className="p-4">
-								<CardTitle className="text-lg font-normal text-gray-700 group-hover:text-primary transition-colors duration-300">
-									{route.name}
-								</CardTitle>
-								<CardDescription className="text-xs text-gray-500 mt-1">
-									{route.description}
-								</CardDescription>
-							</CardHeader>
-							<CardContent className="p-4 pt-0">
-								<div className="w-full h-1 bg-gray-100 overflow-hidden">
-									<div
-										className="h-full bg-primary transition-all duration-300 ease-out"
-										style={{
-											width: "0%",
-											transform: "translateX(-100%)",
-										}}
-									/>
-								</div>
-							</CardContent>
-						</Card>
-					</Link>
-				))}
-			</div>
-		</>
-	);
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <TopHeader />
+      <MainHeader />
+      <PriceTicker />
+      <Navigation />
+
+      {/* Promotional Banner */}
+      <div className="bg-red-600 text-white text-center py-2">
+        <a href="#" className="hover:underline">
+          پیشنهادات ویژه سکه و شمش طلا و نقره ←
+        </a>
+      </div>
+
+      {/* Main Categories */}
+      <div className="max-w-7xl mx-auto py-8 px-4">
+        <div className="grid grid-cols-2 gap-8 mb-8">
+          <CategoryCard
+            title="نقره"
+            subtitle="مشاهده سکه‌ها، پولک‌ها و شمش‌ها"
+            imageSrc="/placeholder.svg"
+            imageAlt="سکه نقره"
+          />
+          <CategoryCard
+            title="طلا"
+            subtitle="مشاهده سکه‌ها، پولک‌ها و شمش‌ها"
+            imageSrc="/placeholder.svg"
+            imageAlt="سکه طلا"
+          />
+        </div>
+
+        <div className="grid grid-cols-2 gap-8">
+          <CategoryCard
+            title="سایر فلزات"
+            subtitle="مس، پلاتین، پالادیوم، رودیوم"
+            imageSrc="/placeholder.svg"
+            imageAlt="سکه پلاتین"
+          />
+          <CategoryCard
+            title="خدمات"
+            subtitle="نگهداری، طرح ماهانه، IRA و بیشتر"
+            imageSrc="/placeholder.svg"
+            imageAlt="شمش طلا"
+          />
+        </div>
+      </div>
+
+      <PopularCategories />
+      <FeaturedProducts />
+      <NewsSection />
+      <HotItems />
+      <NewsViews />
+      <NewsletterIRA />
+      <Footer />
+    </div>
+  )
 }
+

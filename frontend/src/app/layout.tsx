@@ -39,21 +39,8 @@ export default function RootLayout({
 			lang="en"
 			className={vazirmatn.className}
 		>
-			<body
-			// className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-			>
-				<div className="h-screen w-screen flex justify-center items-center bg-neutral-100 overflow-y-auto">
-					<div
-						className="w-full h-screen shadow-sm justify-around flex flex-col relative"
-						style={{
-							maxWidth: "430px",
-							backgroundColor: authLayoutColors[0],
-						}}
-					>
-						{children}
-					</div>
-				</div>
-
+			<body>
+				{children}
 				<div>
 					<Toaster
 						dir="rtl"

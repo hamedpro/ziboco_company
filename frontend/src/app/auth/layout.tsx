@@ -1,11 +1,16 @@
 "use client";
 
 import { authLayoutColors } from "@/lib/utils";
-import { ReactNode } from "react";
+import PhoneWrapper from "@/components/layouts/PhoneWrapper";
 
-export default function AuthLayout({ children }: { children: ReactNode }) {
-	return (
-		<>
+export default function AuthLayout({
+	children,
+}: {
+	children: React.ReactNode;
+}) {
+	// Preserve any existing layout logic here
+	const innerLayout = (
+		<div className="flex flex-col h-full">
 			<div className="flex justify-end">
 				<div
 					className="flex flex-col items-center p-8"
@@ -65,6 +70,8 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
 					/>
 				</div>
 			</div>
-		</>
+		</div>
 	);
+
+	return <PhoneWrapper>{innerLayout}</PhoneWrapper>;
 }
