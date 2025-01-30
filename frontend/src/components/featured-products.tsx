@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useRef, useState, useEffect } from "react"
 import Image from "next/image"
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { Button } from "@/components/ui/button"
@@ -10,114 +10,142 @@ const products = [
   {
     id: 1,
     name: "کروگرند - ۱ اونس طلای ۲۲ عیار",
-    image: "/placeholder.svg",
+    image: "/placeholder.png",
     onSale: true
   },
   {
     id: 2,
     name: "شمش پلاتین - ۱۰ اونس",
-    image: "/placeholder.svg",
+    image: "/placeholder.png",
     onSale: false
   },
   {
     id: 3,
     name: "شمش مس گایگر - ۱۰ AVDP OZ، خلوص ۹۹۹۹",
-    image: "/placeholder.svg",
+    image: "/placeholder.png",
     onSale: false
   },
   {
     id: 4,
     name: "گلدپنر - سکه نقره ۱ اونسی قابل تقسیم",
-    image: "/placeholder.svg",
+    image: "/placeholder.png",
     onSale: false
   },
   {
     id: 5,
     name: "شمش طلا ۱۰۰ گرمی (برند انتخابی)",
-    image: "/placeholder.svg",
+    image: "/placeholder.png",
     onSale: false
   }
 ]
 
 export default function FeaturedProducts() {
-  const [currentIndex, setCurrentIndex] = useState(0)
+  const scrollContainerRef = useRef<HTMLDivElement>(null)
+  const [showLeftButton, setShowLeftButton] = useState(false)
+  const [showRightButton, setShowRightButton] = useState(true)
 
-  const nextSlide = () => {
-    setCurrentIndex((prevIndex) => 
-      prevIndex + 1 >= products.length ? 0 : prevIndex + 1
-    )
+  const handleScroll = () => {
+    if (scrollContainerRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current
+      setShowLeftButton(scrollLeft > 0)
+      setShowRightButton(scrollLeft < scrollWidth - clientWidth - 10)
+    }
   }
 
-  const prevSlide = () => {
-    setCurrentIndex((prevIndex) => 
-      prevIndex - 1 < 0 ? products.length - 1 : prevIndex - 1
-    )
-  }
+  useEffect(() => {
+    const scrollContainer = scrollContainerRef.current
+    if (scrollContainer) {
+      scrollContainer.addEventListener('scroll', handleScroll)
+      handleScroll() // Check initial state
+      return () => scrollContainer.removeEventListener('scroll', handleScroll)
+    }
+  }, [])
 
-  // Calculate visible products based on screen size
-  const getVisibleProducts = () => {
-    const allProducts = [...products, ...products] // Duplicate for infinite scroll
-    const start = currentIndex
-    return allProducts.slice(start, start + 5)
+  const scroll = (direction: 'left' | 'right') => {
+    if (scrollContainerRef.current) {
+      const scrollAmount = scrollContainerRef.current.clientWidth / 2
+      scrollContainerRef.current.scrollBy({
+        left: direction === 'left' ? -scrollAmount : scrollAmount,
+        behavior: 'smooth'
+      })
+    }
   }
 
   return (
-    <div className="max-w-7xl mx-auto py-8 px-4">
-      <h2 className="text-2xl font-bold mb-8">محصولات ویژه</h2>
+    <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8" dir="rtl">
+      <div className="flex items-center justify-between mb-8">
+        <h2 className="text-2xl font-bold text-gray-900">محصولات ویژه</h2>
+        <div className="flex gap-2">
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={() => scroll('left')}
+            disabled={!showLeftButton}
+            className={cn(
+              "hidden md:flex",
+              !showLeftButton && "opacity-50 cursor-not-allowed"
+            )}
+          >
+            <ChevronLeft className="h-4 w-4" />
+          </Button>
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={() => scroll('right')}
+            disabled={!showRightButton}
+            className={cn(
+              "hidden md:flex",
+              !showRightButton && "opacity-50 cursor-not-allowed"
+            )}
+          >
+            <ChevronRight className="h-4 w-4" />
+          </Button>
+        </div>
+      </div>
+
       <div className="relative">
-        <div className="overflow-hidden">
-          <div className="flex transition-transform duration-300 ease-in-out">
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-              {getVisibleProducts().map((product, index) => (
-                <div 
-                  key={`${product.id}-${index}`} 
-                  className={cn(
-                    "relative bg-white rounded-lg shadow-sm p-4",
-                    "transform transition-all duration-300"
-                  )}
-                >
-                  {product.onSale && (
-                    <div className="absolute -top-3 -right-3 bg-red-600 text-white py-1 px-3 rounded-md transform rotate-12 text-sm">
-                      تخفیف ویژه!
-                    </div>
-                  )}
-                  <div className="aspect-square relative mb-4">
-                    <Image
-                      src={product.image || "/placeholder.svg"}
-                      alt={product.name}
-                      fill
-                      className="object-contain p-2"
-                    />
+        <div
+          ref={scrollContainerRef}
+          className="flex gap-4 overflow-x-auto scroll-smooth scrollbar-hide"
+        >
+          {products.map((product) => (
+            <div
+              key={product.id}
+              className="flex-none w-[280px] sm:w-[320px]"
+            >
+              <div className="relative h-full bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300">
+                {product.onSale && (
+                  <div className="absolute top-2 right-2 z-10">
+                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                      تخفیف ویژه
+                    </span>
                   </div>
-                  <h3 className="text-sm font-medium text-center mb-4 h-12 line-clamp-2">
+                )}
+                
+                <div className="aspect-square relative">
+                  <Image
+                    src={product.image}
+                    alt={product.name}
+                    fill
+                    className="object-contain p-4 rounded-t-lg"
+                  />
+                </div>
+
+                <div className="p-4">
+                  <h3 className="text-sm font-medium text-gray-900 line-clamp-2 h-12 mb-4">
                     {product.name}
                   </h3>
                   <Button 
-                    className="w-full bg-orange-500 hover:bg-orange-600 text-white text-sm"
+                    className="w-full bg-orange-500 hover:bg-orange-600 text-white"
+                    size="sm"
                   >
                     قیمت و خرید →
                   </Button>
                 </div>
-              ))}
+              </div>
             </div>
-          </div>
+          ))}
         </div>
-        
-        {/* Navigation Arrows - Hidden on mobile */}
-        <button 
-          onClick={prevSlide}
-          className="hidden md:block absolute left-0 top-1/2 -translate-y-1/2 bg-white rounded-full p-2 shadow-md hover:bg-gray-50 transition-colors"
-          aria-label="Previous slide"
-        >
-          <ChevronLeft className="w-6 h-6" />
-        </button>
-        <button 
-          onClick={nextSlide}
-          className="hidden md:block absolute right-0 top-1/2 -translate-y-1/2 bg-white rounded-full p-2 shadow-md hover:bg-gray-50 transition-colors"
-          aria-label="Next slide"
-        >
-          <ChevronRight className="w-6 h-6" />
-        </button>
       </div>
     </div>
   )

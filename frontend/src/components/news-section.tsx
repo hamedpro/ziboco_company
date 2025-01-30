@@ -9,21 +9,21 @@ const newsItems = [
   {
     id: 1,
     title: "سوالات مهم سرمایه‌گذاران طلا و نقره",
-    image: "/placeholder.svg",
+    image: "/placeholder.png",
     date: "۹ بهمن ۱۴۰۲",
     type: "news",
   },
   {
     id: 2,
     title: "خورشید بر نقره می‌تابد!",
-    image: "/placeholder.svg",
+    image: "/placeholder.png",
     date: "۹ بهمن ۱۴۰۲",
     type: "podcast",
   },
   {
     id: 3,
     title: "لایحه آریزونا برای ایجاد تراکنش‌های مبتنی بر طلا و نقره",
-    image: "/placeholder.svg",
+    image: "/placeholder.png",
     date: "۷ بهمن ۱۴۰۲",
     type: "news",
   },
@@ -41,7 +41,7 @@ export default function NewsSection() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto py-8 px-4">
+    <div className="max-w-7xl mx-auto py-8 px-4" dir="rtl">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold">اخبار و پادکست‌های اخیر</h2>
         <div className="flex items-center gap-4 text-sm">
@@ -66,7 +66,7 @@ export default function NewsSection() {
                 className="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow"
               >
                 <div className="relative h-48 sm:h-56">
-                  <Image src={item.image || "/placeholder.svg"} alt={item.title} fill className="object-cover" />
+                  <Image src={item.image || "/placeholder.png"} alt={item.title} fill className="object-cover" />
                 </div>
                 <div className="p-4">
                   <h3 className="font-semibold mb-2 line-clamp-2">{item.title}</h3>

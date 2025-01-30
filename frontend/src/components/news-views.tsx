@@ -5,46 +5,46 @@ const newsItems = [
   {
     id: 1,
     title: "این ۳ کاتالیزور می‌تواند بازار فلزات گرانبها را تقویت کند",
-    image: "/placeholder.svg",
+    image: "/placeholder.png",
     date: "۷ بهمن ۱۴۰۲",
   },
   {
     id: 2,
     title: "دیوید مورگان: طلا، نقره و بقا در اقتصاد ترامپ",
-    image: "/placeholder.svg",
+    image: "/placeholder.png",
     date: "۵ بهمن ۱۴۰۲",
   },
   {
     id: 3,
     title: "معرفی همکاران پول صدادار ۲۰۲۵",
-    image: "/placeholder.svg",
+    image: "/placeholder.png",
     date: "۴ بهمن ۱۴۰۲",
   },
   {
     id: 4,
     title: "آیا سال ۲۰۲۵ می‌تواند سال درخشش نقره باشد؟",
-    image: "/placeholder.svg",
+    image: "/placeholder.png",
     date: "۴ بهمن ۱۴۰۲",
   },
   {
     id: 5,
     title: "سه نکته‌ای که سرمایه‌گذاران باید خارج از دفتر رئیس جمهور در نظر بگیرند",
-    image: "/placeholder.svg",
+    image: "/placeholder.png",
     date: "۶ بهمن ۱۴۰۲",
   },
   {
     id: 6,
     title: "نقره به طور غیرعادی در مقابل طلا پایین است | هشدارهای جدید درباره وعده‌های کاغذی",
-    image: "/placeholder.svg",
+    image: "/placeholder.png",
     date: "۴ بهمن ۱۴۰۲",
   },
 ]
 
 export default function NewsViews() {
   return (
-    <div className="max-w-7xl mx-auto py-8 px-4">
+    <div className="max-w-7xl mx-auto py-8 px-4" dir="rtl">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold">اخبار و دیدگاه‌های بیشتر از مانی متالز</h2>
+        <h2 className="text-2xl font-bold">اخبار و دیدگاه‌های بیشتر از زیبوکو</h2>
         <div className="flex items-center gap-4 text-sm">
           <a href="#" className="flex items-center text-blue-600 hover:text-blue-700">
             <span>اخبار بیشتر</span>
@@ -66,7 +66,7 @@ export default function NewsViews() {
             className="flex gap-4 items-start group hover:bg-gray-50 p-3 rounded-lg transition-colors"
           >
             <div className="relative w-24 h-24 flex-shrink-0">
-              <Image src={item.image || "/placeholder.svg"} alt={item.title} fill className="object-cover rounded" />
+              <Image src={item.image || "/placeholder.png"} alt={item.title} fill className="object-cover rounded" />
             </div>
             <div>
               <h3 className="text-sm font-medium group-hover:text-blue-600 transition-colors line-clamp-2 mb-2">

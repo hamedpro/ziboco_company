@@ -5,49 +5,49 @@ const categories = [
     name: 'نقره', 
     type: 'سکه', 
     typeColor: 'سکه‌ها',
-    image: '/placeholder.svg',
+    image: '/placeholder.png',
     href: '#'
   },
   { 
     name: 'طلا', 
     type: 'سکه', 
     typeColor: 'سکه‌ها',
-    image: '/placeholder.svg',
+    image: '/placeholder.png',
     href: '#'
   },
   { 
     name: 'نقره', 
     type: 'شمش', 
     typeColor: 'شمش‌ها',
-    image: '/placeholder.svg',
+    image: '/placeholder.png',
     href: '#'
   },
   { 
     name: 'طلا', 
     type: 'شمش', 
     typeColor: 'شمش‌ها',
-    image: '/placeholder.svg',
+    image: '/placeholder.png',
     href: '#'
   },
   { 
     name: 'نقره', 
     type: 'پولک', 
     typeColor: 'پولک‌ها',
-    image: '/placeholder.svg',
+    image: '/placeholder.png',
     href: '#'
   },
   { 
     name: 'طلا', 
     type: 'پولک', 
     typeColor: 'پولک‌ها',
-    image: '/placeholder.svg',
+    image: '/placeholder.png',
     href: '#'
   },
   { 
     name: 'خرید', 
     type: 'مس', 
     typeColor: 'مس',
-    image: '/placeholder.svg',
+    image: '/placeholder.png',
     href: '#'
   },
 ]
@@ -65,7 +65,7 @@ export default function PopularCategories() {
           >
             <div className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 relative mb-4 bg-white rounded-full p-2 shadow-sm">
               <Image
-                src={category.image || "/placeholder.svg"}
+                src={category.image || "/placeholder.png"}
                 alt={`${category.name} ${category.type}`}
                 fill
                 className="object-contain p-2 group-hover:scale-105 transition-transform"
