@@ -45,7 +45,6 @@ export default function Entry() {
 						osName: "string",
 					},
 				},
-				withCredentials: false,
 			});
 
 			let {

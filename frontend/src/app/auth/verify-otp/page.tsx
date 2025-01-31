@@ -8,7 +8,7 @@ import {
 	generateRange,
 	getEnglishValue,
 	getPersianValue,
-	setJwtCookie,
+	// setJwtCookie,
 	waitForSeconds,
 } from "@/lib/utils";
 import {
@@ -39,17 +39,16 @@ function VerifyOTP() {
 				url: "/api/Account/Activate",
 				method: "POST",
 				data: { smsToken: otp, userId },
-				withCredentials: false,
 			});
 			let {
-				token,
+				// token,
 				result: { status, message },
 			} = response.data;
 			if (status === 1) {
 				toast.error("خطای ارسال پیامک", { description: message });
 				return;
 			}
-			setJwtCookie(token, "JWT", 2);
+			// setJwtCookie(token);
 			router.push("/me/profile");
 		} catch (error) {
 			toast.error("خطای ناشناخته", {
@@ -89,7 +88,6 @@ function VerifyOTP() {
 						osName: "string",
 					},
 				},
-				withCredentials: false,
 			});
 			let {
 				userId,

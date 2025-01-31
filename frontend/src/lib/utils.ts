@@ -102,20 +102,6 @@ export function formatDateTo12HourTime(date: Date): string {
 	return `${hours}:${formattedMinutes} ${ampm}`;
 }
 
-export function setJwtCookie(
-	token: string,
-	cookieName: string,
-	expInHours: number
-): void {
-	const cookieValue = token; // The JWT token
-	const expires = new Date();
-	expires.setHours(expires.getHours() + expInHours); // Set cookie to expire in specified hours
-
-	// Set the cookie with options
-	let newCookie = `${cookieName}=${cookieValue}; expires=${expires.toUTCString()}; path=/; Secure; SameSite=Strict;`;
-	// console.log(newCookie);
-	document.cookie = newCookie;
-}
 export const authLayoutColors = [
 	"#1c1c1c",
 	"#ede9bc",
