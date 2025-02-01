@@ -40,7 +40,10 @@ const Header = () => {
 	}, 500);
 
 	return (
-		<div className={`header lg:flex items-center max-w-screen-xl mx-auto md:py-5 px-5 gap-x-5`} dir="rtl">
+		<div
+			className={`header lg:flex items-center max-w-screen-xl mx-auto md:py-5 px-5 gap-x-5`}
+			dir="rtl"
+		>
 			{/* Mobile Header */}
 			<div
 				className={`lg:hidden bg-white z-40 ${
@@ -91,11 +94,6 @@ const Header = () => {
 								alt="لوگوی زیبوکو"
 								className="mx-auto h-9 md:h-14 bg-slate-200 p-2 rounded-sm"
 							/>
-							{/* <img
-								src="/gold_and_white_ziboko.png"
-								alt="لوگوی زیبوکو موبایل"
-								className="mx-auto w-32 h-10 hidden xxss:block md:hidden"
-							/> */}
 						</a>
 						<div className="flex items-center gap-x-3 print:hidden space-x-reverse">
 							<a
