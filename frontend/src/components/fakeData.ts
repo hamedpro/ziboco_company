@@ -1,4 +1,4 @@
-const DEFAULT_IMAGE = "/3dicons-medal-front-color-500-500.png";
+export const DEFAULT_IMAGE = "/3dicons-medal-front-color-500-500.png";
 
 // Add theme block with the generic header banners
 export const fakeData = {
@@ -61,6 +61,7 @@ export const fakeData = {
 			title: "کروگرند ۱ اونس طلای ۲۲ عیار",
 			image: DEFAULT_IMAGE,
 			onSale: true,
+			price: 10_000_000,
 		},
 		{
 			id: "7",
@@ -68,6 +69,7 @@ export const fakeData = {
 			title: "شمش پلاتین ۱۰ اونس",
 			image: DEFAULT_IMAGE,
 			onSale: false,
+			price: 10_000_000,
 		},
 		{
 			id: "8",
@@ -75,6 +77,7 @@ export const fakeData = {
 			title: "شمش مس گایگر ۱۰، خلوص ۹۹۹۹",
 			image: DEFAULT_IMAGE,
 			onSale: false,
+			price: 10_000_000,
 		},
 		{
 			id: "9",
@@ -82,6 +85,7 @@ export const fakeData = {
 			title: "گلدپنر سکه نقره ۱ اونسی قابل تقسیم",
 			image: DEFAULT_IMAGE,
 			onSale: false,
+			price: 10_000_000,
 		},
 		{
 			id: "10",
@@ -89,6 +93,7 @@ export const fakeData = {
 			title: "شمش طلا ۱۰۰ گرمی (برند انتخابی)",
 			image: DEFAULT_IMAGE,
 			onSale: false,
+			price: 10_000_000,
 		},
 		// Hot Items
 		{

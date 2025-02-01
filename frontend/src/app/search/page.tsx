@@ -2,6 +2,8 @@
 
 import React, { useState } from "react";
 import { useSearchParams } from "next/navigation";
+// Import fakeData from the components folder
+import { fakeData } from "../../components/fakeData";
 
 const SearchPage = () => {
 	// Get the initial query from the URL search params
@@ -9,55 +11,15 @@ const SearchPage = () => {
 	const initialQuery = searchParams.get("q") || "";
 	const [searchQuery, setSearchQuery] = useState(initialQuery);
 
-	// Dummy data for products - similar to your Introduction page cards
-	const dummyProducts = [
-		{
-			id: 1,
-			title: "محصول طلایی",
-			description: "توضیحات محصول طلایی",
-			price: "۵۰۰۰ تومان",
-			image: "/3dicons-medal-front-color-500-500.png",
-			tag: "جدید",
-		},
-		{
-			id: 2,
-			title: "محصول نقره‌ای",
-			description: "توضیحات محصول نقره‌ای",
-			price: "۳۰۰۰ تومان",
-			image: "/3dicons-medal-front-color-500-500.png",
-			tag: "ویژه",
-		},
-		{
-			id: 3,
-			title: "محصول برنزی",
-			description: "توضیحات محصول برنزی",
-			price: "۲۰۰۰ تومان",
-			image: "/3dicons-medal-front-color-500-500.png",
-			tag: "پرفروش",
-		},
-	];
-
-	// Dummy data for categories
-	const dummyCategories = [
-		{
-			id: 1,
-			title: "فلزات گرانبها",
-			description: "دسته‌بندی فلزات گرانبها",
-		},
-		{ id: 2, title: "سکه", description: "دسته‌بندی سکه‌های قدیمی و مدرن" },
-		{
-			id: 3,
-			title: "تاریخی",
-			description: "آثار و محصولات دارای ارزش تاریخی",
-		},
-	];
-
-	// Filter the dummy data based on the current searchQuery (case insensitive)
-	const filteredProducts = dummyProducts.filter((product) =>
+	// Removed dummyProducts and dummyCategories in favor of data from fakeData
+	// Filter products from fakeData based on searchQuery (case insensitive)
+	const filteredProducts = fakeData.products.filter((product) =>
 		product.title.toLowerCase().includes(searchQuery.toLowerCase())
 	);
-	const filteredCategories = dummyCategories.filter((category) =>
-		category.title.toLowerCase().includes(searchQuery.toLowerCase())
+
+	// Filter categories from fakeData based on searchQuery using category.name instead of title
+	const filteredCategories = fakeData.categories.filter((category) =>
+		category.name.toLowerCase().includes(searchQuery.toLowerCase())
 	);
 
 	return (
@@ -93,19 +55,26 @@ const SearchPage = () => {
 												alt={product.title}
 												className="rounded-t-lg object-cover group-hover:opacity-90 transition-opacity w-full h-40"
 											/>
-											<span className="absolute top-2 right-2 bg-blue-600 text-white px-2 py-1 rounded-full text-xs">
-												{product.tag}
-											</span>
+											{/* Show tag if available */}
+											{product.tag && (
+												<span className="absolute top-2 right-2 bg-blue-600 text-white px-2 py-1 rounded-full text-xs">
+													{product.tag}
+												</span>
+											)}
 										</div>
 										<h3 className="text-lg font-semibold text-gray-800 group-hover:text-blue-600 transition-colors mt-2">
 											{product.title}
 										</h3>
 										<p className="text-gray-600 text-sm mt-1">
-											{product.description}
+											{product.description ||
+												"توضیحی موجود نیست"}
 										</p>
 										<div className="mt-4 flex justify-between items-center">
 											<span className="text-blue-600 font-bold">
-												{product.price}
+												{(typeof product.price ===
+												"number"
+													? product.price.toLocaleString()
+													: product.price) + " تومان"}
 											</span>
 											<button className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition-colors">
 												افزودن به سبد
@@ -134,10 +103,10 @@ const SearchPage = () => {
 										className="bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer group p-4"
 									>
 										<h3 className="text-lg font-semibold text-gray-800 group-hover:text-blue-600 transition-colors">
-											{category.title}
+											{category.name}
 										</h3>
 										<p className="text-gray-600 text-sm mt-1">
-											{category.description}
+											{category.type}
 										</p>
 									</div>
 								))}

@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import Image from "next/image"
-import { Button } from "@/components/ui/button"
-import { cn } from "@/lib/utils"
+import { useState } from "react";
+import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { fakeData } from "./fakeData";
 
 const tabs = [
@@ -14,9 +14,9 @@ const tabs = [
 ];
 
 export default function HotItems() {
-  const [activeTab, setActiveTab] = useState("hot")
+	const [activeTab, setActiveTab] = useState("hot");
 
-  return (
+	return (
 		<div
 			className="max-w-7xl mx-auto py-8 px-4"
 			dir="rtl"
@@ -51,10 +51,7 @@ export default function HotItems() {
 							</div>
 							<div className="relative h-48 p-4">
 								<Image
-									src={
-										product.image ||
-										"/3dicons-medal-front-color-500-500.png"
-									}
+									src={product.image}
 									alt={product.title}
 									fill
 									className="object-contain"
@@ -75,6 +72,5 @@ export default function HotItems() {
 					))}
 			</div>
 		</div>
-  );
+	);
 }
-

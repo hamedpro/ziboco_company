@@ -1,8 +1,8 @@
 import Image from "next/image"
-import { fakeData } from "./fakeData";
+import { fakeData, DEFAULT_IMAGE } from "./fakeData";
 
 export default function PopularCategories() {
-  return (
+	return (
 		<div className="max-w-7xl mx-auto py-8 px-4">
 			<h2 className="text-2xl font-bold text-center mb-8">
 				دسته‌بندی‌های محبوب
@@ -16,10 +16,7 @@ export default function PopularCategories() {
 					>
 						<div className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 relative mb-4 bg-white rounded-full p-2 shadow-sm">
 							<Image
-								src={
-									category.image ||
-									"/3dicons-medal-front-color-500-500.png"
-								}
+								src={category.image || DEFAULT_IMAGE}
 								alt={`${category.name} ${category.type}`}
 								fill
 								className="object-contain p-2 group-hover:scale-105 transition-transform"
@@ -43,6 +40,6 @@ export default function PopularCategories() {
 				))}
 			</div>
 		</div>
-  );
+	);
 }
 

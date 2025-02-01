@@ -2,6 +2,7 @@ import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Facebook, Youtube, Twitter, Instagram, Linkedin, ArrowRight } from "lucide-react"
+import { DEFAULT_IMAGE } from "./fakeData";
 
 const footerLinks = {
 	resources: {
@@ -56,15 +57,15 @@ const footerLinks = {
 };
 
 const socialLinks = [
-  { Icon: Facebook, href: "#" },
-  { Icon: Youtube, href: "#" },
-  { Icon: Twitter, href: "#" },
-  { Icon: Instagram, href: "#" },
-  { Icon: Linkedin, href: "#" },
-]
+	{ Icon: Facebook, href: "#" },
+	{ Icon: Youtube, href: "#" },
+	{ Icon: Twitter, href: "#" },
+	{ Icon: Instagram, href: "#" },
+	{ Icon: Linkedin, href: "#" },
+];
 
 export default function Footer() {
-  return (
+	return (
 		<footer
 			className="bg-[#2851A3] text-white"
 			dir="rtl"
@@ -182,7 +183,7 @@ export default function Footer() {
 								className="bg-white/10 rounded-lg p-4 w-full max-w-[160px] aspect-[3/2] flex items-center justify-center"
 							>
 								<Image
-									src="/3dicons-medal-front-color-500-500.png"
+									src={DEFAULT_IMAGE}
 									alt={`Trust Badge ${i}`}
 									width={100}
 									height={50}
@@ -217,7 +218,7 @@ export default function Footer() {
 									className="bg-white/10 p-2 rounded-lg"
 								>
 									<Image
-										src="/3dicons-medal-front-color-500-500.png"
+										src={DEFAULT_IMAGE}
 										alt={payment}
 										width={40}
 										height={25}
@@ -230,6 +231,6 @@ export default function Footer() {
 				</div>
 			</div>
 		</footer>
-  );
+	);
 }
 

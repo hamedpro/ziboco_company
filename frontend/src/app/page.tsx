@@ -2,7 +2,6 @@ import TopHeader from "@/components/top-header";
 import MainHeader from "@/components/main-header";
 import PriceTicker from "@/components/price-ticker";
 import Navigation from "@/components/navigation";
-import CategoryCard from "@/components/category-card";
 import PopularCategories from "@/components/popular-categories";
 import FeaturedProducts from "@/components/featured-products";
 import NewsSection from "@/components/news-section";

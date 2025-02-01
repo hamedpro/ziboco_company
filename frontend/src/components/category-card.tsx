@@ -1,5 +1,6 @@
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
+import { DEFAULT_IMAGE } from "./fakeData";
 
 interface CategoryCardProps {
   title: string
@@ -24,9 +25,7 @@ export default function CategoryCard({ title, subtitle, imageSrc, imageAlt }: Ca
 					style={{ margin: 0 }}
 				>
 					<Image
-						src={
-							imageSrc || "/3dicons-medal-front-color-500-500.png"
-						}
+						src={imageSrc || DEFAULT_IMAGE}
 						alt={imageAlt}
 						width={96}
 						height={96}

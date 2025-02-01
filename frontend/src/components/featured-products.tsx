@@ -5,7 +5,7 @@ import Image from "next/image"
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
-import { fakeData } from "./fakeData";
+import { fakeData, DEFAULT_IMAGE } from "./fakeData";
 
 export default function FeaturedProducts() {
 	const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -102,7 +102,7 @@ export default function FeaturedProducts() {
 
 									<div className="aspect-square relative">
 										<Image
-											src={product.image || ""}
+											src={product.image || DEFAULT_IMAGE}
 											alt={product.title}
 											fill
 											className="object-contain p-4 rounded-t-lg"
