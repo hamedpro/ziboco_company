@@ -27,6 +27,26 @@ const Header = () => {
 					className=" h-14 md:h-14 p-2"
 				/> */}
 			{/* <h1 className="text-3xl font-bold">Ziboko</h1> */}
+
+			{/* <div
+				className="flex items-center border-2 rounded-lg bg-slate-50 border-blue-800 hover:border-blue-900"
+				dir="rtl"
+			>
+				<input
+					name="q"
+					value={""}
+					onChange={(e) => console.log(e.target.value)}
+					className="appearance-none bg-transparent border-none w-full text-slate-700 px-4 leading-tight focus:outline-none lg:text-sm focus:ring-0"
+					placeholder="جستجوی محصولات..."
+				/>
+				<button
+					className="flex-shrink-0 bg-blue-800 border-blue-800 text-sm border-4 text-white md:py-1 lg:py-2 px-2 rounded-l"
+					type="button"
+				>
+					<SearchIcon />
+				</button>
+			</div> */}
+
 			<div
 				className="flex flex-col items-center"
 				style={{ color: "#B8860B" }}
@@ -45,6 +65,26 @@ const Header = () => {
 					طلا / نقره / کالای لوکس
 				</p>
 			</div>
+
+			{/* <div
+				className="flex flex-col items-center"
+				style={{ color: "#B8860B" }}
+				dir="rtl"
+			>
+				<h1
+					className="text-2xl"
+					style={{ letterSpacing: "8px", color: "#B8860B" }}
+				>
+					ZIBOCO
+				</h1>
+				<p
+					className="text-sm"
+					style={{}}
+				>
+					طلا / نقره / کالای لوکس
+				</p>
+			</div> */}
+
 			<div className="flex items-center gap-x-4">
 				<SearchIcon className="text-blue-800 cursor-pointer" />
 				<PhoneIcon className="text-slate-600 cursor-pointer" />

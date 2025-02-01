@@ -1,55 +1,49 @@
 "use client";
 
 import Image from "next/image";
-import { useRef, useState } from "react";
-import {
-	ChevronLeft,
-	ChevronRight,
-	TrendingUp,
-	Shield,
-	Clock,
-} from "lucide-react";
+import { useRef, useState, useEffect } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { fakeData } from "./fakeData";
 
 export const Introduction = () => {
 	const sliderRef = useRef<HTMLDivElement>(null);
-	const [showLeftButton, setShowLeftButton] = useState(true);
+	const [showLeftButton, setShowLeftButton] = useState(false);
 	const [showRightButton, setShowRightButton] = useState(false);
 
-	const scroll = (direction: "left" | "right") => {
+	const updateScrollButtons = () => {
 		if (sliderRef.current) {
-			const { scrollLeft, clientWidth, scrollWidth } = sliderRef.current;
-			const scrollTo =
-				direction === "left"
-					? scrollLeft - clientWidth / 2
-					: scrollLeft + clientWidth / 2;
-
-			sliderRef.current.scrollTo({
-				left: scrollTo,
-				behavior: "smooth",
-			});
-
-			// Update button visibility after scroll
-			setTimeout(() => {
-				if (sliderRef.current) {
-					setShowLeftButton(sliderRef.current.scrollLeft > 0);
-					setShowRightButton(
-						sliderRef.current.scrollLeft <
-							sliderRef.current.scrollWidth -
-								sliderRef.current.clientWidth
-					);
-				}
-			}, 300);
+			const { scrollLeft, scrollWidth, clientWidth } = sliderRef.current;
+			setShowLeftButton(scrollLeft > 0);
+			setShowRightButton(scrollLeft < scrollWidth - clientWidth);
 		}
 	};
 
+	const scroll = (direction: "left" | "right") => {
+		if (sliderRef.current) {
+			const { clientWidth } = sliderRef.current;
+			const scrollTo =
+				direction === "left"
+					? sliderRef.current.scrollLeft - clientWidth / 2
+					: sliderRef.current.scrollLeft + clientWidth / 2;
+
+			sliderRef.current.scrollTo({ left: scrollTo, behavior: "smooth" });
+
+			setTimeout(updateScrollButtons, 300);
+		}
+	};
+
+	useEffect(() => {
+		updateScrollButtons();
+		window.addEventListener("resize", updateScrollButtons);
+		return () => window.removeEventListener("resize", updateScrollButtons);
+	}, []);
+
 	return (
 		<div
-			className="max-w-7xl mx-auto py-8 px-4"
+			className="max-w-7xl mx-auto py-8 px-6"
 			dir="rtl"
 		>
-			{/* Products Section */}
-			<div className="px-4">
+			<div>
 				<h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
 					<span className="text-blue-800">امن‌ترین</span> راه برای{" "}
 					<span className="text-blue-800">سرمایه‌گذاری</span> در فلزات
@@ -65,7 +59,7 @@ export const Introduction = () => {
 					{showLeftButton && (
 						<button
 							onClick={() => scroll("left")}
-							className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white/80 p-2 rounded-full shadow-lg hover:bg-white transition-all"
+							className="absolute left-2 top-1/2 -translate-y-1/2 z-10 bg-white/80 p-2 rounded-full shadow-lg hover:bg-white transition-all"
 						>
 							<ChevronLeft className="h-6 w-6 text-gray-600" />
 						</button>
@@ -74,7 +68,7 @@ export const Introduction = () => {
 					{showRightButton && (
 						<button
 							onClick={() => scroll("right")}
-							className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white/80 p-2 rounded-full shadow-lg hover:bg-white transition-all"
+							className="absolute right-2 top-1/2 -translate-y-1/2 z-10 bg-white/80 p-2 rounded-full shadow-lg hover:bg-white transition-all"
 						>
 							<ChevronRight className="h-6 w-6 text-gray-600" />
 						</button>
@@ -82,10 +76,9 @@ export const Introduction = () => {
 
 					<div
 						ref={sliderRef}
-						className="flex overflow-x-auto gap-4 pb-4 scroll-smooth"
-						style={{
-							scrollbarWidth: "none",
-						}}
+						className="flex overflow-x-auto gap-4 pb-4 scroll-smooth px-2"
+						style={{ scrollbarWidth: "none" }}
+						onScroll={updateScrollButtons}
 					>
 						{fakeData.products.regular.map((product) => (
 							<div
