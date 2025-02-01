@@ -36,26 +36,26 @@ export default function Home() {
 				<CategoryCard
 					title="نقره"
 					subtitle="مشاهده سکه‌ها، پولک‌ها و شمش‌ها"
-					imageSrc="/placeholder.png"
+					imageSrc="/3dicons-medal-front-color-500-500.png"
 					imageAlt="سکه نقره"
 				/>
 				<CategoryCard
 					title="طلا"
 					subtitle="مشاهده سکه‌ها، پولک‌ها و شمش‌ها"
-					imageSrc="/placeholder.png"
+					imageSrc="/3dicons-medal-front-color-500-500.png"
 					imageAlt="سکه طلا"
 				/>
 
 				<CategoryCard
 					title="سایر فلزات"
 					subtitle="مس، پلاتین، پالادیوم، رودیوم"
-					imageSrc="/placeholder.png"
+					imageSrc="/3dicons-medal-front-color-500-500.png"
 					imageAlt="سکه پلاتین"
 				/>
 				<CategoryCard
 					title="خدمات"
 					subtitle="نگهداری، طرح ماهانه، IRA و بیشتر"
-					imageSrc="/placeholder.png"
+					imageSrc="/3dicons-medal-front-color-500-500.png"
 					imageAlt="شمش طلا"
 				/>
 			</div> */}

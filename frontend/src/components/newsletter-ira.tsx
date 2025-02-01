@@ -69,7 +69,7 @@ export default function NewsletterIRA() {
 							</Button>
 						</div>
 						{/* <img
-							src="/placeholder.png"
+							src="/3dicons-medal-front-color-500-500.png"
 							alt="Golden eggs in nest"
 							className="object-contain"
 						/> */}

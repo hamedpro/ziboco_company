@@ -9,44 +9,7 @@ import {
 	Shield,
 	Clock,
 } from "lucide-react";
-
-const products = [
-	{
-		id: 1,
-		title: "سکه طلا",
-		description: "سکه تمام بهار آزادی",
-		price: "۲۵,۰۰۰,۰۰۰ تومان",
-		tag: "پرفروش",
-	},
-	{
-		id: 2,
-		title: "شمش نقره",
-		description: "شمش نقره ۱۰۰ گرمی",
-		price: "۲,۵۰۰,۰۰۰ تومان",
-		tag: "جدید",
-	},
-	{
-		id: 3,
-		title: "سکه پلاتین",
-		description: "سکه پلاتین ۱ انس",
-		price: "۴۵,۰۰۰,۰۰۰ تومان",
-		tag: "محدود",
-	},
-	{
-		id: 4,
-		title: "شمش طلا",
-		description: "شمش طلا ۵۰ گرمی",
-		price: "۸۵,۰۰۰,۰۰۰ تومان",
-		tag: "ویژه",
-	},
-	{
-		id: 5,
-		title: "ربع سکه",
-		description: "ربع سکه بهار آزادی",
-		price: "۸,۰۰۰,۰۰۰ تومان",
-		tag: "پرفروش",
-	},
-];
+import { fakeData } from "./fakeData";
 
 export const Introduction = () => {
 	const sliderRef = useRef<HTMLDivElement>(null);
@@ -125,14 +88,14 @@ export const Introduction = () => {
 							msOverflowStyle: "none",
 						}}
 					>
-						{products.map((product) => (
+						{fakeData.products.regular.map((product) => (
 							<div
 								key={product.id}
 								className="flex-shrink-0 w-72 bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer group"
 							>
 								<div className="relative">
 									<Image
-										src="/placeholder.png"
+										src="/3dicons-medal-front-color-500-500.png"
 										alt={product.title}
 										width={288}
 										height={200}
