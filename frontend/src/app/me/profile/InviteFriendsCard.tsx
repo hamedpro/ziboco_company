@@ -46,7 +46,7 @@ export const InviteFriendsCard = () => {
 								throw new Error("Clipboard is not supported");
 							}
 							await navigator.clipboard.writeText(
-								response.data.referralCode
+								`${window.location.origin}/auth/entry?referralCode=${response.data.referralCode}`
 							);
 
 							// await waitForSeconds(1.5);
