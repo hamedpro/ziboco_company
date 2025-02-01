@@ -33,7 +33,7 @@ export default function Navigation() {
 
 	return (
 		<nav className="w-full bg-[#2851A3] text-white">
-			<div className="max-w-7xl mx-auto relative px-4">
+			<div className="relative px-4">
 				{/* Mobile View (3 items) */}
 				<ul className="flex justify-between items-center sm:hidden">
 					{visibleItems.default.map((item) => (

@@ -41,7 +41,7 @@ const Header = () => {
 
 	return (
 		<div
-			className={`header lg:flex items-center max-w-screen-xl mx-auto md:py-5 px-5 gap-x-5`}
+			className={`header lg:flex items-center max-w-screen-xl mx-auto md:py-5 px-4 gap-x-5`}
 			dir="rtl"
 		>
 			{/* Mobile Header */}

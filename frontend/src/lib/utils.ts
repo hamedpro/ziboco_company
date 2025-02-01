@@ -55,17 +55,32 @@ export function createUrlFromOriginWithPort(port: number): string {
 	return url.href; // Return the full URL as a string
 }
 
-export const getPersianValue = (value: string): string => {
+export const getPersianValue = (value: string, addCommas = false): string => {
 	let persianValue = "";
-	for (let char of value) {
-		persianValue += convertToPersian(char);
+	let groupLength = value.length % 3;
+	if (groupLength === 0) groupLength = 3;
+	for (let i = 0; i < value.length; i++) {
+		persianValue += convertToPersian(value[i]);
+		groupLength--;
+		if (addCommas && groupLength === 0 && i !== value.length - 1) {
+			persianValue += ",";
+			groupLength = 3;
+		}
 	}
 	return persianValue;
 };
-export const getEnglishValue = (value: string): string => {
+
+
+
+export const getEnglishValue = (value: string, addCommas = false): string => {
 	let englishValue = "";
+	let processedChars = 0;
 	for (let char of value) {
 		englishValue += convertToEnglish(char);
+		processedChars++;
+		if (addCommas && processedChars % 3 === 0) {
+			englishValue += ",";
+		}
 	}
 	return englishValue;
 };
