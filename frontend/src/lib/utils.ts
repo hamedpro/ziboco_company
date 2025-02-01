@@ -69,18 +69,10 @@ export const getPersianValue = (value: string, addCommas = false): string => {
 	}
 	return persianValue;
 };
-
-
-
-export const getEnglishValue = (value: string, addCommas = false): string => {
+export const getEnglishValue = (value: string): string => {
 	let englishValue = "";
-	let processedChars = 0;
 	for (let char of value) {
 		englishValue += convertToEnglish(char);
-		processedChars++;
-		if (addCommas && processedChars % 3 === 0) {
-			englishValue += ",";
-		}
 	}
 	return englishValue;
 };
