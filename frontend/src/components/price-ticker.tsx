@@ -37,16 +37,16 @@ export default function PriceTicker() {
 							key={metal.name}
 							className="flex items-center shrink-0 px-2 gap-x-2"
 						>
-							<span className="font-medium">{metal.name}:</span>
-							<span className="text-gray-700">
+							<span className="text-gray-600">{metal.name}:</span>
+							<strong className="text-gray-600">
 								{getPersianValue(metal.price.toString(), true)}
-							</span>
+							</strong>
 							<span
-								className={`text-sm ${
+								className={
 									metal.change >= 0
 										? "text-green-600"
 										: "text-red-600"
-								}`}
+								}
 								dir="ltr"
 							>
 								({metal.change >= 0 ? "+" : "-"}

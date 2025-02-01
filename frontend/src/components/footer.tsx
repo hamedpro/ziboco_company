@@ -4,32 +4,32 @@ import { Input } from "@/components/ui/input"
 import { Facebook, Youtube, Twitter, Instagram, Linkedin, ArrowRight } from "lucide-react"
 
 const footerLinks = {
-  resources: {
-    title: "منابع",
-    links: [
-      { name: "اخبار طلا و نقره", href: "#" },
-      { name: "خلاصه هفتگی بازار (پادکست)", href: "#" },
-      { name: "مرکز آموزش", href: "#" },
-      { name: "سوالات متداول", href: "#" },
-      { name: "خبرنامه فصلی", href: "#" },
-      { name: "فروش طلا و نقره", href: "#" },
-      { name: "دایرکتوری محلی", href: "#" },
-      { name: "ایمیل‌های لیست سفید", href: "#" },
-    ],
-  },
-  company: {
-    title: "شرکت",
-    links: [
-      { name: "درباره ما", href: "#" },
-      { name: "تماس با ما", href: "#" },
-      { name: "نظرات شرکت", href: "#" },
-      { name: "سیاست حریم خصوصی", href: "#" },
-      { name: "سیاست عدم افشا", href: "#" },
-      { name: "تحویل و مرجوعی", href: "#" },
-      { name: "شرایط استفاده و افشای قانونی", href: "#" },
-    ],
-  },
-  programs: {
+	resources: {
+		title: "منابع",
+		links: [
+			{ name: "اخبار طلا و نقره", href: "#" },
+			{ name: "خلاصه هفتگی بازار (پادکست)", href: "#" },
+			{ name: "مرکز آموزش", href: "#" },
+			{ name: "سوالات متداول", href: "#" },
+			{ name: "خبرنامه فصلی", href: "#" },
+			{ name: "فروش طلا و نقره", href: "#" },
+			{ name: "دایرکتوری محلی", href: "#" },
+			{ name: "ایمیل‌های لیست سفید", href: "#" },
+		],
+	},
+	company: {
+		title: "شرکت",
+		links: [
+			{ name: "درباره ما", href: "#" },
+			{ name: "تماس با ما", href: "#" },
+			{ name: "نظرات شرکت", href: "#" },
+			{ name: "سیاست حریم خصوصی", href: "#" },
+			{ name: "سیاست عدم افشا", href: "#" },
+			{ name: "تحویل و مرجوعی", href: "#" },
+			{ name: "شرایط استفاده و افشای قانونی", href: "#" },
+		],
+	},
+	/* programs: {
     title: "برنامه‌ها",
     links: [
       { name: "سپرده‌گذاری", href: "#" },
@@ -52,8 +52,8 @@ const footerLinks = {
       { name: "قیمت رودیوم", href: "#" },
       { name: "قیمت‌های ارز دیجیتال", href: "#" },
     ],
-  },
-}
+  }, */
+};
 
 const socialLinks = [
   { Icon: Facebook, href: "#" },

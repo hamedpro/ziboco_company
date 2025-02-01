@@ -73,7 +73,7 @@ export default function NewsletterIRA() {
 							alt="Golden eggs in nest"
 							className="object-contain"
 						/> */}
-						<div className="bg-slate-300 rounded aspect-square flex-1"></div>
+						{/* <div className="bg-slate-300 rounded aspect-square flex-1"></div> */}
 					</div>
 				</div>
 				<div className="mb-16 text-center">

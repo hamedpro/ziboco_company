@@ -81,7 +81,8 @@ export default function FeaturedProducts() {
 			<div className="relative">
 				<div
 					ref={scrollContainerRef}
-					className="flex gap-4 overflow-x-auto scroll-smooth scrollbar-hide"
+					className="flex gap-4 overflow-x-auto scroll-smooth"
+					style={{ scrollbarWidth: "none" }}
 				>
 					{fakeData.products.featured.map((product) => (
 						<div

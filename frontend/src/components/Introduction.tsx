@@ -82,10 +82,9 @@ export const Introduction = () => {
 
 					<div
 						ref={sliderRef}
-						className="flex overflow-x-auto gap-4 pb-4 scrollbar-hide scroll-smooth"
+						className="flex overflow-x-auto gap-4 pb-4 scroll-smooth"
 						style={{
 							scrollbarWidth: "none",
-							msOverflowStyle: "none",
 						}}
 					>
 						{fakeData.products.regular.map((product) => (

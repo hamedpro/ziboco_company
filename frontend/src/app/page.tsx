@@ -10,7 +10,7 @@ import HotItems from "@/components/hot-items";
 import NewsViews from "@/components/news-views";
 import NewsletterIRA from "@/components/newsletter-ira";
 import Footer from "@/components/footer";
-import { BreadCrumb } from "@/components/BreadCrumb";
+// import { BreadCrumb } from "@/components/BreadCrumb";
 import { Introduction } from "@/components/Introduction";
 
 export default function Home() {
@@ -20,7 +20,7 @@ export default function Home() {
 			<MainHeader />
 			<Navigation />
 			<PriceTicker />
-			<BreadCrumb className="px-4" />
+			{/* <BreadCrumb className="px-4" /> */}
 			<Introduction />
 			<PopularCategories />
 			<FeaturedProducts />
