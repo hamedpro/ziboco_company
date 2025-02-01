@@ -21,7 +21,7 @@ export default function AuthLayout({
 						className="text-2xl"
 						style={{ letterSpacing: "8px" }}
 					>
-						ZIBOCO
+						ZIBOKO
 					</h1>
 					<p
 						className="text-sm"
