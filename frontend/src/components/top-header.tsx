@@ -1,10 +1,14 @@
 import { cn } from "@/lib/utils";
 import { ArrowLeftIcon, BadgeInfoIcon, MessageCircleMore } from "lucide-react";
 import React from "react";
+import { fakeData } from "@/components/fakeData";
 
 const PersianNavbar = () => {
 	let customButtonStyle =
 		"py-1 px-2 hover:bg-slate-700 transition duration-500 flex items-center gap-x-2 cursor-pointer";
+
+	const { topHeaderBannerOne, topHeaderBannerTwo } = fakeData.theme;
+
 	return (
 		<>
 			<div
@@ -20,7 +24,7 @@ const PersianNavbar = () => {
 						|
 					</div>
 					<div className={customButtonStyle}>
-						{/* 🚚 */} ارسال رایگان برای بالای ۵۰۰ هزار تومن
+						{topHeaderBannerOne}
 					</div>
 				</div>
 
@@ -40,8 +44,7 @@ const PersianNavbar = () => {
 							className="underline"
 							style={{ textUnderlineOffset: "6px" }}
 						>
-							🔥 پیشنهادهای شگفت‌انگیز برای سکه‌ها و شمش‌های نقره
-							و طلا
+							{topHeaderBannerTwo}
 						</div>
 					</div>
 					<div className="flex-shrink-0 hidden md:block">

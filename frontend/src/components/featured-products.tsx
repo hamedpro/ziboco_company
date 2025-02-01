@@ -84,43 +84,45 @@ export default function FeaturedProducts() {
 					className="flex gap-4 overflow-x-auto scroll-smooth"
 					style={{ scrollbarWidth: "none" }}
 				>
-					{fakeData.products.featured.map((product) => (
-						<div
-							key={product.id}
-							className="flex-none w-[280px] sm:w-[320px]"
-						>
-							<div className="relative h-full bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300">
-								{product.onSale && (
-									<div className="absolute top-2 right-2 z-10">
-										<span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
-											تخفیف ویژه
-										</span>
+					{fakeData.products
+						.filter((product) => product.hot)
+						.map((product) => (
+							<div
+								key={product.id}
+								className="flex-none w-[280px] sm:w-[320px]"
+							>
+								<div className="relative h-full bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300">
+									{product.onSale && (
+										<div className="absolute top-2 right-2 z-10">
+											<span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+												تخفیف ویژه
+											</span>
+										</div>
+									)}
+
+									<div className="aspect-square relative">
+										<Image
+											src={product.image || ""}
+											alt={product.title}
+											fill
+											className="object-contain p-4 rounded-t-lg"
+										/>
 									</div>
-								)}
 
-								<div className="aspect-square relative">
-									<Image
-										src={product.image}
-										alt={product.name}
-										fill
-										className="object-contain p-4 rounded-t-lg"
-									/>
-								</div>
-
-								<div className="p-4">
-									<h3 className="text-sm font-medium text-gray-900 line-clamp-2 h-12 mb-4">
-										{product.name}
-									</h3>
-									<Button
-										className="w-full bg-orange-500 hover:bg-orange-600 text-white"
-										size="sm"
-									>
-										قیمت و خرید →
-									</Button>
+									<div className="p-4">
+										<h3 className="text-sm font-medium text-gray-900 line-clamp-2 h-12 mb-4">
+											{product.title}
+										</h3>
+										<Button
+											className="w-full bg-orange-500 hover:bg-orange-600 text-white"
+											size="sm"
+										>
+											قیمت و خرید →
+										</Button>
+									</div>
 								</div>
 							</div>
-						</div>
-					))}
+						))}
 				</div>
 			</div>
 		</div>

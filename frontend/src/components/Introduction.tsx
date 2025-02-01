@@ -80,42 +80,44 @@ export const Introduction = () => {
 						style={{ scrollbarWidth: "none" }}
 						onScroll={updateScrollButtons}
 					>
-						{fakeData.products.regular.map((product) => (
-							<div
-								key={product.id}
-								className="flex-shrink-0 w-72 bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer group"
-							>
-								<div className="relative">
-									<Image
-										src="/3dicons-medal-front-color-500-500.png"
-										alt={product.title}
-										width={288}
-										height={200}
-										className="rounded-t-lg object-cover group-hover:opacity-90 transition-opacity"
-									/>
-									<span className="absolute top-2 right-2 bg-blue-600 text-white px-2 py-1 rounded-full text-xs">
-										{product.tag}
-									</span>
-								</div>
-
-								<div className="p-4">
-									<h3 className="text-lg font-semibold text-gray-800 group-hover:text-blue-600 transition-colors">
-										{product.title}
-									</h3>
-									<p className="text-gray-600 text-sm mt-1">
-										{product.description}
-									</p>
-									<div className="mt-4 flex justify-between items-center">
-										<span className="text-blue-600 font-bold">
-											{product.price}
+						{fakeData.products
+							.filter((product) => product.hot)
+							.map((product) => (
+								<div
+									key={product.id}
+									className="flex-shrink-0 w-72 bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer group"
+								>
+									<div className="relative">
+										<Image
+											src="/3dicons-medal-front-color-500-500.png"
+											alt={product.title}
+											width={288}
+											height={200}
+											className="rounded-t-lg object-cover group-hover:opacity-90 transition-opacity"
+										/>
+										<span className="absolute top-2 right-2 bg-blue-600 text-white px-2 py-1 rounded-full text-xs">
+											{product.tag}
 										</span>
-										<button className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition-colors">
-											افزودن به سبد
-										</button>
+									</div>
+
+									<div className="p-4">
+										<h3 className="text-lg font-semibold text-gray-800 group-hover:text-blue-600 transition-colors">
+											{product.title}
+										</h3>
+										<p className="text-gray-600 text-sm mt-1">
+											{product.description}
+										</p>
+										<div className="mt-4 flex justify-between items-center">
+											<span className="text-blue-600 font-bold">
+												{product.price}
+											</span>
+											<button className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition-colors">
+												افزودن به سبد
+											</button>
+										</div>
 									</div>
 								</div>
-							</div>
-						))}
+							))}
 					</div>
 				</div>
 			</div>

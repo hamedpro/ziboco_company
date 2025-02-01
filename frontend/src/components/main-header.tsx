@@ -17,6 +17,7 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import { API_BASE_URL } from "../../configs";
 import Logo from "./logo";
+import { fakeData } from "./fakeData";
 
 const Header = () => {
 	const router = useRouter();
