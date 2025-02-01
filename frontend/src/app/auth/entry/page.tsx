@@ -10,15 +10,16 @@ import {
 } from "@/lib/utils";
 import axios from "axios";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { toast } from "sonner";
 import { API_BASE_URL } from "../../../../configs";
 import { Input } from "@/components/ui/input";
 import { Loader2, Phone, UserSearch } from "lucide-react";
 import LuxuryButton from "@/components/ui/components_LuxuryButton";
 import AuthToggle from "@/components/AuthToggle";
+import { Loader } from "@/components/Loader";
 
-export default function Entry() {
+function Entry() {
 	const searchParams = useSearchParams();
 	const modeParam = searchParams.get("mode");
 	const referralCodeParam = searchParams.get("referralCode");
@@ -189,5 +190,12 @@ export default function Entry() {
 				</div>
 			</LuxuryButton>
 		</div>
+	);
+}
+export default function Wrapper() {
+	return (
+		<Suspense fallback={<Loader isFullScreen />}>
+			<Entry />
+		</Suspense>
 	);
 }
