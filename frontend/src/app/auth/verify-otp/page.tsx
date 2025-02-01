@@ -27,6 +27,7 @@ function VerifyOTP() {
 	const searchParams = useSearchParams();
 	const phoneNumber = searchParams.get("phoneNumber");
 	const userId = searchParams.get("userId");
+	const referralCode = searchParams.get("referralCode");
 	const [otp, setOtp] = useState("");
 	const [resendingSMS, setResendingSMS] = useState(false);
 
@@ -80,7 +81,7 @@ function VerifyOTP() {
 				method: "POST",
 				data: {
 					cellNumber: phoneNumber,
-					referralCode: "",
+					referralCode: referralCode ? referralCode : null,
 					device: {
 						deviceId: "string",
 						deviceModel: "string",
@@ -166,7 +167,7 @@ function VerifyOTP() {
 			</LuxuryButton>
 
 			<div
-				className="flex items-center gap-x-2"
+				className="flex items-center gap-x-2 cursor-pointer"
 				style={{ color: authLayoutColors[2] }}
 				onClick={resendSMS}
 			>
@@ -181,7 +182,13 @@ function VerifyOTP() {
 			<div
 				className="flex items-center gap-x-2 cursor-pointer"
 				style={{ color: authLayoutColors[2] }}
-				onClick={() => router.push(`/auth/entry`)}
+				onClick={() =>
+					referralCode
+						? router.push(
+								`/auth/entry?referralCode=${referralCode}`
+						  )
+						: router.push(`/auth/entry`)
+				}
 			>
 				ویرایش شماره همراه
 			</div>

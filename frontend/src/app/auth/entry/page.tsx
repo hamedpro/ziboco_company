@@ -68,8 +68,13 @@ function Entry() {
 				toast.error("خطای ارسال پیامک", { description: message });
 				return;
 			}
+
+			const referralQueryParam =
+				enteryMode === "register" && referralCode
+					? `&referralCode=${referralCode}`
+					: "";
 			router.push(
-				`/auth/verify-otp?phoneNumber=${phoneNumber}&userId=${userId}`
+				`/auth/verify-otp?phoneNumber=${phoneNumber}&userId=${userId}${referralQueryParam}`
 			);
 		} catch (error) {
 			toast.error("خطای ناشناخته", {
