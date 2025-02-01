@@ -82,7 +82,11 @@ const Header = () => {
 				</div>
 				<Logo />
 				<div className="flex items-center gap-x-4">
-					<SearchIcon className="text-blue-800 cursor-pointer" />
+					{/* Updated mobile search icon with onClick navigation */}
+					<SearchIcon
+						className="text-blue-800 cursor-pointer"
+						onClick={handleSearch}
+					/>
 					<PhoneIcon className="text-slate-600 cursor-pointer" />
 				</div>
 			</div>
