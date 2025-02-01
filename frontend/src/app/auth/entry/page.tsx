@@ -1,13 +1,15 @@
 "use client";
 
 import {
+	convertToEnglish,
+	convertToPersian,
 	getEnglishValue,
 	getPersianValue,
 	validatePhoneNumber,
 	waitForSeconds,
 } from "@/lib/utils";
 import axios from "axios";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 import { API_BASE_URL } from "../../../../configs";
@@ -17,10 +19,20 @@ import LuxuryButton from "@/components/ui/components_LuxuryButton";
 import AuthToggle from "@/components/AuthToggle";
 
 export default function Entry() {
+	const searchParams = useSearchParams();
+	const modeParam = searchParams.get("mode");
+	const referralCodeParam = searchParams.get("referralCode");
+
 	const [phoneNumber, setPhoneNumber] = useState<string>("");
-	const [inviterPhoneNumber, setInviterPhoneNumber] = useState<string>("");
+	const [referralCode, setReferralCode] = useState<string>(
+		referralCodeParam || ""
+	);
 	const [enteryMode, setEntryMode] = useState<"register" | "login">(
-		"register"
+		referralCodeParam
+			? "register"
+			: modeParam === "login" || modeParam === "register"
+			? modeParam
+			: "register"
 	);
 
 	const [loading, setLoading] = useState(false);
@@ -37,7 +49,7 @@ export default function Entry() {
 				method: "POST",
 				data: {
 					cellNumber: phoneNumber,
-					referralCode: inviterPhoneNumber,
+					referralCode: referralCode || null,
 					device: {
 						deviceId: "string",
 						deviceModel: "string",
@@ -117,31 +129,53 @@ export default function Entry() {
 							height: "100%",
 						}}
 						className="bg-neutral-50 placeholder:text-base md:text-lg text-lg"
-						placeholder="شماره تلفن معرف (اختیاری)"
-						value={getPersianValue(inviterPhoneNumber)}
-						onChange={(e) =>
-							setInviterPhoneNumber(
-								getEnglishValue(e.target.value)
+						placeholder="کد معرف (اختیاری)"
+						value={referralCode
+							.split("")
+							.map((char) =>
+								/[a-zA-Z]/.test(char)
+									? char
+									: convertToPersian(char)
 							)
+							.join("")}
+						onChange={(e) => {
+							const rawValue = e.target.value;
+							const converted = rawValue
+								.split("")
+								.map((char) =>
+									/[a-zA-Z]/.test(char)
+										? char
+										: convertToEnglish(char)
+								)
+								.join("");
+							console.log(converted);
+							setReferralCode(converted);
+						}}
+						disabled={
+							!!referralCodeParam &&
+							referralCode === referralCodeParam
 						}
 					/>
 					<UserSearch
 						className="absolute -translate-y-1/2 top-1/2"
 						style={{ right: "10px" }}
 					/>
+					{!!referralCodeParam &&
+						referralCode === referralCodeParam && (
+							<button
+								className="absolute left-4 top-1/2 -translate-y-1/2 text-primary-foreground text-sm"
+								onClick={() => setReferralCode("")}
+							>
+								ویرایش
+							</button>
+						)}
 				</div>
 			)}
 			<LuxuryButton
 				themeVariant="modern"
 				style={{ width: "100%", height: "40px" }}
 				className="flex items-center justify-center"
-				disabled={
-					loading ||
-					validatePhoneNumber(phoneNumber) === false ||
-					(enteryMode === "register" &&
-						Boolean(inviterPhoneNumber) &&
-						validatePhoneNumber(inviterPhoneNumber) === false)
-				}
+				disabled={loading || validatePhoneNumber(phoneNumber) === false}
 				onClick={handleSubmit}
 			>
 				<div className="flex items-center gap-2">
