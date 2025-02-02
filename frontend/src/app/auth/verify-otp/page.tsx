@@ -25,9 +25,9 @@ import LuxuryButton from "@/components/ui/components_LuxuryButton";
 function VerifyOTP() {
 	const router = useRouter();
 	const searchParams = useSearchParams();
-	const phoneNumber = searchParams.get("phoneNumber");
-	const userId = searchParams.get("userId");
-	const referralCode = searchParams.get("referralCode");
+	const phoneNumber = searchParams?.get("phoneNumber");
+	const userId = searchParams?.get("userId");
+	const referralCode = searchParams?.get("referralCode");
 	const [otp, setOtp] = useState("");
 	const [resendingSMS, setResendingSMS] = useState(false);
 
@@ -62,7 +62,9 @@ function VerifyOTP() {
 	};
 	const updateSearchParam = (key: string, value: string) => {
 		// Create a new URLSearchParams object from the existing ones
-		const params = new URLSearchParams(searchParams.toString());
+		const params = new URLSearchParams(
+			searchParams?.toString() || undefined
+		);
 
 		// Update the specific key-value pair
 		params.set(key, value);

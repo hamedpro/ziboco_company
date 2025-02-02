@@ -8,7 +8,7 @@ import { fakeData } from "../../components/fakeData";
 const SearchPage = () => {
 	// Get the initial query from the URL search params
 	const searchParams = useSearchParams();
-	const initialQuery = searchParams.get("q") || "";
+	const initialQuery = searchParams?.get("q") || "";
 	const [searchQuery, setSearchQuery] = useState(initialQuery);
 
 	// Removed dummyProducts and dummyCategories in favor of data from fakeData

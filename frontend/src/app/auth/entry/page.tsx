@@ -21,8 +21,8 @@ import { Loader } from "@/components/Loader";
 
 function Entry() {
 	const searchParams = useSearchParams();
-	const modeParam = searchParams.get("mode");
-	const referralCodeParam = searchParams.get("referralCode");
+	const modeParam = searchParams?.get("mode");
+	const referralCodeParam = searchParams?.get("referralCode");
 
 	const [phoneNumber, setPhoneNumber] = useState<string>("");
 	const [referralCode, setReferralCode] = useState<string>(
