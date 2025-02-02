@@ -158,16 +158,17 @@ const MoreDropdown = ({
 			</button>
 
 			{showMore && (
-				<div className="absolute top-full left-0 bg-[#2851A3] w-48 shadow-lg z-50">
+				<div className="absolute top-full right-0 bg-[#2851A3] w-48 shadow-lg z-50">
 					{items.map((item) => (
 						<a
 							key={item}
 							href="#"
-							className="px-4 py-2 block hover:bg-blue-700 transition-colors whitespace-nowrap"
+							className="px-4 py-2 block hover:bg-blue-700 transition-colors whitespace-nowrap text-right"
 							onClick={() => {
 								onSelect(item);
 								setShowMore(false);
 							}}
+							dir="rtl"
 						>
 							{item}
 						</a>
