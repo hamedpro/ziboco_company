@@ -17,6 +17,8 @@ export const fakeData = {
 			image: DEFAULT_IMAGE,
 			price: 25_000_000,
 			tag: "پرفروش",
+			createdAt: "2023-01-01T00:00:00Z",
+			updatedAt: "2023-01-01T00:00:00Z",
 		},
 		{
 			id: "2",
@@ -26,6 +28,8 @@ export const fakeData = {
 			image: DEFAULT_IMAGE,
 			price: 2_500_000,
 			tag: "جدید",
+			createdAt: "2023-01-01T00:00:00Z",
+			updatedAt: "2023-01-01T00:00:00Z",
 		},
 		{
 			id: "3",
@@ -35,6 +39,8 @@ export const fakeData = {
 			image: DEFAULT_IMAGE,
 			price: 45_000_000,
 			tag: "محدود",
+			createdAt: "2023-01-01T00:00:00Z",
+			updatedAt: "2023-01-01T00:00:00Z",
 		},
 		{
 			id: "4",
@@ -44,6 +50,8 @@ export const fakeData = {
 			image: DEFAULT_IMAGE,
 			price: 85_000_000,
 			tag: "ویژه",
+			createdAt: "2023-01-01T00:00:00Z",
+			updatedAt: "2023-01-01T00:00:00Z",
 		},
 		{
 			id: "5",
@@ -53,88 +61,120 @@ export const fakeData = {
 			image: DEFAULT_IMAGE,
 			price: 8_000_000,
 			tag: "پرفروش",
+			createdAt: "2023-01-01T00:00:00Z",
+			updatedAt: "2023-01-01T00:00:00Z",
 		},
 		// Featured products
 		{
 			id: "6",
 			categoryId: "2", // "کروگرند - ۱ اونس طلای ۲۲ عیار" → gold coin (no "شمش" → coin)
 			title: "کروگرند ۱ اونس طلای ۲۲ عیار",
+			description: "",
 			image: DEFAULT_IMAGE,
 			onSale: true,
 			price: 10_000_000,
+			createdAt: "2023-01-01T00:00:00Z",
+			updatedAt: "2023-01-01T00:00:00Z",
 		},
 		{
 			id: "7",
 			categoryId: "4", // "شمش پلاتین - ۱۰ اونس" → bullion; assign to gold bullion
 			title: "شمش پلاتین ۱۰ اونس",
+			description: "",
 			image: DEFAULT_IMAGE,
 			onSale: false,
 			price: 10_000_000,
+			createdAt: "2023-01-01T00:00:00Z",
+			updatedAt: "2023-01-01T00:00:00Z",
 		},
 		{
 			id: "8",
 			categoryId: "7", // "شمش مس گایگر - ۱۰ AVDP OZ، خلوص ۹۹۹۹" → copper product → category "مس"
 			title: "شمش مس گایگر ۱۰، خلوص ۹۹۹۹",
+			description: "",
 			image: DEFAULT_IMAGE,
 			onSale: false,
 			price: 10_000_000,
+			createdAt: "2023-01-01T00:00:00Z",
+			updatedAt: "2023-01-01T00:00:00Z",
 		},
 		{
 			id: "9",
 			categoryId: "1", // "گلدپنر - سکه نقره ۱ اونسی قابل تقسیم" → silver coin
 			title: "گلدپنر سکه نقره ۱ اونسی قابل تقسیم",
+			description: "",
 			image: DEFAULT_IMAGE,
 			onSale: false,
 			price: 10_000_000,
+			createdAt: "2023-01-01T00:00:00Z",
+			updatedAt: "2023-01-01T00:00:00Z",
 		},
 		{
 			id: "10",
 			categoryId: "4", // "شمش طلا ۱۰۰ گرمی (برند انتخابی)" → gold bullion
 			title: "شمش طلا ۱۰۰ گرمی (برند انتخابی)",
+			description: "",
 			image: DEFAULT_IMAGE,
 			onSale: false,
 			price: 10_000_000,
+			createdAt: "2023-01-01T00:00:00Z",
+			updatedAt: "2023-01-01T00:00:00Z",
 		},
 		// Hot Items
 		{
 			id: "11",
 			categoryId: "2", // "سکه فیلارمونیک اتریش - ۱/۲۵ اونس طلا" → gold coin
 			title: "سکه فیلارمونیک اتریش ۱/۲۵ اونس طلا",
+			description: "",
 			image: DEFAULT_IMAGE,
 			price: 154_100_000,
 			hot: true,
+			createdAt: "2023-01-01T00:00:00Z",
+			updatedAt: "2023-01-01T00:00:00Z",
 		},
 		{
 			id: "12",
 			categoryId: "3", // "شمش نقره رویال کانادین - ۱۰ اونس" → silver bullion
 			title: "شمش نقره رویال کانادین ۱۰ اونس",
+			description: "",
 			image: DEFAULT_IMAGE,
 			price: 347_600_000,
 			hot: true,
+			createdAt: "2023-01-01T00:00:00Z",
+			updatedAt: "2023-01-01T00:00:00Z",
 		},
 		{
 			id: "13",
 			categoryId: "1", // "نیم دلار کندی نقره ۴۰٪" → silver coin
 			title: "نیم دلار کندی نقره ۴۰٪",
+			description: "",
 			image: DEFAULT_IMAGE,
 			price: 9_580_000,
 			hot: true,
+			createdAt: "2023-01-01T00:00:00Z",
+			updatedAt: "2023-01-01T00:00:00Z",
 		},
 		{
 			id: "14",
 			categoryId: "4", // "شمش طلا ۱ اونسی (برند انتخابی)" → gold bullion
 			title: "شمش طلا ۱ اونسی (برند انتخابی)",
+			description: "",
 			image: DEFAULT_IMAGE,
 			price: 2_810_450_000,
 			hot: true,
+			createdAt: "2023-01-01T00:00:00Z",
+			updatedAt: "2023-01-01T00:00:00Z",
 		},
 		{
 			id: "15",
 			categoryId: "4", // "بسته مخلوط گلدبک - ۱/۱۰۰۰ تروی اونس" → gold bullion (assumed)
 			title: "بسته مخلوط گلدبک ۱/۱۰۰۰ تروی اونس",
+			description: "",
 			image: DEFAULT_IMAGE,
 			price: 34_030_000,
 			hot: true,
+			createdAt: "2023-01-01T00:00:00Z",
+			updatedAt: "2023-01-01T00:00:00Z",
 		},
 	],
 	categories: [
@@ -145,6 +185,8 @@ export const fakeData = {
 			typeColor: "سکه‌ها",
 			image: DEFAULT_IMAGE,
 			href: "#",
+			createdAt: "2023-01-01T00:00:00Z",
+			updatedAt: "2023-01-01T00:00:00Z",
 		},
 		{
 			id: "2",
@@ -153,6 +195,8 @@ export const fakeData = {
 			typeColor: "سکه‌ها",
 			image: DEFAULT_IMAGE,
 			href: "#",
+			createdAt: "2023-01-01T00:00:00Z",
+			updatedAt: "2023-01-01T00:00:00Z",
 		},
 		{
 			id: "3",
@@ -161,6 +205,8 @@ export const fakeData = {
 			typeColor: "شمش‌ها",
 			image: DEFAULT_IMAGE,
 			href: "#",
+			createdAt: "2023-01-01T00:00:00Z",
+			updatedAt: "2023-01-01T00:00:00Z",
 		},
 		{
 			id: "4",
@@ -169,6 +215,8 @@ export const fakeData = {
 			typeColor: "شمش‌ها",
 			image: DEFAULT_IMAGE,
 			href: "#",
+			createdAt: "2023-01-01T00:00:00Z",
+			updatedAt: "2023-01-01T00:00:00Z",
 		},
 		{
 			id: "5",
@@ -177,6 +225,8 @@ export const fakeData = {
 			typeColor: "پولک‌ها",
 			image: DEFAULT_IMAGE,
 			href: "#",
+			createdAt: "2023-01-01T00:00:00Z",
+			updatedAt: "2023-01-01T00:00:00Z",
 		},
 		{
 			id: "6",
@@ -185,6 +235,8 @@ export const fakeData = {
 			typeColor: "پولک‌ها",
 			image: DEFAULT_IMAGE,
 			href: "#",
+			createdAt: "2023-01-01T00:00:00Z",
+			updatedAt: "2023-01-01T00:00:00Z",
 		},
 		{
 			id: "7",
@@ -193,7 +245,13 @@ export const fakeData = {
 			typeColor: "مس",
 			image: DEFAULT_IMAGE,
 			href: "#",
+			createdAt: "2023-01-01T00:00:00Z",
+			updatedAt: "2023-01-01T00:00:00Z",
 		},
+	],
+	basket: [
+		{ productId: "1", quantity: 2 },
+		{ productId: "7", quantity: 1 },
 	],
 	metalPrices: [
 		{ name: "سکه تمام بهار آزادی", price: 116_838_312, change: -500_000 }, // Full Bahar Azadi Coin

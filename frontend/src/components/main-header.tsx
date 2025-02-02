@@ -19,6 +19,12 @@ import { API_BASE_URL } from "../../configs";
 import Logo from "./logo";
 import { fakeData } from "./fakeData";
 
+// Calculate total basket items (sum of quantities)
+const totalBasketItems = fakeData.basket.reduce(
+	(acc, item) => acc + item.quantity,
+	0
+);
+
 const Header = () => {
 	const router = useRouter();
 
@@ -79,7 +85,17 @@ const Header = () => {
 						/>
 					)}
 					{/* Existing Shopping Cart Icon */}
-					<ShoppingCartIcon className="text-blue-800 cursor-pointer" />
+					<div
+						className="relative cursor-pointer"
+						onClick={() => router.push("/basket")}
+					>
+						<ShoppingCartIcon className="text-blue-800" />
+						{totalBasketItems > 0 && (
+							<span className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full text-xs w-4 h-4 flex items-center justify-center">
+								{totalBasketItems}
+							</span>
+						)}
+					</div>
 				</div>
 				<Logo />
 				<div className="flex items-center gap-x-4">
@@ -127,6 +143,17 @@ const Header = () => {
 							خطای احراز هویت
 						</button>
 					)}
+					<div
+						className="relative cursor-pointer"
+						onClick={() => router.push("/basket")}
+					>
+						<ShoppingCartIcon className="text-blue-800" />
+						{totalBasketItems > 0 && (
+							<span className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center">
+								{totalBasketItems}
+							</span>
+						)}
+					</div>
 				</div>
 
 				<div className="phone flex justify-center items-center">
