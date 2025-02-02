@@ -1,7 +1,15 @@
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Facebook, Youtube, Twitter, Instagram, Linkedin, ArrowRight } from "lucide-react"
+import {
+	Facebook,
+	Youtube,
+	Twitter,
+	Instagram,
+	Linkedin,
+	ArrowRight,
+	ArrowLeft,
+} from "lucide-react";
 import { DEFAULT_IMAGE } from "./fakeData";
 
 const footerLinks = {
@@ -91,7 +99,7 @@ export default function Footer() {
 							className="bg-orange-500 hover:bg-orange-600 whitespace-nowrap"
 						>
 							ثبت‌نام
-							<ArrowRight className="mr-2 h-4 w-4" />
+							<ArrowLeft className="mr-2 h-4 w-4" />
 						</Button>
 					</form>
 				</div>

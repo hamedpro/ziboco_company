@@ -4,10 +4,8 @@ import PriceTicker from "@/components/price-ticker";
 import Navigation from "@/components/navigation";
 import PopularCategories from "@/components/popular-categories";
 import FeaturedProducts from "@/components/featured-products";
-import NewsSection from "@/components/news-section";
 import HotItems from "@/components/hot-items";
 import NewsViews from "@/components/news-views";
-import NewsletterIRA from "@/components/newsletter-ira";
 import Footer from "@/components/footer";
 // import { BreadCrumb } from "@/components/BreadCrumb";
 import { Introduction } from "@/components/Introduction";
@@ -22,11 +20,9 @@ export default function Home() {
 			{/* <BreadCrumb className="px-4" /> */}
 			<Introduction />
 			<PopularCategories />
-			<FeaturedProducts />
 			<HotItems />
-			<NewsSection />
 			<NewsViews />
-			<NewsletterIRA />
+			<FeaturedProducts />
 			<Footer />
 		</div>
 	);
