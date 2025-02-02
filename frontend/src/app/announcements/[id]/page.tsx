@@ -1,13 +1,8 @@
 import { fakeData } from "@/components/fakeData";
 import Link from "next/link";
 
-interface PageProps {
-	params: {
-		id: string;
-	};
-}
 
-export default function AnnouncementDetail({ params }: PageProps) {
+export default function AnnouncementDetail({ params }: any) {
 	const announcement = fakeData.announcements.find((a) => a.id === params.id);
 
 	if (!announcement) {

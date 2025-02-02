@@ -1,12 +1,13 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { Suspense, useState } from "react";
 import { useSearchParams } from "next/navigation";
 // Import fakeData from the components folder
 import { fakeData } from "../../components/fakeData";
 import ProductCard from "@/components/ProductCard";
 import { CategoriesGrid } from "@/components/CategoriesGrid";
 import { NewsGrid } from "@/components/NewsGrid";
+import { Loader } from "@/components/Loader";
 
 const SearchPage = () => {
 	// Get the initial query from the URL search params
@@ -108,4 +109,10 @@ const SearchPage = () => {
 	);
 };
 
-export default SearchPage;
+export default function Wrapper() {
+	return (
+		<Suspense fallback={<Loader isFullScreen />}>
+			<SearchPage />
+		</Suspense>
+	);
+}

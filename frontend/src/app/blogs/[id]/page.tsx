@@ -1,13 +1,8 @@
 import { fakeData } from "@/components/fakeData";
 import Link from "next/link";
 
-interface PageProps {
-	params: {
-		id: string;
-	};
-}
 
-export default function BlogDetail({ params }: PageProps) {
+export default function BlogDetail({ params }: any) {
 	const blog = fakeData.blogs.find((b) => b.id === params.id);
 
 	if (!blog) {

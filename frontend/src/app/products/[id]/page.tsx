@@ -4,7 +4,7 @@ import Link from "next/link";
 import { fakeData } from "@/components/fakeData";
 import ProductCard from "@/components/ProductCard";
 
-function ProductPage({ params }: { params: { id: string } }) {
+function ProductPage({ params }: { params: any }) {
 	// Extract id from the route params
 	const { id } = params;
 
@@ -34,7 +34,7 @@ function ProductPage({ params }: { params: { id: string } }) {
 	);
 }
 
-export default function Page({ params }: { params: { id: string } }) {
+export default function Page({ params }: { params: any }) {
 	return (
 		<Suspense fallback={<div>Loading...</div>}>
 			<ProductPage params={params} />
