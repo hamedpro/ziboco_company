@@ -42,7 +42,7 @@ function VerifyOTP() {
 				data: { smsToken: otp, userId },
 			});
 			let {
-				// token,
+				token,
 				result: { status, message },
 			} = response.data;
 			if (status === 1) {
@@ -50,6 +50,7 @@ function VerifyOTP() {
 				return;
 			}
 			// setJwtCookie(token);
+			localStorage.setItem("accessToken", token);
 			router.push("/me/profile");
 		} catch (error) {
 			toast.error("خطای ناشناخته", {

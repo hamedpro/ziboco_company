@@ -41,6 +41,11 @@ export const InviteFriendsCard = () => {
 							let response = await axios({
 								baseURL: API_BASE_URL,
 								url: "/api/profile",
+								headers: {
+									Authorization: `Bearer ${localStorage.getItem(
+										"accessToken"
+									)}`,
+								},
 							});
 							if (!navigator.clipboard) {
 								throw new Error("Clipboard is not supported");

@@ -42,7 +42,14 @@ const Header = () => {
 
 	useEffect(() => {
 		axios
-			.get("/api/profile", { baseURL: API_BASE_URL })
+			.get("/api/profile", {
+				baseURL: API_BASE_URL,
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem(
+						"accessToken"
+					)}`,
+				},
+			})
 			.then((res) => {
 				setUserIsLoggedIn(true); // user is logged in
 			})
