@@ -10,7 +10,7 @@ export default function PhoneWrapper({ children }: PhoneWrapperProps) {
 			<div
 				className="w-full h-screen shadow-sm justify-around flex flex-col relative"
 				style={{
-					maxWidth: "520px",
+					maxWidth: "480px",
 					backgroundColor: authLayoutColors[0],
 				}}
 			>
