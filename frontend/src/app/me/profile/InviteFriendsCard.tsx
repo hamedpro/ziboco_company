@@ -5,8 +5,13 @@ import { ClipboardCheck, Loader, AlertCircle } from "lucide-react";
 import { localColors } from "./variables";
 import axios from "axios";
 import { API_BASE_URL } from "../../../../configs";
+import { serverProfileData } from "./page";
 
-export const InviteFriendsCard = () => {
+export const InviteFriendsCard = ({
+	profileData,
+}: {
+	profileData: serverProfileData;
+}) => {
 	let [copyingState, setCopyingState] = useState<
 		"ready" | "success" | "loading" | "error"
 	>("ready");
@@ -38,20 +43,11 @@ export const InviteFriendsCard = () => {
 					onClick={async () => {
 						setCopyingState("loading");
 						try {
-							let response = await axios({
-								baseURL: API_BASE_URL,
-								url: "/api/profile",
-								headers: {
-									Authorization: `Bearer ${localStorage.getItem(
-										"accessToken"
-									)}`,
-								},
-							});
 							if (!navigator.clipboard) {
 								throw new Error("Clipboard is not supported");
 							}
 							await navigator.clipboard.writeText(
-								`${window.location.origin}/auth/entry?referralCode=${response.data.referralCode}`
+								`${window.location.origin}/auth/entry?referralCode=${profileData.referralCode}`
 							);
 
 							// await waitForSeconds(1.5);

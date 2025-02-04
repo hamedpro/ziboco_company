@@ -1,8 +1,15 @@
 import React from "react";
 import { Calendar1, Hash, Phone, User } from "lucide-react";
 import { localColors } from "./variables";
+import { serverProfileData } from "./page";
+import { Progress } from "@/components/ui/progress";
+import { getPersianValue } from "@/lib/utils";
 
-export const ProfileOverviewCard = () => {
+export const ProfileOverviewCard = ({
+	profileData,
+}: {
+	profileData: serverProfileData;
+}) => {
 	return (
 		<div
 			style={{ backgroundColor: localColors[0] }}
@@ -16,13 +23,17 @@ export const ProfileOverviewCard = () => {
 				{[
 					{
 						title: "تاریخ تولد",
-						value: "----",
+						value: profileData.birthDate || "----",
 						icon: <Calendar1 />,
 					},
-					{ title: "کد ملی", value: "----", icon: <Hash /> },
+					{
+						title: "کد ملی",
+						value: profileData.natinalCode || "----",
+						icon: <Hash />,
+					},
 					{
 						title: "شماره همراه",
-						value: "۰۹۱۲۳۴۵۶۷۸۹",
+						value: getPersianValue(profileData.cellNumber),
 						icon: <Phone />,
 					},
 				].map((item) => (

@@ -1,8 +1,13 @@
 import React from "react";
 import { MoveLeft } from "lucide-react";
 import { localColors } from "./variables";
+import { serverProfileData } from "./page";
 
-export const IdentityVerificationCard = () => {
+export const IdentityVerificationCard = ({
+	profileData,
+}: {
+	profileData: serverProfileData;
+}) => {
 	return (
 		<div
 			style={{ backgroundColor: localColors[1] }}
