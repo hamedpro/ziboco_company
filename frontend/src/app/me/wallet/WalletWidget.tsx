@@ -1,33 +1,78 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Wallet, ChevronLeft, ChevronRight } from "lucide-react";
 import { cn, getPersianValue } from "@/lib/utils";
+import axios from "axios";
+import { API_BASE_URL } from "../../../../configs";
 
-type WalletData = {
-	silver: {
-		balance: number;
-		unit: string;
-	};
-	gold: {
-		balance: number;
-		unit: string;
-	};
-	rial: {
-		balance: number;
-		unit: string;
-	};
+export type WalletItem = {
+	id: string;
+	categoryId: string;
+	customerId: string;
+	category: string;
+	walletItemType: 0 | 1 | 2;
+	rialBalance: number;
+	balance: number;
 };
 
-type WalletWidgetProps = {
-	data: WalletData;
+// New type for the transformed wallet data
+export type WalletData = {
+	rial: { balance: number; unit: string };
+	gold: { balance: number; unit: string };
+	silver: { balance: number; unit: string };
 };
 
-const walletTypes = ["silver", "gold", "rial"] as const;
-type WalletType = (typeof walletTypes)[number];
+export const WalletWidget = () => {
+	// State now holds the transformed wallet data
+	const [walletData, setWalletData] = useState<WalletData | null>(null);
 
-export const WalletWidget = ({ data }: WalletWidgetProps) => {
+	// Define wallet types based on the mapping: index0 "rial", 1 "gold", 2 "silver"
+	const walletTypes = ["rial", "gold", "silver"] as const;
+	type WalletType = (typeof walletTypes)[number];
 	const [activeWallet, setActiveWallet] = useState<WalletType>("gold");
+
+	useEffect(() => {
+		axios({
+			url: "/api/wallet",
+			headers: {
+				Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+			},
+			baseURL: API_BASE_URL,
+			withCredentials: true,
+		})
+			.then((res) => res.data)
+			.then((payload: { data: WalletItem[] }) => {
+				const walletItems = payload.data;
+				const transformedData: WalletData = {
+					rial: { balance: 0, unit: "ریال" },
+					gold: { balance: 0, unit: "طلا" },
+					silver: { balance: 0, unit: "نقره" },
+				};
+
+				walletItems.forEach((item) => {
+					if (item.walletItemType === 0) {
+						transformedData.rial = {
+							balance: item.rialBalance,
+							unit: "ریال",
+						};
+					} else if (item.walletItemType === 1) {
+						transformedData.gold = {
+							balance: item.balance,
+							unit: "گرم",
+						};
+					} else if (item.walletItemType === 2) {
+						transformedData.silver = {
+							balance: item.balance,
+							unit: "گرم",
+						};
+					}
+				});
+
+				setWalletData(transformedData);
+			})
+			.catch((err) => console.error(err));
+	}, []);
 
 	const nextWallet = () => {
 		const currentIndex = walletTypes.indexOf(activeWallet);
@@ -102,8 +147,16 @@ export const WalletWidget = ({ data }: WalletWidgetProps) => {
 				dir="rtl"
 			>
 				<h1 className="text-2xl font-bold">
-					{getPersianValue(data[activeWallet].balance.toString())}
-					{data[activeWallet].unit}
+					{walletData ? (
+						<>
+							{getPersianValue(
+								walletData[activeWallet].balance.toString()
+							)}{" "}
+							{walletData[activeWallet].unit}
+						</>
+					) : (
+						"در حال بارگذاری..."
+					)}
 				</h1>
 			</div>
 			<div className="border-t border-neutral-50/20 flex text-neutral-50">
