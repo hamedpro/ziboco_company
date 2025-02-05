@@ -8,7 +8,6 @@ import { ProfileOverviewCard } from "./ProfileOverviewCard";
 import axios from "axios";
 import { API_BASE_URL } from "../../../../configs";
 import { Loader } from "@/components/Loader";
-import { Info } from "lucide-react";
 import { IconInfoOctagon } from "@tabler/icons-react";
 export type serverProfileData = {
 	name: string | null;

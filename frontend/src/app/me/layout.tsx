@@ -2,33 +2,28 @@
 
 import {
 	ArrowLeftRight,
-	CalendarRange,
+	Bell,
 	CircleUser,
 	MenuIcon,
 	ReceiptText,
 	Wallet,
 } from "lucide-react";
-import { ReactNode } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { authLayoutColors } from "@/lib/utils";
 import PhoneWrapper from "@/components/layouts/PhoneWrapper";
 
 const menuItems = [
-	{ id: 1, icon: <CalendarRange />, route: "/me/events" },
+	{ id: 1, icon: <Bell />, route: "/me/notifications" },
 	{ id: 2, icon: <CircleUser />, route: "/me/profile" },
 	{ id: 3, icon: <ReceiptText size={30} />, route: "/me/trade" },
 	{ id: 4, icon: <ArrowLeftRight />, route: "/me/transactions" },
 	{ id: 5, icon: <Wallet />, route: "/me/wallet" },
 ];
 
-export default function MeLayout({
-	children,
-}: {
-	children: React.ReactNode;
-}) {
+export default function MeLayout({ children }: { children: React.ReactNode }) {
 	const pathname = usePathname();
 	const router = useRouter();
-	
+
 	let pageTitle: string;
 	switch (pathname) {
 		case "/me/profile":
@@ -40,8 +35,8 @@ export default function MeLayout({
 		case "/me/wallet":
 			pageTitle = "کیف پول من";
 			break;
-		case "/me/events":
-			pageTitle = "رویداد های معاملاتی";
+		case "/me/notifications":
+			pageTitle = "اعلان های من";
 			break;
 		case "/me/trade":
 			pageTitle = "معامله جدید";
@@ -92,9 +87,17 @@ export default function MeLayout({
 						key={item.id}
 						className={`w-1/5 cursor-pointer relative h-full flex items-center justify-center border-neutral-900 
 								   ${index !== menuItems.length - 1 ? "border-r-2" : ""} 
-								   ${pathname === item.route ? "" : "text-neutral-500 hover:text-neutral-400 transition-colors"}
+								   ${
+										pathname === item.route
+											? ""
+											: "text-neutral-500 hover:text-neutral-400 transition-colors"
+									}
 								`}
-						style={pathname === item.route ? { color: authLayoutColors[1] } : {}}
+						style={
+							pathname === item.route
+								? { color: authLayoutColors[1] }
+								: {}
+						}
 						onClick={() => router.push(item.route)}
 					>
 						{index === 2 ? (
