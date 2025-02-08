@@ -1,6 +1,19 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import axios, { AxiosError } from "axios";
+import { API_BASE_URL } from "../../../../configs";
+import { Loader } from "@/components/Loader";
+import { IconInfoOctagon } from "@tabler/icons-react";
+import SessionExpiredPopup from "@/components/SessionExpiredPopup";
+import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardHeader,
+	CardTitle,
+} from "@/components/ui/card";
+import { Bell } from "lucide-react";
 
 // Define type for each message object
 type Message = {
@@ -18,73 +31,120 @@ type ApiResponse = {
 };
 
 const page = () => {
-	return null;
-	// messages state:
-	// - undefined => loading
-	// - string => error message
-	// - Message[] => list of notifications
-	// const [messages, setMessages] = useState<Message[] | string | undefined>(
-	// 	undefined
-	// );
+	const [messages, setMessages] = useState<Message[] | undefined>(undefined);
+	const [error, setError] = useState<string | null>(null);
+	const [showSessionExpired, setShowSessionExpired] = useState(false);
 
-	// useEffect(() => {
-	// 	async function fetchMessages() {
-	// 		try {
-	// 			const res = await fetch("/api/message");
-	// 			if (!res.ok) {
-	// 				throw new Error("Failed to fetch messages");
-	// 			}
-	// 			const json: ApiResponse = await res.json();
-	// 			if (json.errorCode !== 0) {
-	// 				// If there's an error Code, it means an error occurred on the server
-	// 				setMessages(json.errorMessage || "Unknown error occurred");
-	// 			} else {
-	// 				setMessages(json.data);
-	// 			}
-	// 		} catch (error: any) {
-	// 			setMessages(error.message || "An error occurred");
-	// 		}
-	// 	}
-	// 	fetchMessages();
-	// }, []);
+	useEffect(() => {
+		async function fetchMessages() {
+			try {
+				const response = await axios<ApiResponse>({
+					url: "/api/message",
+					headers: {
+						Authorization: `Bearer ${localStorage.getItem(
+							"accessToken"
+						)}`,
+					},
+					baseURL: API_BASE_URL,
+					withCredentials: true,
+				});
 
-	// // Render loading state
-	// if (messages === undefined) {
-	// 	return <div>Loading...</div>;
-	// }
+				if (response.data.errorCode !== 0) {
+					setError(
+						response.data.errorMessage || "Unknown error occurred"
+					);
+					return;
+				}
+				setMessages(response.data.data);
+			} catch (error) {
+				if (
+					error instanceof AxiosError &&
+					error.response?.status === 401
+				) {
+					setShowSessionExpired(true);
+				} else {
+					setError("An error occurred while fetching messages");
+				}
+			}
+		}
+		fetchMessages();
+	}, []);
 
-	// // Render error state
-	// if (typeof messages === "string") {
-	// 	return <div>Error: {messages}</div>;
-	// }
+	if (messages === undefined && !error) {
+		return (
+			<Loader
+				isFullScreen
+				className="text-white"
+			/>
+		);
+	}
 
-	// // Render notifications list when messages is an array
-	// return (
-	// 	<div className="flex flex-col w-full p-6">
-	// 		<h1 className="text-2xl font-bold mb-4">Notifications</h1>
-	// 		<ul className="space-y-2">
-	// 			{messages.map((msg) => (
-	// 				<li
-	// 					key={msg.id}
-	// 					className="border p-2 rounded shadow"
-	// 				>
-	// 					<p>
-	// 						<strong>ID:</strong> {msg.id}
-	// 					</p>
-	// 					<p>
-	// 						<strong>Message:</strong> {msg.message}
-	// 					</p>
-	// 					<p>
-	// 						<strong>Date:</strong>{" "}
-	// 						{msg.date
-	// 							? new Date(msg.date).toLocaleString()
-	// 							: "No date provided"}
-	// 					</p>
-	// 				</li>
-	// 			))}
-	// 		</ul>
-	// 	</div>
-	// );
+	if (error && !showSessionExpired) {
+		return (
+			<div
+				className="flex items-center text-white flex-col"
+				style={{ paddingTop: "200px" }}
+				dir="rtl"
+			>
+				<div className="flex items-center gap-x-2">
+					<IconInfoOctagon /> <span>خطایی رخ داده است</span>
+				</div>
+				<div>برای اطلاعات بیشتر با پشتیبانی در تماس باشید</div>
+			</div>
+		);
+	}
+
+	return (
+		<>
+			<div
+				className="flex flex-col w-full p-6"
+				dir="rtl"
+			>
+				<div className="flex items-center gap-2 mb-6">
+					<Bell className="h-5 w-5 text-neutral-100" />
+					<h2 className="text-lg font-medium text-neutral-100">
+						اعلان‌های خوانده نشده
+					</h2>
+				</div>
+
+				<div className="space-y-4">
+					{messages?.map((msg) => (
+						<Card key={msg.id}>
+							<CardContent className="pt-6">
+								<div className="flex flex-col gap-2">
+									<p className="text-lg">{msg.message}</p>
+									<p className="text-sm text-muted-foreground">
+										{msg.date
+											? new Date(
+													msg.date
+											  ).toLocaleDateString("fa-IR", {
+													year: "numeric",
+													month: "long",
+													day: "numeric",
+													hour: "2-digit",
+													minute: "2-digit",
+											  })
+											: "تاریخ ثبت نشده"}
+									</p>
+								</div>
+							</CardContent>
+						</Card>
+					))}
+				</div>
+
+				{messages?.length === 0 && (
+					<Card>
+						<CardContent className="pt-6">
+							<p className="text-center text-muted-foreground">
+								در حال حاضر اعلانی وجود ندارد
+							</p>
+						</CardContent>
+					</Card>
+				)}
+			</div>
+			<SessionExpiredPopup isOpen={showSessionExpired} />
+		</>
+	);
 };
 
 export default page;

@@ -3,8 +3,9 @@
 import { useState, useEffect } from "react";
 import { Wallet, ChevronLeft, ChevronRight } from "lucide-react";
 import { cn, getPersianValue } from "@/lib/utils";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { API_BASE_URL } from "../../../../configs";
+import SessionExpiredPopup from "@/components/SessionExpiredPopup";
 
 export type WalletItem = {
 	id: string;
@@ -24,10 +25,9 @@ export type WalletData = {
 };
 
 export const WalletWidget = () => {
-	// State now holds the transformed wallet data
 	const [walletData, setWalletData] = useState<WalletData | null>(null);
+	const [showSessionExpired, setShowSessionExpired] = useState(false);
 
-	// Define wallet types based on the mapping: index0 "rial", 1 "gold", 2 "silver"
 	const walletTypes = ["rial", "gold", "silver"] as const;
 	type WalletType = (typeof walletTypes)[number];
 	const [activeWallet, setActiveWallet] = useState<WalletType>("gold");
@@ -71,7 +71,16 @@ export const WalletWidget = () => {
 
 				setWalletData(transformedData);
 			})
-			.catch((err) => console.error(err));
+			.catch((error) => {
+				// Check if error is axios error and status is 401
+				if (
+					error instanceof AxiosError &&
+					error.response?.status === 401
+				) {
+					setShowSessionExpired(true);
+				}
+				console.error(error);
+			});
 	}, []);
 
 	const nextWallet = () => {
@@ -111,62 +120,65 @@ export const WalletWidget = () => {
 	};
 
 	return (
-		<div
-			className={cn(
-				"flex flex-col w-full rounded-xl overflow-hidden transition-colors",
-				getWalletColor(activeWallet)
-			)}
-		>
+		<>
 			<div
-				className="flex justify-between items-center text-neutral-50 p-4"
-				dir="rtl"
+				className={cn(
+					"flex flex-col w-full rounded-xl overflow-hidden transition-colors",
+					getWalletColor(activeWallet)
+				)}
 			>
-				<div className="flex items-center gap-x-2 text-sm">
-					<Wallet size={16} />
-					<p>{getWalletTitle(activeWallet)}</p>
+				<div
+					className="flex justify-between items-center text-neutral-50 p-4"
+					dir="rtl"
+				>
+					<div className="flex items-center gap-x-2 text-sm">
+						<Wallet size={16} />
+						<p>{getWalletTitle(activeWallet)}</p>
+					</div>
+					<div className="flex gap-x-2">
+						<button
+							onClick={prevWallet}
+							className="p-1 rounded-full hover:bg-white/20 transition-colors"
+							aria-label="کیف پول قبلی"
+						>
+							<ChevronRight size={20} />
+						</button>
+						<button
+							onClick={nextWallet}
+							className="p-1 rounded-full hover:bg-white/20 transition-colors"
+							aria-label="کیف پول بعدی"
+						>
+							<ChevronLeft size={20} />
+						</button>
+					</div>
 				</div>
-				<div className="flex gap-x-2">
-					<button
-						onClick={prevWallet}
-						className="p-1 rounded-full hover:bg-white/20 transition-colors"
-						aria-label="کیف پول قبلی"
-					>
-						<ChevronRight size={20} />
+				<div
+					className="flex text-neutral-50 gap-x-2 items-center px-4 pb-4"
+					dir="rtl"
+				>
+					<h1 className="text-2xl font-bold">
+						{walletData ? (
+							<>
+								{getPersianValue(
+									walletData[activeWallet].balance.toString()
+								)}{" "}
+								{walletData[activeWallet].unit}
+							</>
+						) : (
+							"در حال بارگذاری..."
+						)}
+					</h1>
+				</div>
+				<div className="border-t border-neutral-50/20 flex text-neutral-50">
+					<button className="flex-1 border-r border-neutral-50/20 py-3 hover:bg-white/10 transition-colors cursor-pointer">
+						{activeWallet === "rial" ? "واریز" : "خرید"}
 					</button>
-					<button
-						onClick={nextWallet}
-						className="p-1 rounded-full hover:bg-white/20 transition-colors"
-						aria-label="کیف پول بعدی"
-					>
-						<ChevronLeft size={20} />
+					<button className="flex-1 py-3 hover:bg-white/10 transition-colors cursor-pointer">
+						{activeWallet === "rial" ? "برداشت" : "فروش"}
 					</button>
 				</div>
 			</div>
-			<div
-				className="flex text-neutral-50 gap-x-2 items-center px-4 pb-4"
-				dir="rtl"
-			>
-				<h1 className="text-2xl font-bold">
-					{walletData ? (
-						<>
-							{getPersianValue(
-								walletData[activeWallet].balance.toString()
-							)}{" "}
-							{walletData[activeWallet].unit}
-						</>
-					) : (
-						"در حال بارگذاری..."
-					)}
-				</h1>
-			</div>
-			<div className="border-t border-neutral-50/20 flex text-neutral-50">
-				<button className="flex-1 border-r border-neutral-50/20 py-3 hover:bg-white/10 transition-colors cursor-pointer">
-					{activeWallet === "rial" ? "واریز" : "خرید"}
-				</button>
-				<button className="flex-1 py-3 hover:bg-white/10 transition-colors cursor-pointer">
-					{activeWallet === "rial" ? "برداشت" : "فروش"}
-				</button>
-			</div>
-		</div>
+			<SessionExpiredPopup isOpen={showSessionExpired} />
+		</>
 	);
 };

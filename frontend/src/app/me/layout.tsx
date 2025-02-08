@@ -7,10 +7,37 @@ import {
 	MenuIcon,
 	ReceiptText,
 	Wallet,
+	X,
 } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { authLayoutColors } from "@/lib/utils";
 import PhoneWrapper from "@/components/layouts/PhoneWrapper";
+import { useEffect, useState } from "react";
+import axios, { AxiosError } from "axios";
+import { API_BASE_URL } from "../../../configs";
+import {
+	Dialog,
+	DialogContent,
+	DialogDescription,
+	DialogFooter,
+	DialogHeader,
+	DialogTitle,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import SessionExpiredPopup from "@/components/SessionExpiredPopup";
+
+type Message = {
+	id: string;
+	message: string;
+	date: string | null;
+};
+
+type ApiResponse = {
+	data: Message[];
+	errorCode: number;
+	errorMessage: string | null;
+	errorDetail: string | null;
+};
 
 const menuItems = [
 	{ id: 1, icon: <Bell />, route: "/me/notifications" },
@@ -23,6 +50,59 @@ const menuItems = [
 export default function MeLayout({ children }: { children: React.ReactNode }) {
 	const pathname = usePathname();
 	const router = useRouter();
+	const [showNotifications, setShowNotifications] = useState(true);
+	const [unreadMessages, setUnreadMessages] = useState<Message[] | undefined>(
+		undefined
+	);
+	const [notificationError, setNotificationError] = useState<string | null>(
+		null
+	);
+	const [showSessionExpired, setShowSessionExpired] = useState(false);
+
+	useEffect(() => {
+		async function fetchUnreadMessages() {
+			try {
+				const response = await axios<ApiResponse>({
+					url: "/api/message",
+					headers: {
+						Authorization: `Bearer ${localStorage.getItem(
+							"accessToken"
+						)}`,
+					},
+					baseURL: API_BASE_URL,
+					withCredentials: true,
+				});
+
+				if (response.data.errorCode !== 0) {
+					setNotificationError(
+						response.data.errorMessage || "خطا در دریافت پیام‌ها"
+					);
+					return;
+				}
+				setUnreadMessages(response.data.data);
+			} catch (error) {
+				if (
+					error instanceof AxiosError &&
+					error.response?.status === 401
+				) {
+					setShowSessionExpired(true);
+				} else {
+					setNotificationError("خطا در دریافت پیام‌ها");
+				}
+			}
+		}
+
+		fetchUnreadMessages();
+	}, []);
+
+	const handleDismiss = () => {
+		setShowNotifications(false);
+	};
+
+	const handleViewAll = () => {
+		setShowNotifications(false);
+		router.push("/me/notifications");
+	};
 
 	let pageTitle: string;
 	switch (pathname) {
@@ -45,6 +125,69 @@ export default function MeLayout({ children }: { children: React.ReactNode }) {
 			pageTitle = "مسیر بی نام";
 			break;
 	}
+
+	const notificationDialog = (
+		<Dialog
+			open={
+				showNotifications &&
+				!showSessionExpired &&
+				(unreadMessages?.length ?? 0) > 0
+			}
+			onOpenChange={setShowNotifications}
+		>
+			<DialogContent
+				className="sm:max-w-md"
+				dir="rtl"
+			>
+				<DialogHeader>
+					<DialogTitle className="flex items-center gap-2 px-4">
+						<Bell className="h-5 w-5" />
+						<span>پیام‌های جدید</span>
+					</DialogTitle>
+					<DialogDescription>
+						{notificationError ? (
+							<span className="text-destructive">
+								{notificationError}
+							</span>
+						) : (
+							`شما ${
+								unreadMessages?.length ?? 0
+							} پیام خوانده نشده دارید`
+						)}
+					</DialogDescription>
+				</DialogHeader>
+
+				{!notificationError && (
+					<div className="flex flex-col gap-2">
+						{unreadMessages?.slice(0, 2).map((msg) => (
+							<p
+								key={msg.id}
+								className="text-sm"
+							>
+								{msg.message}
+							</p>
+						))}
+						{(unreadMessages?.length || 0) > 2 && (
+							<p className="text-sm text-muted-foreground">
+								و {(unreadMessages?.length || 0) - 2} پیام
+								دیگر...
+							</p>
+						)}
+					</div>
+				)}
+
+				<DialogFooter className="flex-row-reverse gap-2">
+					<Button onClick={handleViewAll}>مشاهده همه</Button>
+					<Button
+						variant="outline"
+						onClick={handleDismiss}
+					>
+						بستن
+					</Button>
+				</DialogFooter>
+			</DialogContent>
+		</Dialog>
+	);
 
 	const innerLayout = (
 		<>
@@ -110,6 +253,8 @@ export default function MeLayout({ children }: { children: React.ReactNode }) {
 					</div>
 				))}
 			</div>
+			{notificationDialog}
+			<SessionExpiredPopup isOpen={showSessionExpired} />
 		</>
 	);
 

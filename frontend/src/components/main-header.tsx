@@ -1,7 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import {
-	MenuIcon,
 	PhoneIcon,
 	SearchIcon,
 	ShoppingCartIcon,
@@ -9,7 +8,6 @@ import {
 	Loader2,
 	UserX,
 	LogInIcon,
-	Wallet2,
 	Wallet,
 	KeyRound,
 } from "lucide-react";

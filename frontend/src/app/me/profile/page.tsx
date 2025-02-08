@@ -5,10 +5,12 @@ import { ProfileAccordions } from "../transactions/ProfileAccordions";
 import { IdentityVerificationCard } from "./IdentityVerificationCard";
 import { InviteFriendsCard } from "./InviteFriendsCard";
 import { ProfileOverviewCard } from "./ProfileOverviewCard";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { API_BASE_URL } from "../../../../configs";
 import { Loader } from "@/components/Loader";
 import { IconInfoOctagon } from "@tabler/icons-react";
+import SessionExpiredPopup from "@/components/SessionExpiredPopup";
+
 export type serverProfileData = {
 	name: string | null;
 	family: string | null;
@@ -17,10 +19,13 @@ export type serverProfileData = {
 	cellNumber: string;
 	referralCode: string;
 };
+
 export default function Profile() {
 	let [profileData, setProfileData] = useState<
 		"error" | serverProfileData | undefined
 	>();
+	const [showSessionExpired, setShowSessionExpired] = useState(false);
+
 	useEffect(() => {
 		async function fetchData() {
 			try {
@@ -38,12 +43,19 @@ export default function Profile() {
 				).data;
 				setProfileData(data);
 			} catch (error) {
+				if (
+					error instanceof AxiosError &&
+					error.response?.status === 401
+				) {
+					setShowSessionExpired(true);
+				}
 				setProfileData("error");
 			}
 		}
 		fetchData();
 	}, []);
-	if (profileData === "error") {
+
+	if (profileData === "error" && !showSessionExpired) {
 		return (
 			<div
 				className="flex items-center text-white flex-col"
@@ -57,6 +69,7 @@ export default function Profile() {
 			</div>
 		);
 	}
+
 	if (profileData === undefined) {
 		return (
 			<Loader
@@ -65,14 +78,22 @@ export default function Profile() {
 			/>
 		);
 	}
+
 	return (
 		<>
 			<div className="flex flex-col px-6 gap-y-4">
-				<ProfileOverviewCard {...{ profileData }} />
-				<IdentityVerificationCard {...{ profileData }} />
-				<InviteFriendsCard {...{ profileData }} />
+				<ProfileOverviewCard
+					{...{ profileData: profileData as serverProfileData }}
+				/>
+				<IdentityVerificationCard
+					{...{ profileData: profileData as serverProfileData }}
+				/>
+				<InviteFriendsCard
+					{...{ profileData: profileData as serverProfileData }}
+				/>
 			</div>
 			<ProfileAccordions />
+			<SessionExpiredPopup isOpen={showSessionExpired} />
 		</>
 	);
 }
