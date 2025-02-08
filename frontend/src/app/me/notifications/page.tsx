@@ -13,7 +13,15 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import { Bell } from "lucide-react";
+import { Bell, Loader2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+	Dialog,
+	DialogContent,
+	DialogDescription,
+	DialogHeader,
+	DialogTitle,
+} from "@/components/ui/dialog";
 
 // Define type for each message object
 type Message = {
@@ -34,41 +42,82 @@ const page = () => {
 	const [messages, setMessages] = useState<Message[] | undefined>(undefined);
 	const [error, setError] = useState<string | null>(null);
 	const [showSessionExpired, setShowSessionExpired] = useState(false);
+	const [loadingStates, setLoadingStates] = useState<{
+		[key: string]: boolean;
+	}>({});
+	const [errorDialogOpen, setErrorDialogOpen] = useState(false);
+	const [errorMessage, setErrorMessage] = useState("");
 
-	useEffect(() => {
-		async function fetchMessages() {
-			try {
-				const response = await axios<ApiResponse>({
-					url: "/api/message",
-					headers: {
-						Authorization: `Bearer ${localStorage.getItem(
-							"accessToken"
-						)}`,
-					},
-					baseURL: API_BASE_URL,
-					withCredentials: true,
-				});
+	const fetchMessages = async () => {
+		try {
+			const response = await axios<ApiResponse>({
+				url: "/api/message",
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem(
+						"accessToken"
+					)}`,
+				},
+				baseURL: API_BASE_URL,
+				withCredentials: true,
+			});
 
-				if (response.data.errorCode !== 0) {
-					setError(
-						response.data.errorMessage || "Unknown error occurred"
-					);
-					return;
-				}
-				setMessages(response.data.data);
-			} catch (error) {
-				if (
-					error instanceof AxiosError &&
-					error.response?.status === 401
-				) {
-					setShowSessionExpired(true);
-				} else {
-					setError("An error occurred while fetching messages");
-				}
+			if (response.data.errorCode !== 0) {
+				setError(
+					response.data.errorMessage || "Unknown error occurred"
+				);
+				return;
+			}
+			setMessages(response.data.data);
+		} catch (error) {
+			if (error instanceof AxiosError && error.response?.status === 401) {
+				setShowSessionExpired(true);
+			} else {
+				setError("An error occurred while fetching messages");
 			}
 		}
+	};
+
+	useEffect(() => {
 		fetchMessages();
 	}, []);
+
+	const handleMarkAsSeen = async (id: string) => {
+		setLoadingStates((prev) => ({ ...prev, [id]: true }));
+		try {
+			const response = await axios({
+				method: "POST",
+				url: "/api/message",
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem(
+						"accessToken"
+					)}`,
+				},
+				baseURL: API_BASE_URL,
+				withCredentials: true,
+				data: { id },
+			});
+
+			if (response.data.errorCode !== 0) {
+				setErrorMessage(
+					response.data.errorMessage ||
+						"خطایی در ثبت وضعیت پیام رخ داد"
+				);
+				setErrorDialogOpen(true);
+				return;
+			}
+
+			await fetchMessages();
+		} catch (error) {
+			if (error instanceof AxiosError && error.response?.status === 401) {
+				setShowSessionExpired(true);
+			} else {
+				setErrorMessage("خطایی در ثبت وضعیت پیام رخ داد");
+				setErrorDialogOpen(true);
+			}
+		} finally {
+			setLoadingStates((prev) => ({ ...prev, [id]: false }));
+		}
+	};
 
 	if (messages === undefined && !error) {
 		return (
@@ -126,6 +175,21 @@ const page = () => {
 											  })
 											: "تاریخ ثبت نشده"}
 									</p>
+									<Button
+										size="sm"
+										disabled={loadingStates[msg.id]}
+										onClick={() => handleMarkAsSeen(msg.id)}
+										className="w-fit"
+									>
+										{loadingStates[msg.id] ? (
+											<>
+												<Loader2 className="w-4 h-4 ml-2 animate-spin" />
+												در حال ثبت...
+											</>
+										) : (
+											"علامت‌گذاری به عنوان خوانده‌شده"
+										)}
+									</Button>
 								</div>
 							</CardContent>
 						</Card>
@@ -143,6 +207,18 @@ const page = () => {
 				)}
 			</div>
 			<SessionExpiredPopup isOpen={showSessionExpired} />
+
+			<Dialog
+				open={errorDialogOpen}
+				onOpenChange={setErrorDialogOpen}
+			>
+				<DialogContent>
+					<DialogHeader>
+						<DialogTitle>خطا</DialogTitle>
+						<DialogDescription>{errorMessage}</DialogDescription>
+					</DialogHeader>
+				</DialogContent>
+			</Dialog>
 		</>
 	);
 };
