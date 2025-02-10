@@ -8,7 +8,7 @@ const PersianNavbar = () => {
 		"py-1 px-2 hover:bg-slate-700 transition duration-500 flex items-center gap-x-2 cursor-pointer";
 
 	const { topHeaderBannerOne, topHeaderBannerTwo } = fakeData.theme;
-
+	
 	return (
 		<>
 			<div
@@ -23,12 +23,16 @@ const PersianNavbar = () => {
 					<div className={cn(customButtonStyle, "hidden lg:flex")}>
 						|
 					</div>
-					<div className={customButtonStyle}>
-						{topHeaderBannerOne}
+					<div className={customButtonStyle} onClick={() => {
+						window.open(topHeaderBannerOne.url, "_blank");
+					}}>
+						{topHeaderBannerOne.text}
 					</div>
 				</div>
 
-				<div className={cn(customButtonStyle, "hidden md:flex")}>
+				<div className={cn(customButtonStyle, "hidden md:flex")} onClick={() => {
+					window.open(topHeaderBannerOne.url, "_blank");
+				}}>
 					<BadgeInfoIcon size={18} />
 					<p>بیشتر بدانید</p>
 				</div>
@@ -38,13 +42,15 @@ const PersianNavbar = () => {
 				dir="rtl"
 				className="px-4 py-4 border-b border-slate-200 bg-gray-50 print:hidden text-red-600 flex items-center justify-center"
 			>
-				<div className="group flex justify-center gap-x-2 cursor-pointer">
+				<div className="group flex justify-center gap-x-2 cursor-pointer" onClick={() => {
+					window.open(topHeaderBannerTwo.url, "_blank");
+				}}>
 					<div className="font-bold transition duration-300">
 						<div
 							className="underline"
 							style={{ textUnderlineOffset: "6px" }}
 						>
-							{topHeaderBannerTwo}
+							{topHeaderBannerTwo.text}
 						</div>
 					</div>
 					<div className="flex-shrink-0 hidden md:block">

@@ -1,3 +1,4 @@
+"use client";
 import TopHeader from "@/components/top-header";
 import MainHeader from "@/components/main-header";
 import PriceTicker from "@/components/price-ticker";
