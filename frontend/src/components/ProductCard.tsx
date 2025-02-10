@@ -10,7 +10,7 @@ import { ArrowLeft } from "lucide-react";
 interface Product {
 	id: string | number;
 	title: string;
-	description: string;
+	description: string | null;
 	price: number;
 	tag?: string;
 	image?: string;
@@ -20,13 +20,28 @@ interface Product {
 interface ProductCardProps {
 	product: Product;
 	variant?: "default" | "featured" | "hot";
+	skeletonMode?: boolean;
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({
 	product,
 	variant = "default",
+	skeletonMode = false,
 }) => {
 	const router = useRouter();
+
+	if (skeletonMode) {
+		return (
+			<div className="bg-white rounded-lg shadow-md h-full flex flex-col animate-pulse">
+				<div className="bg-gray-200 h-48 rounded-t-lg"></div>
+				<div className="p-4 flex-1 flex flex-col">
+					<div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
+					<div className="h-3 bg-gray-200 rounded w-1/2 mb-4"></div>
+					<div className="h-8 bg-gray-200 rounded"></div>
+				</div>
+			</div>
+		);
+	}
 
 	if (variant === "featured") {
 		return (

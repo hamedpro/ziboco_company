@@ -16,3 +16,44 @@ export const fetchMetalPrices = async (): Promise<MetalPriceResponse[]> => {
   );
   return response.data.data;
 };
+
+export interface ProductResponse {
+  id: string;
+  title: string;
+  description: string | null;
+  price: number;
+  tag: string;
+  image: string;
+  onSale: boolean;
+  hot: boolean;
+  categoryId: string;
+}
+
+export const fetchLatestProducts = async (): Promise<ProductResponse[]> => {
+  const response = await axios.get<ProductResponse[] >(
+    `${API_BASE_URL}/api/Product/GetLatestProductsAsunc`
+  );
+//   throw new Error("test");
+  return response.data;
+};
+
+export const fetchBestSellingProducts = async (): Promise<ProductResponse[]> => {
+  const response = await axios.get<ProductResponse[]>(
+    `${API_BASE_URL}/api/Product/GetBestSellingProductsAsunc`
+  );
+  return response.data;
+};
+
+export interface CategoryResponse {
+  id: string;
+  name: string;
+  image: string;
+  displayOrder: number;
+}
+
+export const fetchCategories = async (): Promise<CategoryResponse[]> => {
+  const response = await axios.get<CategoryResponse[]>(
+    `${API_BASE_URL}/api/category`
+  );
+  return response.data;
+};
