@@ -88,7 +88,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
 				className="bg-white rounded-lg shadow-sm overflow-hidden relative"
 				onClick={() => router.push(`/products/${product.id}`)}
 			>
-				<div className="absolute top-0 left-0 bg-orange-500 text-white py-1 px-3 rounded-br-lg text-sm">
+				<div className="absolute top-0 left-0 bg-orange-500 text-white py-1 px-3 rounded-br-lg text-sm z-10">
 					داغ
 				</div>
 				<div className="relative h-48 p-4">
