@@ -127,7 +127,7 @@ const Header = () => {
 					>
 						<ShoppingCartIcon className="text-blue-800" />
 						{userIsLoggedIn !== false && (
-							<span className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full text-xs w-4 h-4 flex items-center justify-center">
+							<span className="absolute -top-1 -right-1 bg-red-400 text-white rounded-full text-xs w-4 h-4 flex items-center justify-center">
 								{userIsLoggedIn === undefined ? (
 									<Loader2 className="animate-spin w-3 h-3" />
 								) : basketLoading ? (

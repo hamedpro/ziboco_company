@@ -97,7 +97,12 @@ export interface CartUpdateRequest {
 export const fetchUpdateBasket = async (data: CartUpdateRequest): Promise<void> => {
   await axios.post<void>(
     `${API_BASE_URL}/api/ShoppingCart`,
-    data
+    data,
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    }
   );
 };
 
@@ -132,6 +137,33 @@ export const fetchBasket = async (): Promise<CartItemResponse[]> => {
 
 export const fetchDeleteCartItem = async (productId: string): Promise<void> => {
   await axios.delete<void>(
-    `${API_BASE_URL}/api/ShoppingCart/${productId}`
+    `${API_BASE_URL}/api/ShoppingCart/${productId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    }
   );
+};
+
+export interface ProductDetailResponse {
+  id: string;
+  categoryId: string;
+  title: string;
+  description: string | null;
+  image: string;
+  price: number;
+  tag: string;
+  onSale: boolean;
+  hot: boolean;
+  createdAt: number;
+  updatedAt: number;
+  content: string | null;
+}
+
+export const fetchAllProducts = async (): Promise<ProductDetailResponse[]> => {
+  const response = await axios.get<ProductDetailResponse[]>(
+    `${API_BASE_URL}/api/product`
+  );
+  return response.data;
 };
