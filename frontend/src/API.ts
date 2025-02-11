@@ -57,3 +57,34 @@ export const fetchCategories = async (): Promise<CategoryResponse[]> => {
   );
   return response.data;
 };
+
+export interface BlogPostResponse {
+  id: string;
+  title: string;
+  image: string;
+  date: number;
+  content: string;
+  createDate: string;
+}
+
+export const fetchBlogPosts = async (): Promise<BlogPostResponse[]> => {
+  const response = await axios.get<BlogPostResponse[]>(
+    `${API_BASE_URL}/api/blog`
+  );
+  return response.data;
+};
+
+export interface AnnouncementResponse {
+  id: string | null;
+  title: string;
+  image: string;
+  date: number;
+  content: string;
+}
+
+export const fetchAnnouncements = async (): Promise<AnnouncementResponse[]> => {
+  const response = await axios.get<AnnouncementResponse[]>(
+    `${API_BASE_URL}/api/content/announcements`
+  );
+  return response.data;
+};
