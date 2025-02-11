@@ -122,7 +122,7 @@ export default function NewsViews() {
 				) : (
 					combinedItems.map((item) => (
 						<Link
-							key={`${item.type}-${item.id}`}
+							key={`${item.type}-${item.id || item.title}-${item.date}`}
 							href={
 								item.type === "blog"
 									? `/blogs/${item.id}`

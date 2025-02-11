@@ -143,10 +143,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
 						{getPersianValue(product.price.toString(), true)} تومان
 					</span>
 					<button
-						onClick={(e) => e.stopPropagation()}
 						className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition-colors"
 					>
-						افزودن به سبد
+						جزئیات
 					</button>
 				</div>
 			</div>

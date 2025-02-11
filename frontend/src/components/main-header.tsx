@@ -16,12 +16,7 @@ import axios from "axios";
 import { API_BASE_URL } from "../../configs";
 import Logo from "./logo";
 import { fakeData } from "./fakeData";
-
-// Calculate total basket items (sum of quantities)
-const totalBasketItems = fakeData.basket.reduce(
-	(acc, item) => acc + item.quantity,
-	0
-);
+import { fetchBasket } from "@/API";
 
 const Header = () => {
 	const router = useRouter();
@@ -37,6 +32,10 @@ const Header = () => {
 
 	// Added state for syncing the search query
 	const [searchQuery, setSearchQuery] = useState("");
+
+	const [basketItems, setBasketItems] = useState<number | null>(null);
+	const [basketLoading, setBasketLoading] = useState(false);
+	const [basketError, setBasketError] = useState<string | null>(null);
 
 	useEffect(() => {
 		axios
@@ -60,9 +59,41 @@ const Header = () => {
 			});
 	}, []);
 
+	// Add this useEffect to fetch basket when user is logged in
+	useEffect(() => {
+		if (userIsLoggedIn === true) {
+			setBasketLoading(true);
+			setBasketError(null);
+			fetchBasket()
+				.then(items => {
+					const total = items.reduce((acc, item) => acc + item.quantity, 0);
+					setBasketItems(total);
+				})
+				.catch(err => {
+					setBasketError(err.message);
+					setBasketItems(null);
+				})
+				.finally(() => setBasketLoading(false));
+		} else {
+			setBasketItems(null);
+		}
+	}, [userIsLoggedIn]);
+
 	// Function to navigate to /search with the queried text
 	const handleSearch = () => {
 		router.push(`/search?q=${encodeURIComponent(searchQuery)}`);
+	};
+
+	// Update basket icon click handler
+	const handleBasketClick = () => {
+		// Only allow click when auth state is determined
+		if (userIsLoggedIn === undefined) return;
+
+		// Handle navigation based on auth state
+		const targetPath = userIsLoggedIn === true 
+			? "/basket" 
+			: "/auth/entry?mode=register";
+		router.push(targetPath);
 	};
 
 	return (
@@ -89,15 +120,23 @@ const Header = () => {
 							onClick={() => router.push("/auth/entry")}
 						/>
 					)}
-					{/* Existing Shopping Cart Icon */}
+					{/* Updated basket icon with onClick navigation */}
 					<div
 						className="relative cursor-pointer"
-						onClick={() => router.push("/basket")}
+						onClick={handleBasketClick}
 					>
 						<ShoppingCartIcon className="text-blue-800" />
-						{totalBasketItems > 0 && (
+						{userIsLoggedIn !== false && (
 							<span className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full text-xs w-4 h-4 flex items-center justify-center">
-								{totalBasketItems}
+								{userIsLoggedIn === undefined ? (
+									<Loader2 className="animate-spin w-3 h-3" />
+								) : basketLoading ? (
+									<Loader2 className="animate-spin w-3 h-3" />
+								) : basketError ? (
+									"!"
+								) : basketItems && basketItems > 0 ? (
+									basketItems
+								) : null}
 							</span>
 						)}
 					</div>
@@ -150,12 +189,20 @@ const Header = () => {
 					)}
 					<div
 						className="relative cursor-pointer"
-						onClick={() => router.push("/basket")}
+						onClick={handleBasketClick}
 					>
 						<ShoppingCartIcon className="text-blue-800" />
-						{totalBasketItems > 0 && (
-							<span className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full text-xs w-5 h-5 flex items-center justify-center">
-								{totalBasketItems}
+						{userIsLoggedIn !== false && (
+							<span className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full text-xs w-4 h-4 flex items-center justify-center">
+								{userIsLoggedIn === undefined ? (
+									<Loader2 className="animate-spin w-3 h-3" />
+								) : basketLoading ? (
+									<Loader2 className="animate-spin w-3 h-3" />
+								) : basketError ? (
+									"!"
+								) : basketItems && basketItems > 0 ? (
+									basketItems
+								) : null}
 							</span>
 						)}
 					</div>

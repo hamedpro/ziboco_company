@@ -88,3 +88,50 @@ export const fetchAnnouncements = async (): Promise<AnnouncementResponse[]> => {
   );
   return response.data;
 };
+
+export interface CartUpdateRequest {
+  productId: string;
+  quantity: number;
+}
+
+export const fetchUpdateBasket = async (data: CartUpdateRequest): Promise<void> => {
+  await axios.post<void>(
+    `${API_BASE_URL}/api/ShoppingCart`,
+    data
+  );
+};
+
+export interface CartItemResponse {
+  productId: string;
+  quantity: number;
+}
+
+export interface ShoppingCartResponse {
+  data: CartItemResponse[];
+  errorCode: number;
+  errorMessage: string | null;
+  errorDetail: string | null;
+}
+
+export const fetchBasket = async (): Promise<CartItemResponse[]> => {
+  const response = await axios.get<ShoppingCartResponse>(
+    `${API_BASE_URL}/api/ShoppingCart`,
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    }
+  );
+  
+  if (response.data.errorCode !== 0) {
+    throw new Error(response.data.errorMessage || "خطا در دریافت سبد خرید");
+  }
+
+  return response.data.data;
+};
+
+export const fetchDeleteCartItem = async (productId: string): Promise<void> => {
+  await axios.delete<void>(
+    `${API_BASE_URL}/api/ShoppingCart/${productId}`
+  );
+};
