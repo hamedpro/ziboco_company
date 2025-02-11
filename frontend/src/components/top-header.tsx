@@ -1,3 +1,4 @@
+"use client";
 import { cn } from "@/lib/utils";
 import { ArrowLeftIcon, BadgeInfoIcon, MessageCircleMore } from "lucide-react";
 import React from "react";
