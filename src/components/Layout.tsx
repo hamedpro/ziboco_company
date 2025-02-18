@@ -11,7 +11,7 @@ export default function Layout({
   children: React.ReactNode;
 }>) {
   let pathname = usePathname();
-  if (pathname.startsWith("/auth") || pathname.startsWith("/me")) {
+  if (pathname.startsWith("/auth")) {
     return children;
   }
   return (

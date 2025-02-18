@@ -112,7 +112,7 @@ const Header = () => {
 					) : userIsLoggedIn === true ? (
 						<UserIcon
 							className="text-slate-600 cursor-pointer"
-							onClick={() => router.push("/me/wallet")}
+							onClick={() => router.push("/wallet")}
 						/>
 					) : (
 						<UserX
@@ -172,7 +172,7 @@ const Header = () => {
 						</button>
 					) : userIsLoggedIn === true ? (
 						<button
-							onClick={() => router.push("/me/wallet")}
+							onClick={() => router.push("/wallet")}
 							className="flex items-center justify-center bg-orange-500 hover:bg-orange-600 text-white text-sm xl:text-base p-3 rounded border border-orange-600 font-semibold transition-all duration-300"
 						>
 							<Wallet className="w-6 h-6 mr-1" />
