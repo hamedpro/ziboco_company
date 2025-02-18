@@ -7,11 +7,9 @@ import {
 	MenuIcon,
 	ReceiptText,
 	Wallet,
-	X,
 } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { authLayoutColors } from "@/lib/utils";
-import PhoneWrapper from "@/components/layouts/PhoneWrapper";
 import { useEffect, useState } from "react";
 import axios, { AxiosError } from "axios";
 import { API_BASE_URL } from "../../../configs";
@@ -258,5 +256,5 @@ export default function MeLayout({ children }: { children: React.ReactNode }) {
 		</>
 	);
 
-	return <PhoneWrapper>{innerLayout}</PhoneWrapper>;
+	return innerLayout;
 }

@@ -16,7 +16,7 @@ export default function Layout({
   }
   return (
     <div className="min-h-screen bg-gray-50 w-screen overflow-x-hidden">
-      <TopHeader />
+      {pathname === "/" && <TopHeader />}
       <MainHeader />
       <Navigation />
       <PriceTicker />
