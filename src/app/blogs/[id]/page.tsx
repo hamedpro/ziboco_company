@@ -2,6 +2,7 @@
 
 import { useParams } from "next/navigation";
 import { BlogMetadataProvider } from "@/components/blog/blog-metadata-provider";
+import { RelatedBlogsProvider } from "@/components/blog/related-blogs-provider";
 import { ErrorDisplayComponent } from "@/components/error-display";
 
 export default function BlogDetailPage() {
@@ -22,6 +23,7 @@ export default function BlogDetailPage() {
 	return (
 		<div className="min-h-screen p-4" dir="rtl">
 			<BlogMetadataProvider blogId={id} />
+			<RelatedBlogsProvider currentBlogId={id} />
 		</div>
 	);
 }

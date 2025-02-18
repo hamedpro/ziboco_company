@@ -8,11 +8,13 @@ import { toast } from "sonner";
 interface BasketWidgetProps {
   productId: string;
   cartItem: CartItemResponse | null;
-  onIncrease: () => Promise<void>;
-  onDecrease: () => Promise<void>;
-  onAdd: () => Promise<void>;
-  isUpdating: boolean;
-  error?: string | null;
+  onIncrease: () => void;
+  onDecrease: () => void;
+  onAdd: () => void;
+  isIncreasing: boolean;
+  isDecreasing: boolean;
+  isAdding: boolean;
+  error: string | null;
 }
 
 export function BasketWidget({
@@ -21,7 +23,9 @@ export function BasketWidget({
   onIncrease,
   onDecrease,
   onAdd,
-  isUpdating,
+  isIncreasing,
+  isDecreasing,
+  isAdding,
   error
 }: BasketWidgetProps) {
   return (
@@ -33,10 +37,10 @@ export function BasketWidget({
               variant="ghost"
               size="icon" 
               className="h-8 w-8 rounded-full hover:bg-gray-100 text-gray-600"
-              disabled={isUpdating || !!error}
+              disabled={isIncreasing || isDecreasing || !!error}
               onClick={onDecrease}
             >
-              {isUpdating ? (
+              {isDecreasing ? (
                 <Loader2 className="animate-spin w-4 h-4" />
               ) : (
                 <span className="text-xl">−</span>
@@ -51,10 +55,10 @@ export function BasketWidget({
               variant="ghost"
               size="icon"
               className="h-8 w-8 rounded-full hover:bg-gray-100 text-gray-600"
-              disabled={isUpdating || !!error}
+              disabled={isIncreasing || isDecreasing || !!error}
               onClick={onIncrease}
             >
-              {isUpdating ? (
+              {isIncreasing ? (
                 <Loader2 className="animate-spin w-4 h-4" />
               ) : (
                 <span className="text-xl">+</span>
@@ -65,10 +69,10 @@ export function BasketWidget({
           <Button
             size="lg"
             className="flex-1 gap-2 bg-primary hover:bg-primary/90"
-            disabled={isUpdating || !!error}
+            disabled={isAdding || !!error}
             onClick={onAdd}
           >
-            {isUpdating ? (
+            {isAdding ? (
               <Loader2 className="animate-spin w-5 h-5" />
             ) : error ? (
               <span className="text-sm">{error}</span>

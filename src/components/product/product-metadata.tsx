@@ -67,11 +67,11 @@ export function ProductMetadata({ product }: ProductMetadataProps) {
         <div className="bg-blue-50 p-4 rounded-lg">
           <div className="flex items-center gap-4">
             <span className="text-2xl font-bold text-blue-600">
-              {product.price?.toLocaleString() || "ناموجود"} تومان
+              {product.price.toLocaleString()} تومان
             </span>
             {product.onSale && (
               <Badge variant="destructive" className="text-sm">
-                %۱۵ تخفیف ویژه
+                تخفیف ویژه
               </Badge>
             )}
           </div>

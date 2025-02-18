@@ -2,56 +2,55 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { BlogPostResponse, fetchBlogPosts } from "@/API";
-import { BlogMetadata } from "./blog-metadata";
+import { AnnouncementResponse, fetchAnnouncements } from "@/API";
+import { AnnouncementMetadata } from "./announcement-metadata";
 import { ErrorDisplayComponent } from "../error-display";
 
-interface BlogMetadataProviderProps {
-  blogId: string;
+interface AnnouncementMetadataProviderProps {
+  announcementId: string;
 }
 
-export function BlogMetadataProvider({ blogId }: BlogMetadataProviderProps) {
+export function AnnouncementMetadataProvider({ announcementId }: AnnouncementMetadataProviderProps) {
   const router = useRouter();
-  const [blog, setBlog] = useState<BlogPostResponse | null>(null);
+  const [announcement, setAnnouncement] = useState<AnnouncementResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [notFound, setNotFound] = useState(false);
 
-  const loadBlog = async () => {
+  const loadAnnouncement = async () => {
     try {
       setLoading(true);
       setError(null);
       setNotFound(false);
 
-      const blogs = await fetchBlogPosts();
-      console.log({blogId, blogs })
-      const foundBlog = blogs.find(b => b.id === blogId);
+      const announcements = await fetchAnnouncements();
+      const foundAnnouncement = announcements.find(a => a.id === announcementId);
 
-      if (!foundBlog) {
+      if (!foundAnnouncement) {
         setNotFound(true);
         return;
       }
 
-      setBlog(foundBlog);
+      setAnnouncement(foundAnnouncement);
     } catch (err) {
-      setError("خطا در دریافت اطلاعات مقاله");
-      console.error("Blog load error:", err);
+      setError("خطا در دریافت اطلاعات اطلاعیه");
+      console.error("Announcement load error:", err);
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    loadBlog();
-  }, [blogId]);
+    loadAnnouncement();
+  }, [announcementId]);
 
   if (notFound) {
     return (
       <ErrorDisplayComponent
-        title="مقاله مورد نظر یافت نشد"
-        description="مقاله‌ای که به دنبال آن هستید در سیستم موجود نیست"
+        title="اطلاعیه مورد نظر یافت نشد"
+        description="اطلاعیه‌ای که به دنبال آن هستید در سیستم موجود نیست"
         variant="generic"
-        onRetry={() => router.push("/blogs")}
+        onRetry={() => router.push("/announcements")}
       />
     );
   }
@@ -60,8 +59,8 @@ export function BlogMetadataProvider({ blogId }: BlogMetadataProviderProps) {
     return (
       <ErrorDisplayComponent
         title="خطا در دریافت اطلاعات"
-        description="در دریافت اطلاعات مقاله مشکلی پیش آمده است"
-        onRetry={loadBlog}
+        description="در دریافت اطلاعات اطلاعیه مشکلی پیش آمده است"
+        onRetry={loadAnnouncement}
       />
     );
   }
@@ -84,7 +83,7 @@ export function BlogMetadataProvider({ blogId }: BlogMetadataProviderProps) {
     );
   }
 
-  if (!blog) return null;
+  if (!announcement) return null;
 
-  return <BlogMetadata blog={blog} />;
+  return <AnnouncementMetadata announcement={announcement} />;
 } 

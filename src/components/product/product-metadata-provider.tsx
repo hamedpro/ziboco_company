@@ -17,21 +17,19 @@ export function ProductMetadataProvider({ productId }: ProductMetadataProviderPr
   const [error, setError] = useState<string | null>(null);
 
   const loadProduct = async () => {
+    setLoading(true);
+    setError(null);
     try {
-      setLoading(true);
-      setError(null);
-
       const products = await fetchAllProducts();
       const foundProduct = products.find(p => p.id === productId);
 
       if (!foundProduct) {
-        router.replace("/404");
-        return;
+        setError("محصول مورد نظر یافت نشد");
+        return; 
       }
       setProduct(foundProduct);
     } catch (err) {
       setError("خطا در دریافت اطلاعات محصول");
-      console.error("Product load error:", err);
     } finally {
       setLoading(false);
     }
@@ -40,16 +38,6 @@ export function ProductMetadataProvider({ productId }: ProductMetadataProviderPr
   useEffect(() => {
     loadProduct();
   }, [productId]);
-
-  if (error) {
-    return (
-      <ErrorDisplayComponent
-        title="خطا در دریافت اطلاعات"
-        description="در دریافت اطلاعات محصول مشکلی پیش آمده است"
-        onRetry={loadProduct}
-      />
-    );
-  }
 
   if (loading) {
     return (
@@ -66,6 +54,16 @@ export function ProductMetadataProvider({ productId }: ProductMetadataProviderPr
           </div>
         </div>
       </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <ErrorDisplayComponent
+        title="خطا در دریافت اطلاعات"
+        description="در دریافت اطلاعات محصول مشکلی پیش آمده است"
+        onRetry={loadProduct}
+      />
     );
   }
 

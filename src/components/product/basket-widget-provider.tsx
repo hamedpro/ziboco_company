@@ -2,7 +2,12 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { CartItemResponse, fetchBasket, fetchUpdateBasket, fetchDeleteCartItem } from "@/API";
+import {
+  CartItemResponse,
+  fetchBasket,
+  fetchUpdateBasket,
+  fetchDeleteCartItem,
+} from "@/API";
 import { BasketWidget } from "./basket-widget";
 import { ErrorDisplayComponent } from "../error-display";
 import { toast } from "sonner";
@@ -14,7 +19,9 @@ interface BasketWidgetProviderProps {
 export function BasketWidgetProvider({ productId }: BasketWidgetProviderProps) {
   const router = useRouter();
   const [cartItem, setCartItem] = useState<CartItemResponse | null>(null);
-  const [updating, setUpdating] = useState(false);
+  const [increasingQuantity, setIncreasingQuantity] = useState(false);
+  const [decreasingQuantity, setDecreasingQuantity] = useState(false);
+  const [addingToCart, setAddingToCart] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -23,7 +30,12 @@ export function BasketWidgetProvider({ productId }: BasketWidgetProviderProps) {
       try {
         setLoading(true);
         const basketItems = await fetchBasket();
-        const item = basketItems.find((i: CartItemResponse) => i.productId === productId);
+        const item = basketItems
+          .map((i: CartItemResponse) => ({
+            ...i,
+            productId: String(i.productId),
+          }))
+          .find((i: CartItemResponse) => i.productId === productId);
         setCartItem(item || null);
         setError(null);
       } catch (err: any) {
@@ -37,12 +49,12 @@ export function BasketWidgetProvider({ productId }: BasketWidgetProviderProps) {
         setLoading(false);
       }
     };
-    
+
     loadBasket();
   }, [productId]);
 
   const handleAddToCart = async () => {
-    setUpdating(true);
+    setAddingToCart(true);
     try {
       await fetchUpdateBasket({ productId, quantity: 1 });
       setCartItem({ productId, quantity: 1 });
@@ -54,17 +66,17 @@ export function BasketWidgetProvider({ productId }: BasketWidgetProviderProps) {
       }
       toast.error("خطا در اضافه کردن محصول به سبد خرید");
     } finally {
-      setUpdating(false);
+      setAddingToCart(false);
     }
   };
 
   const handleIncreaseQuantity = async () => {
     if (!cartItem) return;
-    setUpdating(true);
+    setIncreasingQuantity(true);
     try {
       const newQuantity = cartItem.quantity + 1;
       await fetchUpdateBasket({ productId, quantity: newQuantity });
-      setCartItem(prev => prev ? { ...prev, quantity: newQuantity } : prev);
+      setCartItem((prev) => (prev ? { ...prev, quantity: newQuantity } : prev));
       toast.success("تعداد محصول افزایش یافت");
     } catch (err: any) {
       if (err?.response?.status === 401) {
@@ -73,13 +85,13 @@ export function BasketWidgetProvider({ productId }: BasketWidgetProviderProps) {
       }
       toast.error("خطا در افزایش تعداد محصول");
     } finally {
-      setUpdating(false);
+      setIncreasingQuantity(false);
     }
   };
 
   const handleDecreaseQuantity = async () => {
     if (!cartItem) return;
-    setUpdating(true);
+    setDecreasingQuantity(true);
     try {
       if (cartItem.quantity === 1) {
         await fetchDeleteCartItem(productId);
@@ -88,7 +100,9 @@ export function BasketWidgetProvider({ productId }: BasketWidgetProviderProps) {
       } else {
         const newQuantity = cartItem.quantity - 1;
         await fetchUpdateBasket({ productId, quantity: newQuantity });
-        setCartItem(prev => prev ? { ...prev, quantity: newQuantity } : prev);
+        setCartItem((prev) =>
+          prev ? { ...prev, quantity: newQuantity } : prev
+        );
         toast.success("تعداد محصول کاهش یافت");
       }
     } catch (err: any) {
@@ -98,7 +112,7 @@ export function BasketWidgetProvider({ productId }: BasketWidgetProviderProps) {
       }
       toast.error("خطا در کاهش تعداد محصول");
     } finally {
-      setUpdating(false);
+      setDecreasingQuantity(false);
     }
   };
 
@@ -117,8 +131,10 @@ export function BasketWidgetProvider({ productId }: BasketWidgetProviderProps) {
       onIncrease={handleIncreaseQuantity}
       onDecrease={handleDecreaseQuantity}
       onAdd={handleAddToCart}
-      isUpdating={updating}
+      isIncreasing={increasingQuantity}
+      isDecreasing={decreasingQuantity}
+      isAdding={addingToCart}
       error={error}
     />
   );
-} 
+}
