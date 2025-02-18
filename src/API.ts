@@ -1,5 +1,6 @@
 import axios from "axios";
 import { API_BASE_URL } from "../configs";
+import { fakeData } from "@/components/fakeData";
 
 export interface MetalPriceResponse {
   id: string;
@@ -166,4 +167,31 @@ export const fetchAllProducts = async (): Promise<ProductDetailResponse[]> => {
     `${API_BASE_URL}/api/product`
   );
   return response.data;
+};
+
+export interface Banner {
+  text: string;
+  pathname: string;
+}
+
+export interface TopBannersResponse {
+  topBanner1: Banner;
+  topBanner2: Banner;
+}
+
+export const fetchTopBanners = async (): Promise<TopBannersResponse> => {
+  // Simulate API delay
+  await new Promise(resolve => setTimeout(resolve, 1000));
+  
+  // Get data from fakeData for now
+  return {
+    topBanner1: {
+      text: fakeData.theme.topHeaderBannerOne.text,
+      pathname: fakeData.theme.topHeaderBannerOne.url
+    },
+    topBanner2: {
+      text: fakeData.theme.topHeaderBannerTwo.text,
+      pathname: fakeData.theme.topHeaderBannerTwo.url
+    }
+  };
 };
