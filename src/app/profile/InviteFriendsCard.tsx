@@ -4,7 +4,7 @@ import { waitForSeconds } from "@/lib/utils";
 import { ClipboardCheck, Loader, AlertCircle } from "lucide-react";
 import { localColors } from "./variables";
 import axios from "axios";
-import { API_BASE_URL } from "../../../../configs";
+import { API_BASE_URL } from "../../../configs";
 import { serverProfileData } from "./page";
 
 export const InviteFriendsCard = ({

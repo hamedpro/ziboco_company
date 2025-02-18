@@ -1,12 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ProfileAccordions } from "../transactions/ProfileAccordions";
 import { IdentityVerificationCard } from "./IdentityVerificationCard";
 import { InviteFriendsCard } from "./InviteFriendsCard";
 import { ProfileOverviewCard } from "./ProfileOverviewCard";
 import axios, { AxiosError } from "axios";
-import { API_BASE_URL } from "../../../../configs";
+import { API_BASE_URL } from "../../../configs";
 import { Loader } from "@/components/Loader";
 import { IconInfoOctagon } from "@tabler/icons-react";
 import SessionExpiredPopup from "@/components/SessionExpiredPopup";
@@ -92,7 +91,7 @@ export default function Profile() {
 					{...{ profileData: profileData as serverProfileData }}
 				/>
 			</div>
-			<ProfileAccordions />
+			{/* <ProfileAccordions /> */}
 			<SessionExpiredPopup isOpen={showSessionExpired} />
 		</>
 	);
