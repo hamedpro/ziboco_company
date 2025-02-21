@@ -146,7 +146,6 @@ export default function Wallet() {
 					<ErrorDisplayComponent
 						title="نیاز به ورود به حساب کاربری"
 						description="برای مشاهده کیف پول خود ابتدا وارد حساب کاربری خود شوید."
-						variant="generic"
 					/>
 				</div>
 			);
