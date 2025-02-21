@@ -152,17 +152,17 @@ export default function NotificationsPage() {
 		<div className="container mx-auto p-6 max-w-3xl space-y-6">
 			{/* Header */}
 			<div className="space-y-1" dir="rtl">
-				<h1 className="text-3xl font-bold tracking-tight">اعلان‌ها</h1>
+				<h1 className="text-2xl font-bold tracking-tight">صندوق پیام ها</h1>
 				<p className="text-muted-foreground">
-					اعلان‌های خوانده نشده و اطلاعیه‌های مهم
+					پیام‌های خوانده نشده شما
 				</p>
 			</div>
 
 			{/* Messages List */}
-			<Card>
+			<Card dir="rtl">
 				<CardHeader>
-					<CardTitle>اعلان‌های اخیر</CardTitle>
-					<CardDescription>اعلان‌های خوانده نشده شما</CardDescription>
+					<CardTitle>پیام‌های اخیر</CardTitle>
+					<CardDescription>پیام‌های خوانده نشده شخصی شما</CardDescription>
 				</CardHeader>
 				<CardContent>
 					{messages.length > 0 ? (
@@ -172,6 +172,7 @@ export default function NotificationsPage() {
 									<div 
 										key={message.id} 
 										className="p-4 rounded-lg border bg-card hover:bg-accent/50 transition-colors"
+										dir="rtl"
 									>
 										<div className="flex flex-col gap-3">
 											<p className="text-sm">{message.message}</p>
@@ -207,7 +208,7 @@ export default function NotificationsPage() {
 						<div className="py-12 text-center">
 							<Bell className="h-12 w-12 mx-auto text-muted-foreground/50 mb-3" />
 							<p className="text-muted-foreground">
-								در حال حاضر اعلان جدیدی ندارید
+								در حال حاضر پیام جدیدی ندارید
 							</p>
 						</div>
 					)}
