@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { AnnouncementResponse, fetchAnnouncements } from "@/API";
 import { AnnouncementMetadata } from "./announcement-metadata";
 import { ErrorDisplayComponent } from "../error-display";
-
+import { RefreshCcw } from "lucide-react";
 interface AnnouncementMetadataProviderProps {
   announcementId: string;
 }
@@ -49,8 +49,11 @@ export function AnnouncementMetadataProvider({ announcementId }: AnnouncementMet
       <ErrorDisplayComponent
         title="اطلاعیه مورد نظر یافت نشد"
         description="اطلاعیه‌ای که به دنبال آن هستید در سیستم موجود نیست"
-        variant="generic"
-        onRetry={() => router.push("/announcements")}
+        button={{
+          text: "تلاش مجدد",
+          icon: RefreshCcw,
+          onClick: loadAnnouncement
+        }}
       />
     );
   }
@@ -60,7 +63,11 @@ export function AnnouncementMetadataProvider({ announcementId }: AnnouncementMet
       <ErrorDisplayComponent
         title="خطا در دریافت اطلاعات"
         description="در دریافت اطلاعات اطلاعیه مشکلی پیش آمده است"
-        onRetry={loadAnnouncement}
+        button={{
+          text: "تلاش مجدد",
+          icon: RefreshCcw,
+          onClick: loadAnnouncement
+        }}
       />
     );
   }

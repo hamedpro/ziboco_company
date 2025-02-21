@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { BlogPostResponse, fetchBlogPosts } from "@/API";
 import { BlogMetadata } from "./blog-metadata";
 import { ErrorDisplayComponent } from "../error-display";
+import { RefreshCcw } from "lucide-react";
 
 interface BlogMetadataProviderProps {
   blogId: string;
@@ -50,8 +51,10 @@ export function BlogMetadataProvider({ blogId }: BlogMetadataProviderProps) {
       <ErrorDisplayComponent
         title="مقاله مورد نظر یافت نشد"
         description="مقاله‌ای که به دنبال آن هستید در سیستم موجود نیست"
-        variant="generic"
-        onRetry={() => router.push("/blogs")}
+        button={{
+          text: "بازگشت به لیست مقالات",
+          onClick: () => router.push("/blogs")
+        }}
       />
     );
   }
@@ -61,7 +64,11 @@ export function BlogMetadataProvider({ blogId }: BlogMetadataProviderProps) {
       <ErrorDisplayComponent
         title="خطا در دریافت اطلاعات"
         description="در دریافت اطلاعات مقاله مشکلی پیش آمده است"
-        onRetry={loadBlog}
+        button={{
+          text: "تلاش مجدد",
+          icon: RefreshCcw,
+          onClick: loadBlog
+        }}
       />
     );
   }

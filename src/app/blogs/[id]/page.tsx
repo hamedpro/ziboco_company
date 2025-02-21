@@ -14,7 +14,6 @@ export default function BlogDetailPage() {
 				<ErrorDisplayComponent
 					title="شناسه مقاله نامعتبر است"
 					description="لطفا از طریق لیست مقالات وارد صفحه مقاله شوید"
-					variant="generic"
 				/>
 			</div>
 		);

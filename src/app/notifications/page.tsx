@@ -5,10 +5,11 @@ import axios, { AxiosError } from "axios";
 import { API_BASE_URL } from "../../../configs";
 import { ErrorDisplayComponent } from "@/components/error-display";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Bell, Loader2, CheckCircle2 } from "lucide-react";
+import { Bell, Loader2, CheckCircle2, RefreshCcw, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 
 type Message = {
 	id: string;
@@ -28,6 +29,7 @@ export default function NotificationsPage() {
 	const [error, setError] = useState<string | null>(null);
 	const [messages, setMessages] = useState<Message[]>([]);
 	const [processingIds, setProcessingIds] = useState<string[]>([]);
+	const router = useRouter();
 
 	const loadMessages = async () => {
 		try {
@@ -121,7 +123,11 @@ export default function NotificationsPage() {
 					<ErrorDisplayComponent
 						title="نیاز به ورود به حساب کاربری"
 						description="برای مشاهده اعلان‌های خود ابتدا وارد حساب کاربری خود شوید."
-						variant="generic"
+						button={{
+						text: "ورود به حساب کاربری",
+						icon: User,
+						onClick: () => router.push("/auth/entry")
+					}}
 					/>
 				</div>
 			);
@@ -132,7 +138,11 @@ export default function NotificationsPage() {
 				<ErrorDisplayComponent
 					title="خطا در دریافت اطلاعات"
 					description="متاسفانه در دریافت اعلان‌ها خطایی رخ داده است."
-					onRetry={loadMessages}
+					button={{
+						text: "تلاش مجدد",
+						icon: RefreshCcw,
+						onClick: loadMessages
+					}}
 				/>
 			</div>
 		);

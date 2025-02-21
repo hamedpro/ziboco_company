@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { AnnouncementResponse, fetchAnnouncements } from "@/API";
 import { RelatedAnnouncements } from "./related-announcements";
 import { ErrorDisplayComponent } from "../error-display";
-
+import { RefreshCcw } from "lucide-react";
 interface RelatedAnnouncementsProviderProps {
   currentAnnouncementId: string;
 }
@@ -38,8 +38,11 @@ export function RelatedAnnouncementsProvider({ currentAnnouncementId }: RelatedA
       <ErrorDisplayComponent
         title="خطا در دریافت اطلاعیه‌های مرتبط"
         description="در دریافت لیست اطلاعیه‌های مرتبط مشکلی پیش آمده است"
-        onRetry={loadAnnouncements}
-        variant="network"
+        button={{
+          text: "تلاش مجدد",
+          icon: RefreshCcw,
+          onClick: loadAnnouncements
+        }}
       />
     );
   }

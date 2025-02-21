@@ -18,8 +18,8 @@ export default function AuthLayout({
         }}
       >
         <div className="flex flex-col h-full">
-          <div className="flex justify-end">
-            <div
+          <div className="flex justify-center">
+            {/* <div
               className="flex flex-col items-center p-8"
               style={{ color: authLayoutColors[1] }}
               dir="rtl"
@@ -30,7 +30,8 @@ export default function AuthLayout({
               <p className="text-sm" style={{}}>
                 طلا / نقره / کالای لوکس
               </p>
-            </div>
+            </div> */}
+            <img src="/gold_and_white_ziboko.png" className="h-10 px-6 py-12" style={{boxSizing : "content-box"}} />
           </div>
 
           {children}
@@ -59,7 +60,7 @@ export default function AuthLayout({
         </div>
       </div>
 	  <HatchedBackground 
-        className="flex-1 hidden lg:block"
+        className="flex-1 hidden md:block"
         backgroundColor="#0ea5e9"
         color="rgba(255,255,255,0.1)"
         size={15}

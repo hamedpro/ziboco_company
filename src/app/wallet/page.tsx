@@ -8,7 +8,7 @@ import { WalletWidget } from "./WalletWidget";
 import type { WalletData } from "./WalletWidget";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { ArrowUpCircle, ArrowDownCircle } from "lucide-react";
+import { ArrowUpCircle, ArrowDownCircle, RefreshCcw } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
@@ -157,7 +157,11 @@ export default function Wallet() {
 				<ErrorDisplayComponent
 					title="خطا در دریافت اطلاعات"
 					description="متاسفانه در دریافت اطلاعات کیف پول خطایی رخ داده است."
-					onRetry={loadData}
+					button={{
+						text: "تلاش مجدد",
+						icon: RefreshCcw,
+						onClick: loadData
+					}}
 				/>
 			</div>
 		);

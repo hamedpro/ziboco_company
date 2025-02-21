@@ -14,7 +14,6 @@ export default function AnnouncementDetailPage() {
 				<ErrorDisplayComponent
 					title="شناسه اطلاعیه نامعتبر است"
 					description="لطفا از طریق لیست اطلاعیه‌ها وارد صفحه اطلاعیه شوید"
-					variant="generic"
 				/>
 			</div>
 		);

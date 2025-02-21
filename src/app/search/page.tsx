@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Search, Package, Grid, Newspaper, Bell, X } from "lucide-react";
+import { Search, Package, Grid, Newspaper, Bell, X, RefreshCcw } from "lucide-react";
 import {
 	fetchAllProducts,
 	fetchCategories,
@@ -180,7 +180,11 @@ const SearchPage = () => {
 					<ErrorDisplayComponent
 						title="خطا در دریافت اطلاعات"
 						description={error}
-						onRetry={loadData}
+						button={{
+							text: "تلاش مجدد",
+							icon: RefreshCcw,
+							onClick: loadData
+						}}
 						className="py-16"
 					/>
 				) : loading ? (

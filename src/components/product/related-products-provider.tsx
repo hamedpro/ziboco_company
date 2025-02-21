@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { ProductResponse, fetchLatestProducts } from "@/API";
 import { RelatedProducts } from "./related-products";
 import { ErrorDisplayComponent } from "../error-display";
+import { RefreshCcw } from "lucide-react";
 
 interface RelatedProductsProviderProps {
   currentProductId: string;
@@ -38,8 +39,11 @@ export function RelatedProductsProvider({ currentProductId }: RelatedProductsPro
       <ErrorDisplayComponent
         title="خطا در دریافت محصولات مرتبط"
         description="در دریافت لیست محصولات مرتبط مشکلی پیش آمده است"
-        onRetry={loadProducts}
-        variant="network"
+        button={{
+          text: "تلاش مجدد",
+          icon: RefreshCcw,
+          onClick: loadProducts
+        }}
       />
     );
   }

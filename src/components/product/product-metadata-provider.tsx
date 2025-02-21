@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { ProductDetailResponse, fetchAllProducts } from "@/API";
 import { ProductMetadata } from "./product-metadata";
 import { ErrorDisplayComponent } from "../error-display";
-
+import { RefreshCcw } from "lucide-react";
 interface ProductMetadataProviderProps {
   productId: string;
 }
@@ -62,7 +62,11 @@ export function ProductMetadataProvider({ productId }: ProductMetadataProviderPr
       <ErrorDisplayComponent
         title="خطا در دریافت اطلاعات"
         description="در دریافت اطلاعات محصول مشکلی پیش آمده است"
-        onRetry={loadProduct}
+        button={{
+          text: "تلاش مجدد",
+          icon: RefreshCcw,
+          onClick: loadProduct
+        }}
       />
     );
   }

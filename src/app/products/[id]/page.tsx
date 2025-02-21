@@ -14,7 +14,6 @@ export default function ProductDetailPage() {
 				<ErrorDisplayComponent
 					title="شناسه محصول نامعتبر است"
 					description="لطفا از طریق لیست محصولات وارد صفحه محصول شوید"
-					variant="generic"
 				/>
 			</div>
 		);

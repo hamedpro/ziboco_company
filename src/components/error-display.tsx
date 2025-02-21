@@ -1,69 +1,48 @@
 "use client";
 
-import { AlertTriangle, WifiOff } from "lucide-react";
+import { AlertCircle, LucideIcon, RefreshCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { Card, CardContent } from "./ui/card";
 
 interface ErrorDisplayProps {
   title: string;
   description: string;
-  variant?: "generic" | "network";
-  onRetry?: () => void;
   className?: string;
+  button?: {
+    text: string;
+    icon?: LucideIcon;
+    onClick: () => void;
+  };
 }
 
 export function ErrorDisplayComponent({
   title,
   description,
-  variant = "generic",
-  onRetry,
-  className
+  className,
+  button,
 }: ErrorDisplayProps) {
-  const config = {
-    generic: {
-      icon: AlertTriangle,
-      iconColor: "text-red-600",
-      bgColor: "bg-red-50",
-    },
-    network: {
-      icon: WifiOff,
-      iconColor: "text-orange-600",
-      bgColor: "bg-orange-50",
-    },
-  };
-
-  const { icon: Icon, iconColor, bgColor } = config[variant];
-
   return (
-    <div className={cn("rounded-xl p-6 text-center", bgColor, className)}>
-      <div className="flex flex-col items-center justify-center space-y-4">
-        <div className={cn("p-3 rounded-full", bgColor)}>
-          <Icon className={cn("w-12 h-12", iconColor)} />
+    <Card className="w-full p-6">
+      <CardContent>
+        <div className={cn("flex flex-col items-center justify-center text-center gap-4", className)}>
+          <AlertCircle className="h-16 w-16 text-destructive" />
+          <div className="space-y-2">
+            <h3 className="text-lg font-semibold">{title}</h3>
+            <p className="text-muted-foreground">{description}</p>
+          </div>
+          {button && (
+            <Button 
+              variant="outline" 
+              onClick={button.onClick}
+              className="mt-2"
+            >
+              {button.icon && <button.icon className="mr-2 h-4 w-4" />}
+              {button.text}
+            </Button>
+          )}
         </div>
-        
-        <div className="space-y-2">
-          <h3 className="text-xl font-semibold text-gray-900">{title}</h3>
-          <p className="text-gray-600 max-w-prose mx-auto">{description}</p>
-        </div>
-
-        {onRetry && (
-          <Button
-            variant={variant === "network" ? "outline" : "default"}
-            size="lg"
-            className="mt-4 gap-2"
-            onClick={onRetry}
-          >
-            {variant === "network" ? (
-              <>
-                <WifiOff className="w-5 h-5" />
-                تلاش مجدد برای اتصال
-              </>
-            ) : (
-              "تلاش مجدد"
-            )}
-          </Button>
-        )}
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 } 

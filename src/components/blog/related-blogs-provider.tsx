@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { BlogPostResponse, fetchBlogPosts } from "@/API";
 import { RelatedBlogs } from "./related-blogs";
 import { ErrorDisplayComponent } from "../error-display";
-
+import { RefreshCcw } from "lucide-react";  
 interface RelatedBlogsProviderProps {
   currentBlogId: string;
 }
@@ -38,8 +38,11 @@ export function RelatedBlogsProvider({ currentBlogId }: RelatedBlogsProviderProp
       <ErrorDisplayComponent
         title="خطا در دریافت مقالات مرتبط"
         description="در دریافت لیست مقالات مرتبط مشکلی پیش آمده است"
-        onRetry={loadBlogs}
-        variant="network"
+        button={{
+          text: "تلاش مجدد",
+          icon: RefreshCcw,
+          onClick: loadBlogs
+        }}
       />
     );
   }
