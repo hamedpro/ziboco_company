@@ -57,6 +57,8 @@ const SearchPage = () => {
 					fetchBlogPosts(),
 					fetchAnnouncements(),
 				]);
+
+				// throw new Error("test error");
 			setProducts(allProducts);
 			setCategories(allCategories);
 			setBlogs(allBlogs);

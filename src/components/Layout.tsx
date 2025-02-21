@@ -4,7 +4,7 @@ import Navigation from "@/components/navigation";
 import MainHeader from "@/components/main-header";
 import PriceTicker from "@/components/price-ticker";
 import { usePathname } from "next/navigation";
-
+import Footer from "@/components/footer";
 export default function Layout({
   children,
 }: Readonly<{
@@ -21,6 +21,7 @@ export default function Layout({
       <Navigation />
       <PriceTicker />
       {children}
+      <Footer />
     </div>
   );
 }

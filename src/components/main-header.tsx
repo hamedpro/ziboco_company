@@ -233,7 +233,7 @@ const Header = () => {
 							if (e.key === "Enter") handleSearch();
 						}}
 						className="appearance-none bg-transparent border-none w-full text-slate-700 py-1 lg:py-2 px-4 leading-tight focus:outline-none lg:text-sm focus:ring-0"
-						placeholder="جستجوی همه موارد"
+						placeholder="برای جستجو شروع به تایپ کنید"
 					/>
 					<button
 						onClick={handleSearch}
