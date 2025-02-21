@@ -125,7 +125,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
 					alt={product.title}
 					width={288}
 					height={200}
-					className="rounded-t-lg object-cover group-hover:opacity-90 transition-opacity"
+					className="rounded-t-lg object-cover group-hover:opacity-90 transition-opacity aspect-square"
 				/>
 				<span className="absolute top-2 right-2 bg-blue-600 text-white px-2 py-1 rounded-full text-xs">
 					{product.tag || "عادی"}
