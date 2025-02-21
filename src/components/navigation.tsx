@@ -8,18 +8,18 @@ export default function Navigation() {
 	const [showMore, setShowMore] = useState(false);
 
 	const menuItems = [
-		"نقره",
-		"طلا",
-		"سایر",
-		"پیشنهادات ویژه 🔥",
-		"محصولات جدید",
-		"منابع",
-		"اخبار",
-		"برنامه‌ها",
-		"حساب‌های IRA",
-		"نگهداری امن",
-		"فروش به ما",
-		"وام‌ها",
+		{ name: "طلا", path: "/products?category=gold" },
+		{ name: "نقره", path: "/products?category=silver" },
+		{ name: "سایر محصولات", path: "/products" },
+		{ name: "پیشنهادات ویژه 🔥", path: "/products?special=true" },
+		{ name: "محصولات جدید", path: "/products?sort=newest" },
+		{ name: "وبلاگ", path: "/blogs" },
+		{ name: "اخبار و اطلاعیه‌ها", path: "/announcements" },
+		{ name: "کیف پول", path: "/wallet" },
+		{ name: "پروفایل", path: "/profile" },
+		{ name: "سبد خرید", path: "/basket" },
+		{ name: "اعلان‌ها", path: "/notifications" },
+		{ name: "جستجو", path: "/search" },
 	];
 
 	// Define visible items for each breakpoint
@@ -32,21 +32,21 @@ export default function Navigation() {
 	};
 
 	return (
-		<nav className="w-full bg-[#2851A3] text-white">
+		<nav className="w-full bg-[#2851A3] text-white" dir="rtl">
 			<div className="relative px-4">
 				{/* Mobile View (3 items) */}
 				<ul className="flex justify-between items-center sm:hidden">
 					{visibleItems.default.map((item) => (
 						<NavItem
-							key={item}
+							key={item.path}
 							item={item}
-							active={activeItem === item}
-							onClick={() => setActiveItem(item)}
+							active={activeItem === item.name}
+							onClick={() => setActiveItem(item.name)}
 						/>
 					))}
 					<MoreDropdown
 						items={menuItems.slice(3)}
-						onSelect={setActiveItem}
+						onSelect={(item) => setActiveItem(item.name)}
 					/>
 				</ul>
 
@@ -54,15 +54,15 @@ export default function Navigation() {
 				<ul className="hidden sm:flex md:hidden justify-between items-center">
 					{visibleItems.sm.map((item) => (
 						<NavItem
-							key={item}
+							key={item.path}
 							item={item}
-							active={activeItem === item}
-							onClick={() => setActiveItem(item)}
+							active={activeItem === item.name}
+							onClick={() => setActiveItem(item.name)}
 						/>
 					))}
 					<MoreDropdown
 						items={menuItems.slice(5)}
-						onSelect={setActiveItem}
+						onSelect={(item) => setActiveItem(item.name)}
 					/>
 				</ul>
 
@@ -70,15 +70,15 @@ export default function Navigation() {
 				<ul className="hidden md:flex lg:hidden justify-between items-center">
 					{visibleItems.md.map((item) => (
 						<NavItem
-							key={item}
+							key={item.path}
 							item={item}
-							active={activeItem === item}
-							onClick={() => setActiveItem(item)}
+							active={activeItem === item.name}
+							onClick={() => setActiveItem(item.name)}
 						/>
 					))}
 					<MoreDropdown
 						items={menuItems.slice(7)}
-						onSelect={setActiveItem}
+						onSelect={(item) => setActiveItem(item.name)}
 					/>
 				</ul>
 
@@ -86,15 +86,15 @@ export default function Navigation() {
 				<ul className="hidden lg:flex xl:hidden justify-between items-center">
 					{visibleItems.lg.map((item) => (
 						<NavItem
-							key={item}
+							key={item.path}
 							item={item}
-							active={activeItem === item}
-							onClick={() => setActiveItem(item)}
+							active={activeItem === item.name}
+							onClick={() => setActiveItem(item.name)}
 						/>
 					))}
 					<MoreDropdown
 						items={menuItems.slice(9)}
-						onSelect={setActiveItem}
+						onSelect={(item) => setActiveItem(item.name)}
 					/>
 				</ul>
 
@@ -102,10 +102,10 @@ export default function Navigation() {
 				<ul className="hidden xl:flex justify-between items-center">
 					{visibleItems.xl.map((item) => (
 						<NavItem
-							key={item}
+							key={item.path}
 							item={item}
-							active={activeItem === item}
-							onClick={() => setActiveItem(item)}
+							active={activeItem === item.name}
+							onClick={() => setActiveItem(item.name)}
 						/>
 					))}
 				</ul>
@@ -120,19 +120,23 @@ const NavItem = ({
 	active,
 	onClick,
 }: {
-	item: string;
+	item: { name: string; path: string };
 	active: boolean;
 	onClick: () => void;
 }) => (
 	<li>
 		<a
-			href="#"
+			href={item.path}
 			className={`px-4 py-3 block hover:bg-blue-700 transition-colors whitespace-nowrap ${
 				active ? "bg-blue-700" : ""
 			}`}
-			onClick={onClick}
+			onClick={(e) => {
+				e.preventDefault();
+				onClick();
+				window.location.href = item.path;
+			}}
 		>
-			{item}
+			{item.name}
 		</a>
 	</li>
 );
@@ -142,8 +146,8 @@ const MoreDropdown = ({
 	items,
 	onSelect,
 }: {
-	items: string[];
-	onSelect: (item: string) => void;
+	items: Array<{ name: string; path: string }>;
+	onSelect: (item: { name: string; path: string }) => void;
 }) => {
 	const [showMore, setShowMore] = useState(false);
 
@@ -161,16 +165,18 @@ const MoreDropdown = ({
 				<div className="absolute top-full right-0 bg-[#2851A3] w-48 shadow-lg z-50">
 					{items.map((item) => (
 						<a
-							key={item}
-							href="#"
+							key={item.path}
+							href={item.path}
 							className="px-4 py-2 block hover:bg-blue-700 transition-colors whitespace-nowrap text-right"
-							onClick={() => {
+							onClick={(e) => {
+								e.preventDefault();
 								onSelect(item);
 								setShowMore(false);
+								window.location.href = item.path;
 							}}
 							dir="rtl"
 						>
-							{item}
+							{item.name}
 						</a>
 					))}
 				</div>
