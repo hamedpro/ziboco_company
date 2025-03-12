@@ -195,3 +195,20 @@ export const fetchTopBanners = async (): Promise<TopBannersResponse> => {
     }
   };
 };
+
+export interface ProvinceResponse {
+  id: number;
+  name: string;
+}
+
+export const fetchProvinces = async (): Promise<ProvinceResponse[]> => {
+  const response = await axios.get<ProvinceResponse[]>(
+    `${API_BASE_URL}/api/Address/StateProvince`,
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    }
+  );
+  return response.data;
+};

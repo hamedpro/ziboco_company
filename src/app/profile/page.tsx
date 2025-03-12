@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { IdentityVerificationCard } from "./IdentityVerificationCard";
 import { InviteFriendsCard } from "./InviteFriendsCard";
 import { ProfileOverviewCard } from "./ProfileOverviewCard";
+import { AddressCard } from "./AddressCard";
 import axios, { AxiosError } from "axios";
 import { API_BASE_URL } from "../../../configs";
 import { Loader } from "@/components/Loader";
@@ -85,6 +86,9 @@ export default function Profile() {
 					{...{ profileData: profileData as serverProfileData }}
 				/>
 				<IdentityVerificationCard
+					{...{ profileData: profileData as serverProfileData }}
+				/>
+				<AddressCard 
 					{...{ profileData: profileData as serverProfileData }}
 				/>
 				<InviteFriendsCard
