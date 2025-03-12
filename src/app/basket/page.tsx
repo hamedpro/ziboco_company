@@ -25,13 +25,22 @@ import {
 } from "@/components/ui/alert-dialog";
 import axios from "axios";
 
+type ProcessingAction = {
+  productId: string;
+  action: 'delete' | 'increment' | 'decrement';
+};
+
 function BasketPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [basketItems, setBasketItems] = useState<CartItemResponse[]>([]);
   const [products, setProducts] = useState<Record<string, any>>({});
   const [showComingSoon, setShowComingSoon] = useState(false);
-  const [processingIds, setProcessingIds] = useState<string[]>([]);
+  const [processingActions, setProcessingActions] = useState<ProcessingAction[]>([]);
+
+  const isProcessing = (productId: string) => processingActions.some(item => item.productId === productId);
+  const isActionProcessing = (productId: string, action: 'delete' | 'increment' | 'decrement') => 
+    processingActions.some(item => item.productId === productId && item.action === action);
 
   const loadData = async () => {
     try {
@@ -58,7 +67,7 @@ function BasketPage() {
   };
 
   const handleRemoveItem = async (productId: string) => {
-    setProcessingIds(prev => [...prev, productId]);
+    setProcessingActions(prev => [...prev, { productId, action: 'delete' }]);
     try {
       await fetchDeleteCartItem(productId);
       setBasketItems(prev => prev.filter(item => item.productId !== productId));
@@ -72,14 +81,14 @@ function BasketPage() {
         duration: 3000,
       });
     } finally {
-      setProcessingIds(prev => prev.filter(id => id !== productId));
+      setProcessingActions(prev => prev.filter(item => !(item.productId === productId && item.action === 'delete')));
     }
   };
 
-  const updateQuantity = async (productId: string, newQuantity: number) => {
+  const updateQuantity = async (productId: string, newQuantity: number, action: 'increment' | 'decrement') => {
     if (newQuantity < 1) return;
     
-    setProcessingIds(prev => [...prev, productId]);
+    setProcessingActions(prev => [...prev, { productId, action }]);
     try {
       await fetchUpdateBasket({ productId, quantity: newQuantity });
       setBasketItems(prev => 
@@ -99,7 +108,7 @@ function BasketPage() {
         duration: 3000,
       });
     } finally {
-      setProcessingIds(prev => prev.filter(id => id !== productId));
+      setProcessingActions(prev => prev.filter(item => !(item.productId === productId && item.action === action)));
     }
   };
 
@@ -214,9 +223,9 @@ function BasketPage() {
                 <button
                   onClick={() => handleRemoveItem(item.productId)}
                   className="absolute top-2 left-2 text-gray-400 hover:text-red-600"
-                  disabled={processingIds.includes(item.productId)}
+                  disabled={isProcessing(item.productId)}
                 >
-                  {processingIds.includes(item.productId) ? (
+                  {isActionProcessing(item.productId, 'delete') ? (
                     <Loader2 className="w-5 h-5 animate-spin" />
                   ) : (
                     <X className="w-5 h-5" />
@@ -252,10 +261,10 @@ function BasketPage() {
                     <Button
                       variant="outline"
                       size="sm"
-                      onClick={() => updateQuantity(item.productId, item.quantity - 1)}
-                      disabled={processingIds.includes(item.productId)}
+                      onClick={() => updateQuantity(item.productId, item.quantity - 1, 'decrement')}
+                      disabled={isProcessing(item.productId)}
                     >
-                      {processingIds.includes(item.productId) ? (
+                      {isActionProcessing(item.productId, 'decrement') ? (
                         <Loader2 className="w-4 h-4 animate-spin" />
                       ) : (
                         <Minus className="w-4 h-4" />
@@ -265,10 +274,10 @@ function BasketPage() {
                     <Button
                       variant="outline"
                       size="sm"
-                      onClick={() => updateQuantity(item.productId, item.quantity + 1)}
-                      disabled={processingIds.includes(item.productId)}
+                      onClick={() => updateQuantity(item.productId, item.quantity + 1, 'increment')}
+                      disabled={isProcessing(item.productId)}
                     >
-                      {processingIds.includes(item.productId) ? (
+                      {isActionProcessing(item.productId, 'increment') ? (
                         <Loader2 className="w-4 h-4 animate-spin" />
                       ) : (
                         <Plus className="w-4 h-4" />
