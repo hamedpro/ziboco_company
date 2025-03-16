@@ -20,9 +20,11 @@ export default function ProductDetailPage() {
 	}
 
 	return (
-		<div className="max-w-7xl mx-auto p-4 min-h-screen" dir="rtl">
-			<ProductMetadataProvider productId={id} />
-			<RelatedProductsProvider currentProductId={id} />
-		</div>
+		<section className="bg-neutral-100 min-h-screen" dir="rtl">
+			<div className="px-6 pt-8 lg:px-10 2xl:px-[170px] pb-12">
+				<ProductMetadataProvider productId={id} />
+				<RelatedProductsProvider currentProductId={id} />
+			</div>
+		</section>
 	);
 }

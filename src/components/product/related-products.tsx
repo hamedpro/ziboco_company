@@ -1,44 +1,42 @@
 "use client";
 
-import Image from "next/image";
 import { ProductResponse } from "@/API";
-import Link from "next/link";
+import ProductCard from "@/components/ProductCard";
+import { Card } from "@/components/ui/card";
 
 interface RelatedProductsProps {
   products: ProductResponse[];
 }
 
 export function RelatedProducts({ products }: RelatedProductsProps) {
+  if (!products.length) return null;
+  
   return (
     <div className="mt-16">
-      <h2 className="text-2xl font-bold mb-6">محصولات مرتبط</h2>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        {products.map((product) => (
-          <Link
-            key={product.id}
-            href={`/products/${product.id}`}
-            className="group"
-          >
-            <div className="aspect-square bg-gray-50 rounded-lg overflow-hidden">
-              <Image
-                src={product.image || "/placeholder-product.jpg"}
-                alt={product.title}
-                width={300}
-                height={300}
-                className="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-300"
-              />
-            </div>
-            <div className="mt-2">
-              <h3 className="font-medium text-gray-900 group-hover:text-primary transition-colors">
-                {product.title}
-              </h3>
-              <p className="text-gray-500 mt-1">
-                {product.price?.toLocaleString()} تومان
-              </p>
-            </div>
-          </Link>
-        ))}
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-xl font-semibold text-neutral-800">محصولات مرتبط</h2>
+        <p className="text-sm text-neutral-500">{products.length} محصول</p>
       </div>
+      
+      <Card className="bg-white border-0 shadow-sm rounded-[20px] p-6">
+        <div className="flex flex-col gap-6 md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {products.map((product) => (
+            <ProductCard
+              key={product.id}
+              product={{
+                id: product.id,
+                title: product.title,
+                price: product.price || 0,
+                description: product.description || null,
+                image: product.image,
+                tag: product.tag,
+                onSale: product.onSale,
+                purity: product.categoryId || ""
+              }}
+            />
+          ))}
+        </div>
+      </Card>
     </div>
   );
 } 

@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Loader2, ShoppingCart } from "lucide-react";
+import { Loader2, ShoppingCart, Minus, Plus } from "lucide-react";
 import { CartItemResponse } from "@/API";
 import { toast } from "sonner";
 
@@ -32,43 +32,43 @@ export function BasketWidget({
     <div className="space-y-4">
       <div className="flex items-center gap-4">
         {cartItem ? (
-          <div className="flex items-center gap-1 border border-gray-200 rounded-full px-4 py-2">
+          <div className="flex items-center gap-1 border border-neutral-200 rounded-full px-4 py-2 w-full justify-between">
             <Button
-              variant="ghost"
+              variant="outline"
               size="icon" 
-              className="h-8 w-8 rounded-full hover:bg-gray-100 text-gray-600"
+              className="h-9 w-9 rounded-full hover:bg-neutral-100 text-neutral-600 border-neutral-200"
               disabled={isIncreasing || isDecreasing || !!error}
               onClick={onDecrease}
             >
               {isDecreasing ? (
                 <Loader2 className="animate-spin w-4 h-4" />
               ) : (
-                <span className="text-xl">−</span>
+                <Minus className="w-4 h-4" />
               )}
             </Button>
             
-            <span className="min-w-[2rem] text-center font-medium text-gray-900">
+            <span className="min-w-[2rem] text-center font-medium text-neutral-900">
               {cartItem.quantity}
             </span>
             
             <Button
-              variant="ghost"
+              variant="outline"
               size="icon"
-              className="h-8 w-8 rounded-full hover:bg-gray-100 text-gray-600"
+              className="h-9 w-9 rounded-full hover:bg-neutral-100 text-neutral-600 border-neutral-200"
               disabled={isIncreasing || isDecreasing || !!error}
               onClick={onIncrease}
             >
               {isIncreasing ? (
                 <Loader2 className="animate-spin w-4 h-4" />
               ) : (
-                <span className="text-xl">+</span>
+                <Plus className="w-4 h-4" />
               )}
             </Button>
           </div>
         ) : (
           <Button
             size="lg"
-            className="flex-1 gap-2 bg-primary hover:bg-primary/90"
+            className="flex-1 gap-2 rounded-full"
             disabled={isAdding || !!error}
             onClick={onAdd}
           >

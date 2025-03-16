@@ -14,6 +14,7 @@ interface Product {
 	image?: string;
 	onSale?: boolean;
 	purity?: string;
+	categoryId?: string;
 }
 
 interface ProductCardProps {
@@ -46,6 +47,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
 		);
 	}
 
+	// Display either purity or categoryId for the product metadata
+	const displayMetadata = product.purity || product.categoryId || "995";
+
 	return (
 		<div 
 			className="bg-white w-full rounded-[20px] p-5 transition-all lg:flex lg:flex-col lg:justify-between lg:h-[400px] hover:shadow-containerShadow cursor-pointer"
@@ -53,7 +57,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
 		>
 			<div>
 				<div className="flex text-xs text-neutral-500 items-center gap-2 justify-between">
-					<span>خلوص: <span className="text-neutral-900 font-medium">{product.purity || "995"}</span></span>
+					<span>خلوص: <span className="text-neutral-900 font-medium">{displayMetadata}</span></span>
 					{product.tag && (
 						<div className="h-7 flex justify-center items-center text-xs rounded-[6px] px-2 bg-primary-light text-primary font-medium">
 							{product.tag}
