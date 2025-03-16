@@ -5,11 +5,11 @@ import { Button } from "@/components/ui/button";
 
 export const Hero = () => {
 	return (
-		<div className="w-full relative overflow-hidden" dir="rtl">
-			{/* Full-width video background */}
-			<div className="absolute inset-0 w-full h-full z-0">
+		<div className="w-full relative" dir="rtl">
+			{/* Video background */}
+			<div className="w-full h-full">
 				<video
-					className="w-full h-full object-cover"
+					className="w-full h-full object-cover absolute inset-0"
 					autoPlay
 					muted
 					loop
@@ -22,7 +22,7 @@ export const Hero = () => {
 			</div>
 
 			{/* Content container */}
-			<div className="relative z-10 container mx-auto px-4 py-16 md:py-24 lg:py-32">
+			<div className="container mx-auto px-4 py-16 md:py-24 lg:py-32 relative">
 				<div className="flex flex-col lg:flex-row gap-8 items-center">
 					{/* Hero content */}
 					<div className="w-full lg:w-1/2 text-center lg:text-right">
