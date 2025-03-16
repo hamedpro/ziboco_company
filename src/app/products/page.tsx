@@ -6,12 +6,12 @@ import ProductCard from "@/components/ProductCard";
 import { fetchAllProducts, fetchCategories, CategoryResponse, ProductDetailResponse } from "@/API";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { AlertCircle } from "lucide-react";
+import { AlertCircle, Search, SlidersHorizontal, ArrowDownAZ } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
+import { Card } from "@/components/ui/card";
 
 function ProductsPage() {
 	// State for API data
@@ -97,93 +97,101 @@ function ProductsPage() {
 	}, [filteredProducts, sortMethod]);
 
 	return (
-		<div
-			className="max-w-6xl mx-auto p-4"
-			dir="rtl"
-		>
-			<h1 className="text-3xl font-bold mb-4 text-center">محصولات</h1>
+		<section className="px-6 pt-8 lg:px-10 2xl:px-[170px] bg-neutral-100 pb-8" dir="rtl">
+			<div className="pb-2 flex justify-between items-center">
+				<h1 className="text-xl font-semibold text-neutral-800">محصولات</h1>
+				<p className="text-sm text-neutral-500">
+					{!loading && `${sortedProducts.length} محصول`}
+				</p>
+			</div>
 
 			{error && (
-				<Alert variant="destructive" className="mb-4">
+				<Alert variant="destructive" className="mb-6 max-w-3xl mx-auto">
 					<AlertCircle className="h-4 w-4" />
 					<AlertDescription>{error}</AlertDescription>
 				</Alert>
 			)}
 
-			{/* Filtering and Sorting Controls */}
-			<div className="mb-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-				<div className="flex flex-col md:flex-row gap-2">
-					{/* Search Input */}
-					<Input
-						type="text"
-						placeholder="جستجو..."
-						className="max-w-[300px]"
-						value={searchQuery}
-						onChange={(e) => setSearchQuery(e.target.value)}
-						disabled={loading}
-					/>
-					{/* Category Filter Checkboxes */}
-					<div className="flex flex-wrap gap-2">
-						{loading ? (
-							Array(3).fill(0).map((_, i) => (
-								<Skeleton key={i} className="h-8 w-20" />
-							))
-						) : (
-							categories.map((cat) => (
-								<div key={cat.id} className="flex items-center space-x-2 space-x-reverse gap-1 border border-gray-300 rounded px-2 py-1">
-									<Checkbox
-										id={`cat-${cat.id}`}
-										checked={selectedCategories.includes(cat.name)}
-										onCheckedChange={(checked) => {
-											if (checked) {
-												setSelectedCategories((prev) => [...prev, cat.name]);
+			{/* Search and Filters */}
+			<Card className="mb-6 p-4 border-0 shadow-sm">
+				<div className="flex flex-col md:flex-row gap-4 items-center">
+					<div className="relative w-full md:w-64">
+						<Search className="absolute left-3 top-2.5 h-4 w-4 text-neutral-500" />
+						<Input
+							type="text"
+							placeholder="جستجوی محصولات..."
+							className="pr-4 pl-10 h-10 bg-white border-neutral-200"
+							value={searchQuery}
+							onChange={(e) => setSearchQuery(e.target.value)}
+							disabled={loading}
+						/>
+					</div>
+					
+					<Separator className="hidden md:block h-8 w-px bg-neutral-200" orientation="vertical" />
+					
+					<div className="flex items-center gap-2 w-full md:w-auto">
+						<div className="flex items-center gap-1 text-neutral-500 text-xs">
+							<SlidersHorizontal className="h-3.5 w-3.5" />
+							<span>فیلتر:</span>
+						</div>
+						<div className="flex flex-wrap gap-2 overflow-x-auto max-w-full">
+							{loading ? (
+								Array(3).fill(0).map((_, i) => (
+									<Skeleton key={i} className="h-7 w-16 rounded-md" />
+								))
+							) : (
+								categories.map((cat) => (
+									<Badge 
+										key={cat.id} 
+										variant={selectedCategories.includes(cat.name) ? "default" : "outline"}
+										className="cursor-pointer transition-all hover:opacity-80 rounded-md whitespace-nowrap"
+										onClick={() => {
+											if (selectedCategories.includes(cat.name)) {
+												setSelectedCategories(prev => prev.filter(c => c !== cat.name));
 											} else {
-												setSelectedCategories((prev) => prev.filter((name) => name !== cat.name));
+												setSelectedCategories(prev => [...prev, cat.name]);
 											}
 										}}
-									/>
-									<Label htmlFor={`cat-${cat.id}`} className="text-sm">{cat.name}</Label>
-								</div>
-							))
-						)}
+									>
+										{cat.name}
+									</Badge>
+								))
+							)}
+						</div>
+					</div>
+					
+					<Separator className="hidden md:block h-8 w-px bg-neutral-200" orientation="vertical" />
+					
+					<div className="flex items-center gap-2 ml-auto">
+						<div className="flex items-center gap-1 text-neutral-500 text-xs whitespace-nowrap">
+							<ArrowDownAZ className="h-3.5 w-3.5" />
+							<span>مرتب‌سازی:</span>
+						</div>
+						<Select 
+							value={sortMethod} 
+							onValueChange={setSortMethod}
+							disabled={loading}
+						>
+							<SelectTrigger className="w-[150px] bg-white border-neutral-200 h-9 text-xs">
+								<SelectValue placeholder="مرتب‌سازی" />
+							</SelectTrigger>
+							<SelectContent>
+								<SelectItem value="priceAsc">قیمت: کم به زیاد</SelectItem>
+								<SelectItem value="priceDesc">قیمت: زیاد به کم</SelectItem>
+								<SelectItem value="createdAsc">تاریخ: قدیمی به جدید</SelectItem>
+								<SelectItem value="createdDesc">تاریخ: جدید به قدیمی</SelectItem>
+							</SelectContent>
+						</Select>
 					</div>
 				</div>
-				{/* Sorting Controls */}
-				<div>
-					<Select 
-						value={sortMethod} 
-						onValueChange={setSortMethod}
-						disabled={loading}
-					>
-						<SelectTrigger className="w-[180px]">
-							<SelectValue placeholder="مرتب‌سازی" />
-						</SelectTrigger>
-						<SelectContent>
-							<SelectItem value="priceAsc">قیمت: کم به زیاد</SelectItem>
-							<SelectItem value="priceDesc">قیمت: زیاد به کم</SelectItem>
-							<SelectItem value="createdAsc">تاریخ ساخت: قدیمی به جدید</SelectItem>
-							<SelectItem value="createdDesc">تاریخ ساخت: جدید به قدیمی</SelectItem>
-						</SelectContent>
-					</Select>
-				</div>
-			</div>
+			</Card>
 
-			{/* Products Grid with responsive CSS Grid */}
-			<div
-				className="grid gap-4"
-				style={{
-					gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))",
-				}}
-			>
+			{/* Products Grid */}
+			<div className="flex flex-col gap-6 mt-4 md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
 				{loading ? (
 					// Loading skeleton
 					Array(8).fill(0).map((_, i) => (
-						<div key={i} className="flex flex-col gap-2">
-							<Skeleton className="h-40 w-full" />
-							<Skeleton className="h-6 w-2/3" />
-							<Skeleton className="h-4 w-1/3" />
-							<Skeleton className="h-8 w-1/2" />
-						</div>
+						<ProductCard key={i} skeletonMode={true} product={{} as any} />
 					))
 				) : sortedProducts.length > 0 ? (
 					// Display products
@@ -195,18 +203,18 @@ function ProductsPage() {
 					))
 				) : (
 					// No products found
-					<div className="col-span-full text-center py-8 text-gray-500">
-						محصولی یافت نشد.
+					<div className="col-span-full text-center py-12 text-neutral-500">
+						محصولی با این مشخصات یافت نشد.
 					</div>
 				)}
 			</div>
 
-			<div className="mt-4 text-center">
-				<Button asChild variant="link">
-					<Link href="/">بازگشت به خانه</Link>
-				</Button>
+			<div className="mt-8 text-center">
+				<Link href="/" className="text-primary hover:underline">
+					بازگشت به خانه
+				</Link>
 			</div>
-		</div>
+		</section>
 	);
 }
 

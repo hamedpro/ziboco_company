@@ -252,9 +252,9 @@ export function NewHeader() {
                   <div className="flex flex-col w-[400px] gap-3 p-4">
                     {[
                       { href: "/products", icon: <ShoppingBag className="h-6 w-6 text-white transition-all duration-300 group-hover:translate-y-[-1px]" />, label: "همه محصولات", color: "bg-slate-500" },
-                      { href: "/products/hot", icon: <Sparkles className="h-6 w-6 text-white transition-all duration-300 group-hover:translate-y-[-1px]" />, label: "محصولات پرطرفدار", color: "bg-amber-500" },
-                      { href: "/products/onsale", icon: <Percent className="h-6 w-6 text-white transition-all duration-300 group-hover:translate-y-[-1px]" />, label: "تخفیف دار", color: "bg-red-500" },
-                      { href: "/products/latest", icon: <Sparkles className="h-6 w-6 text-white transition-all duration-300 group-hover:translate-y-[-1px]" />, label: "جدیدترین ها", color: "bg-green-500" },
+                      { href: "/products?filter=hot", icon: <Sparkles className="h-6 w-6 text-white transition-all duration-300 group-hover:translate-y-[-1px]" />, label: "محصولات پرطرفدار", color: "bg-amber-500" },
+                      { href: "/products?filter=onsale", icon: <Percent className="h-6 w-6 text-white transition-all duration-300 group-hover:translate-y-[-1px]" />, label: "تخفیف دار", color: "bg-red-500" },
+                      { href: "/products?filter=latest", icon: <Sparkles className="h-6 w-6 text-white transition-all duration-300 group-hover:translate-y-[-1px]" />, label: "جدیدترین ها", color: "bg-green-500" },
                     ].map((item) => (
                       <Link key={item.href} href={item.href} legacyBehavior passHref>
                         <NavigationMenuLink className="group flex flex-row items-center gap-4 select-none rounded-md bg-gradient-to-r from-muted/50 to-muted p-4 no-underline outline-none transition-all duration-300 hover:rounded-xl">
@@ -394,19 +394,19 @@ export function NewHeader() {
                       همه محصولات
                     </Link>
                     <Link
-                      href="/products/hot"
+                      href="/products?filter=hot"
                       className="text-muted-foreground hover:text-primary"
                     >
                       محصولات پرطرفدار
                     </Link>
                     <Link
-                      href="/products/onsale"
+                      href="/products?filter=onsale"
                       className="text-muted-foreground hover:text-primary"
                     >
                       تخفیف دار
                     </Link>
                     <Link
-                      href="/products/latest"
+                      href="/products?filter=latest"
                       className="text-muted-foreground hover:text-primary"
                     >
                       جدیدترین ها
