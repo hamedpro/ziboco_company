@@ -3,7 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import Layout from "@/components/Layout";
-
+import { NewLayout } from "@/components/NewLayout";
 const vazirmatn = localFont({
   src: "../../public/Vazirmatn/Vazirmatn-VariableFont_wght.ttf",
   weight: "400", // Default weight for the variable font
@@ -11,7 +11,7 @@ const vazirmatn = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "زیب و کو",
+  title: "زیب و کو | طلا نقره کالای لوکس",
   description: "طلا نقره کالای لوکس",
   icons: {
     icon: "/favicon.png",
@@ -26,7 +26,7 @@ export default function RootLayout({
   return (
     <html className={vazirmatn.className}>
       <body>
-        <Layout>{children}</Layout>
+        <NewLayout>{children}</NewLayout>
         <div>
           <Toaster dir="rtl" className={vazirmatn.className} />
         </div>
