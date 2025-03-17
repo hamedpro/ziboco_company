@@ -45,6 +45,49 @@ export default function Wallet() {
 	const [walletData, setWalletData] = useState<WalletData | null>(null);
 	const [transactions, setTransactions] = useState<Transaction[]>([]);
 
+	// Safely format a date string that might be in DD/MM/YYYY format
+	const safelyFormatDate = (dateString: string) => {
+		if (!dateString) return 'تاریخ نامشخص';
+		
+		try {
+			// Check if it's in DD/MM/YYYY format
+			if (dateString.includes('/')) {
+				const parts = dateString.split('/');
+				// Only try to convert if we have 3 parts
+				if (parts.length === 3) {
+					// Try to create a date in YYYY-MM-DD format
+					const formattedDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
+					const date = new Date(formattedDate);
+					
+					// Check if the date is valid
+					if (!isNaN(date.getTime())) {
+						return new Intl.DateTimeFormat('fa-IR', {
+							year: 'numeric',
+							month: 'long',
+							day: 'numeric',
+						}).format(date);
+					}
+				}
+			}
+			
+			// If we can't parse it as DD/MM/YYYY, try direct conversion
+			const date = new Date(dateString);
+			if (!isNaN(date.getTime())) {
+				return new Intl.DateTimeFormat('fa-IR', {
+					year: 'numeric',
+					month: 'long',
+					day: 'numeric',
+				}).format(date);
+			}
+			
+			// If all else fails, return the original string
+			return dateString;
+		} catch (e) {
+			console.error("Error formatting date:", e);
+			return dateString;
+		}
+	};
+
 	const loadData = async () => {
 		try {
 			setLoading(true);
@@ -229,11 +272,7 @@ export default function Wallet() {
 															{transaction.walletType === "Gold" ? "گرم" : "ریال"}
 														</p>
 														<p className="text-xs text-muted-foreground">
-															{new Intl.DateTimeFormat('fa-IR', {
-																year: 'numeric',
-																month: 'long',
-																day: 'numeric',
-															}).format(new Date(transaction.date.split('/').reverse().join('-')))}
+															{safelyFormatDate(transaction.date)}
 														</p>
 													</div>
 												</div>

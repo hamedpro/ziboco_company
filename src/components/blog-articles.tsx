@@ -32,9 +32,13 @@ export function BlogArticles() {
     loadBlogPosts();
   }, []);
 
-  // Format date from timestamp to Persian date
-  const formatPersianDate = (timestamp: number) => {
+  // Safely display date without conversion
+  const safelyDisplayDate = (timestamp: number) => {
+    // If timestamp is valid, try to format it, otherwise return a fallback
+    if (!timestamp) return 'تاریخ نامشخص';
+    
     try {
+      // First try Persian date formatting
       const date = new Date(timestamp * 1000);
       return new Intl.DateTimeFormat('fa-IR', {
         year: 'numeric',
@@ -42,21 +46,37 @@ export function BlogArticles() {
         day: '2-digit',
       }).format(date);
     } catch (e) {
-      return '';
+      // If that fails, just return the timestamp as a string
+      return `${timestamp}`;
     }
   };
 
-  // Format time from createDate string
-  const formatTime = (dateString: string) => {
+  // Safely display time without conversion
+  const safelyDisplayTime = (dateString: string) => {
+    if (!dateString) return 'زمان نامشخص';
+    
     try {
+      // Try to extract time portion if it's a full ISO string
+      if (dateString.includes('T')) {
+        const timePart = dateString.split('T')[1].substring(0, 8);
+        return timePart;
+      }
+      
+      // Try to format as time
       const date = new Date(dateString);
+      if (isNaN(date.getTime())) {
+        // If invalid date, return the string directly
+        return dateString;
+      }
+      
       return date.toLocaleTimeString('fa-IR', {
         hour: '2-digit',
         minute: '2-digit',
         second: '2-digit'
       });
     } catch (e) {
-      return '';
+      // If all else fails, return the string directly
+      return dateString;
     }
   };
 
@@ -136,14 +156,14 @@ export function BlogArticles() {
                         <path d="M8 5.75c-.41 0-.75-.34-.75-.75V2c0-.41.34-.75.75-.75s.75.34.75.75v3c0 .41-.34.75-.75.75ZM16 5.75c-.41 0-.75-.34-.75-.75V2c0-.41.34-.75.75-.75s.75.34.75.75v3c0 .41-.34.75-.75.75ZM8.5 14.498c-.13 0-.26-.03-.38-.08-.13-.05-.23-.12-.33-.21-.18-.19-.29-.44-.29-.71 0-.13.03-.26.08-.38s.12-.23.21-.33c.1-.09.2-.16.33-.21.36-.15.81-.07 1.09.21.18.19.29.45.29.71 0 .06-.01.13-.02.2-.01.06-.03.12-.06.18-.02.06-.05.12-.09.18-.03.05-.08.1-.12.15-.19.18-.45.29-.71.29ZM12 14.499c-.13 0-.26-.03-.38-.08-.13-.05-.23-.12-.33-.21-.18-.19-.29-.44-.29-.71 0-.13.03-.26.08-.38s.12-.23.21-.33c.1-.09.2-.16.33-.21.36-.16.81-.07 1.09.21.18.19.29.45.29.71 0 .06-.01.13-.02.2-.01.06-.03.12-.06.18-.02.06-.05.12-.09.18-.03.05-.08.1-.12.15-.19.18-.45.29-.71.29ZM15.5 14.499c-.13 0-.26-.03-.38-.08-.13-.05-.23-.12-.33-.21l-.12-.15a.757.757 0 0 1-.09-.18.636.636 0 0 1-.06-.18c-.01-.07-.02-.14-.02-.2 0-.26.11-.52.29-.71.1-.09.2-.16.33-.21.37-.16.81-.07 1.09.21.18.19.29.45.29.71 0 .06-.01.13-.02.2-.01.06-.03.12-.06.18-.02.06-.05.12-.09.18-.03.05-.08.1-.12.15-.19.18-.45.29-.71.29ZM8.5 18c-.13 0-.26-.03-.38-.08s-.23-.12-.33-.21c-.18-.19-.29-.45-.29-.71 0-.13.03-.26.08-.38.05-.13.12-.24.21-.33.37-.37 1.05-.37 1.42 0 .18.19.29.45.29.71 0 .26-.11.52-.29.71-.19.18-.45.29-.71.29ZM12 18c-.26 0-.52-.11-.71-.29-.18-.19-.29-.45-.29-.71 0-.13.03-.26.08-.38.05-.13.12-.24.21-.33.37-.37 1.05-.37 1.42 0 .09.09.16.2.21.33.05.12.08.25.08.38 0 .26-.11.52-.29.71-.19.18-.45.29-.71.29ZM15.5 18c-.26 0-.52-.11-.71-.29a.933.933 0 0 1-.21-.33.995.995 0 0 1-.08-.38c0-.13.03-.26.08-.38.05-.13.12-.24.21-.33.23-.23.58-.34.9-.27.07.01.13.03.19.06.06.02.12.05.18.09.05.03.1.08.15.12.18.19.29.45.29.71 0 .26-.11.52-.29.71-.19.18-.45.29-.71.29ZM20.5 9.84h-17c-.41 0-.75-.34-.75-.75s.34-.75.75-.75h17c.41 0 .75.34.75.75s-.34.75-.75.75Z" fill="currentColor"></path>
                         <path d="M16 22.75H8c-3.65 0-5.75-2.1-5.75-5.75V8.5c0-3.65 2.1-5.75 5.75-5.75h8c3.65 0 5.75 2.1 5.75 5.75V17c0 3.65-2.1 5.75-5.75 5.75ZM8 4.25c-2.86 0-4.25 1.39-4.25 4.25V17c0 2.86 1.39 4.25 4.25 4.25h8c2.86 0 4.25-1.39 4.25-4.25V8.5c0-2.86-1.39-4.25-4.25-4.25H8Z" fill="currentColor"></path>
                       </svg>
-                      {formatPersianDate(article.date)}
+                      {safelyDisplayDate(article.date)}
                     </div>
                     <div className="flex items-center gap-1">
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none">
                         <path d="M12 22.75C6.07 22.75 1.25 17.93 1.25 12S6.07 1.25 12 1.25 22.75 6.07 22.75 12 17.93 22.75 12 22.75Zm0-20C6.9 2.75 2.75 6.9 2.75 12S6.9 21.25 12 21.25s9.25-4.15 9.25-9.25S17.1 2.75 12 2.75Z" fill="currentColor"></path>
                         <path d="M15.71 15.932a.67.67 0 0 1-.38-.11l-3.1-1.85c-.77-.46-1.34-1.47-1.34-2.36v-4.1c0-.41.34-.75.75-.75s.75.34.75.75v4.1c0 .36.3.89.61 1.07l3.1 1.85c.36.21.47.67.26 1.03a.77.77 0 0 1-.65.37Z" fill="currentColor"></path>
                       </svg>
-                      {formatTime(article.createDate)}
+                      {safelyDisplayTime(article.createDate)}
                     </div>
                   </div>
                 </div>
