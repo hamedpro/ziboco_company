@@ -6,17 +6,18 @@ import NewsViews from "@/components/news-views";
 import { Introduction } from "@/components/Introduction";
 import TabbedContent from "@/components/tabbed-content/TabbedContent";
 import { Hero } from "@/components/Hero";
+import PriceTickerCards from "@/components/price-ticker-cards";
+import { ServicesWidget } from "@/components/services-widget";
+import { BlogArticles } from "@/components/blog-articles";
 
 export default function Home() {
   return (
     <>
-      {/* <BreadCrumb className="px-4" /> */}
       <Hero /> 
+      <PriceTickerCards />
       <Introduction />
-      <PopularCategories />
-      <TabbedContent />
-      <NewsViews />
-      <FeaturedProducts />
+      <ServicesWidget />
+      <BlogArticles />
     </>
   );
 }
