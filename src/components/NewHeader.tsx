@@ -18,6 +18,8 @@ import {
   ExternalLink,
   ChevronRight,
   SquareChevronRight,
+  Moon,
+  Sun,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -46,6 +48,13 @@ import axios from "axios";
 import { API_BASE_URL } from "../../configs";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
+import { useTheme } from "next-themes";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 // Path to Persian title mapping
 const pathToBreadcrumb: Record<string, string> = {
   "": "صفحه اصلی",
@@ -79,6 +88,7 @@ export function NewHeader() {
   >("loading");
   const pathname = usePathname();
   const [showDebug, setShowDebug] = useState(false);
+  const { theme, setTheme } = useTheme();
 
   // Toggle debug mode with Ctrl+Shift+D
   useEffect(() => {
@@ -322,6 +332,34 @@ export function NewHeader() {
         </div>
 
         <div className="flex items-center gap-3">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <div className="relative h-11 w-11 rounded-full bg-gradient-to-tr from-muted/30 to-muted/50 hover:from-muted/40 hover:to-muted/60 transition-all duration-300 cursor-pointer shadow-sm hover:shadow transform hover:scale-105">
+                <div className="absolute inset-0 bg-primary/10 rounded-full opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
+                  <span className="absolute inset-0 bg-gradient-to-tr from-yellow-200/20 to-yellow-100/5 dark:opacity-0 opacity-100 transition-opacity duration-500 rounded-full"></span>
+                  <span className="absolute inset-0 bg-gradient-to-tr from-blue-900/20 to-indigo-900/10 opacity-0 dark:opacity-100 transition-opacity duration-500 rounded-full"></span>
+                  <Sun className="h-[22px] w-[22px] absolute text-amber-500 transition-all duration-500 dark:rotate-45 dark:scale-0 dark:opacity-0 scale-100 opacity-100 rotate-0" />
+                  <Moon className="h-[22px] w-[22px] absolute text-indigo-300 transition-all duration-500 -rotate-45 scale-0 opacity-0 dark:scale-100 dark:opacity-100 dark:rotate-0" />
+                </div>
+              </div>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="rounded-xl border-muted/30 shadow-lg">
+              <DropdownMenuItem onClick={() => setTheme("light")} className="gap-2 cursor-pointer">
+                <Sun className="h-4 w-4 text-amber-500" />
+                روشن
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setTheme("dark")} className="gap-2 cursor-pointer">
+                <Moon className="h-4 w-4 text-indigo-300" />
+                تیره
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setTheme("system")} className="gap-2 cursor-pointer">
+                <ExternalLink className="h-4 w-4" />
+                سیستم
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
           <Link href="/basket" className="relative group">
             <div className="absolute inset-0 bg-primary/10 rounded-full scale-0 transition-transform duration-200 group-hover:scale-100"></div>
             <div className="relative p-2.5 rounded-full bg-muted/30 hover:bg-muted/70 transition-colors">
@@ -455,6 +493,34 @@ export function NewHeader() {
               </div>
             </SheetContent>
           </Sheet>
+
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <div className="relative h-11 w-11 rounded-full bg-gradient-to-tr from-muted/30 to-muted/50 hover:from-muted/40 hover:to-muted/60 transition-all duration-300 cursor-pointer shadow-sm hover:shadow transform hover:scale-105">
+                <div className="absolute inset-0 bg-primary/10 rounded-full opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
+                  <span className="absolute inset-0 bg-gradient-to-tr from-yellow-200/20 to-yellow-100/5 dark:opacity-0 opacity-100 transition-opacity duration-500 rounded-full"></span>
+                  <span className="absolute inset-0 bg-gradient-to-tr from-blue-900/20 to-indigo-900/10 opacity-0 dark:opacity-100 transition-opacity duration-500 rounded-full"></span>
+                  <Sun className="h-[22px] w-[22px] absolute text-amber-500 transition-all duration-500 dark:rotate-45 dark:scale-0 dark:opacity-0 scale-100 opacity-100 rotate-0" />
+                  <Moon className="h-[22px] w-[22px] absolute text-indigo-300 transition-all duration-500 -rotate-45 scale-0 opacity-0 dark:scale-100 dark:opacity-100 dark:rotate-0" />
+                </div>
+              </div>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="rounded-xl border-muted/30 shadow-lg">
+              <DropdownMenuItem onClick={() => setTheme("light")} className="gap-2 cursor-pointer">
+                <Sun className="h-4 w-4 text-amber-500" />
+                روشن
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setTheme("dark")} className="gap-2 cursor-pointer">
+                <Moon className="h-4 w-4 text-indigo-300" />
+                تیره
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setTheme("system")} className="gap-2 cursor-pointer">
+                <ExternalLink className="h-4 w-4" />
+                سیستم
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
 
           {authStatus === "loading" ? (
             <div className="relative p-2.5 rounded-full bg-muted/30">

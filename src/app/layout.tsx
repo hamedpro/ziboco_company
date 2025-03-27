@@ -4,6 +4,8 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import Layout from "@/components/Layout";
 import { NewLayout } from "@/components/NewLayout";
+import { ThemeProvider } from "@/components/theme-provider";
+
 const vazirmatn = localFont({
   src: "../../public/Vazirmatn/Vazirmatn-VariableFont_wght.ttf",
   weight: "400", // Default weight for the variable font
@@ -24,12 +26,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html className={vazirmatn.className}>
+    <html className={vazirmatn.className} suppressHydrationWarning>
       <body>
-        <NewLayout>{children}</NewLayout>
-        <div>
-          <Toaster dir="rtl" className={vazirmatn.className} />
-        </div>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <NewLayout>{children}</NewLayout>
+          <div>
+            <Toaster dir="rtl" className={vazirmatn.className} />
+          </div>
+        </ThemeProvider>
       </body>
     </html>
   );
