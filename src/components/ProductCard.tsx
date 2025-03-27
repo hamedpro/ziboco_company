@@ -1,9 +1,10 @@
 "use client";
 
-import Image from "next/image";
 import { getPersianValue } from "@/lib/utils";
 import { DEFAULT_IMAGE } from "./fakeData";
 import { useRouter } from "next/navigation";
+import { LazyImage } from "./ui/lazy-image";
+import { ImageOff } from "lucide-react";
 
 interface Product {
 	id: string | number;
@@ -71,16 +72,23 @@ const ProductCard: React.FC<ProductCardProps> = ({
 			</div>
 			<div className="w-full rounded-[16px] bg-neutral-100 h-60 flex justify-center items-center mt-4 relative">
 				{product.onSale && (
-					<div className="h-7 flex justify-center items-center text-xs rounded-[6px] px-2 bg-red-100 text-red-600 absolute top-3 left-3">
+					<div className="h-7 flex justify-center items-center text-xs rounded-[6px] px-2 bg-red-100 text-red-600 absolute top-3 left-3 z-10">
 						تخفیف ویژه
 					</div>
 				)}
-				<Image
+				<LazyImage
 					src={product.image || DEFAULT_IMAGE}
 					alt={product.title}
 					width={80}
 					height={120}
 					className="w-20 object-contain"
+					wrapperClassName="w-full h-full flex justify-center items-center"
+					fallback={
+						<div className="flex flex-col items-center justify-center text-neutral-400">
+							<ImageOff className="h-10 w-10 mb-1" />
+							<span className="text-xs">تصویر موجود نیست</span>
+						</div>
+					}
 				/>
 			</div>
 		</div>

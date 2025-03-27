@@ -9,11 +9,13 @@ import { Hero } from "@/components/Hero";
 import PriceTickerCards from "@/components/price-ticker-cards";
 import { ServicesWidget } from "@/components/services-widget";
 import { BlogArticles } from "@/components/blog-articles";
+import { HeroSlider } from "@/components/HeroSlider";
 
 export default function Home() {
   return (
     <>
       <Hero /> 
+      <HeroSlider />
       <PriceTickerCards />
       <Introduction />
       <ServicesWidget />
