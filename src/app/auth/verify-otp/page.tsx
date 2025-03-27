@@ -52,7 +52,7 @@ function VerifyOTP() {
 			}
 			// setJwtCookie(token);
 			localStorage.setItem("accessToken", token);
-			router.push("/profile");
+			window.location.assign("/profile");
 		} catch (error) {
 			toast.error("خطای ناشناخته", {
 				description:
