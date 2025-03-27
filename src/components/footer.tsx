@@ -1,244 +1,170 @@
-import Image from "next/image"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import {
-	Facebook,
-	Youtube,
-	Twitter,
-	Instagram,
-	Linkedin,
-	ArrowRight,
-	ArrowLeft,
-} from "lucide-react";
-import { DEFAULT_IMAGE } from "./fakeData";
+import React from "react";
+import Link from "next/link";
+import { Separator } from "@/components/ui/separator";
+import { IconBrandInstagram, IconBrandTelegram, IconBrandWhatsapp, IconBrandYoutube, IconBrandLinkedin, IconMapPin, IconPhone, IconMail, IconShield, IconCertificate, IconTrophy } from "@tabler/icons-react";
+import LogoGrid from "./LogoGrid";
 
-const footerLinks = {
-	resources: {
-		title: "منابع",
-		links: [
-			{ name: "اخبار طلا و نقره", href: "#" },
-			{ name: "خلاصه هفتگی بازار (پادکست)", href: "#" },
-			{ name: "مرکز آموزش", href: "#" },
-			{ name: "سوالات متداول", href: "#" },
-			{ name: "خبرنامه فصلی", href: "#" },
-			{ name: "فروش طلا و نقره", href: "#" },
-			{ name: "دایرکتوری محلی", href: "#" },
-			{ name: "ایمیل‌های لیست سفید", href: "#" },
-		],
-	},
-	company: {
-		title: "شرکت",
-		links: [
-			{ name: "درباره ما", href: "#" },
-			{ name: "تماس با ما", href: "#" },
-			{ name: "نظرات شرکت", href: "#" },
-			{ name: "سیاست حریم خصوصی", href: "#" },
-			{ name: "سیاست عدم افشا", href: "#" },
-			{ name: "تحویل و مرجوعی", href: "#" },
-			{ name: "شرایط استفاده و افشای قانونی", href: "#" },
-		],
-	},
-	/* programs: {
-    title: "برنامه‌ها",
-    links: [
-      { name: "سپرده‌گذاری", href: "#" },
-      { name: "طرح ماهانه", href: "#" },
-      { name: "وام‌های با وثیقه", href: "#" },
-      { name: "IRA خود مدیریتی", href: "#" },
-      { name: "بورسیه طلا", href: "#" },
-      { name: "برنامه معرفی", href: "#" },
-      { name: "تبدیل شدن به نماینده", href: "#" },
-    ],
-  },
-  learn: {
-    title: "بیشتر بدانید",
-    links: [
-      { name: "قیمت طلا", href: "#" },
-      { name: "قیمت نقره", href: "#" },
-      { name: "قیمت پلاتین", href: "#" },
-      { name: "قیمت پالادیوم", href: "#" },
-      { name: "قیمت‌های مس", href: "#" },
-      { name: "قیمت رودیوم", href: "#" },
-      { name: "قیمت‌های ارز دیجیتال", href: "#" },
-    ],
-  }, */
-};
-
-const socialLinks = [
-	{ Icon: Facebook, href: "#" },
-	{ Icon: Youtube, href: "#" },
-	{ Icon: Twitter, href: "#" },
-	{ Icon: Instagram, href: "#" },
-	{ Icon: Linkedin, href: "#" },
-];
-
-export default function Footer() {
-	return (
-		<footer
-			className="bg-[#2851A3] text-white"
-			dir="rtl"
-		>
-			<div className="max-w-7xl mx-auto px-4 py-16">
-				{/* Newsletter Section - Full Width on Mobile */}
-				<div className="mb-16 lg:mb-20 max-w-xl">
-					<h2 className="text-2xl font-bold mb-2">
-						عضویت در خبرنامه
-					</h2>
-					<p className="text-blue-100 mb-4">
-						از آخرین قیمت‌ها، تحلیل‌ها و اخبار بازار طلا و ارز مطلع
-						شوید
-					</p>
-					<form className="flex gap-2">
-						<Input
-							type="email"
-							placeholder="ایمیل خود را وارد کنید"
-							className="bg-white/10 border-white/20 text-white placeholder:text-white/50 focus:bg-white/20"
-						/>
-						<Button
-							type="submit"
-							className="bg-orange-500 hover:bg-orange-600 whitespace-nowrap"
-						>
-							ثبت‌نام
-							<ArrowLeft className="mr-2 h-4 w-4" />
-						</Button>
-					</form>
-				</div>
-
-				{/* Main Footer Grid */}
-				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8 lg:gap-12 mb-16">
-					{/* Contact Section */}
-					<div className="lg:col-span-2 space-y-8">
-						<div>
-							<Image
-								src="/gold_and_white_ziboko.png"
-								alt="زیبوکو"
-								width={150}
-								height={50}
-								className="mb-6"
-							/>
-							<p className="text-blue-100 text-sm leading-relaxed mb-4">
-								زیبوکو، پیشرو در ارائه خدمات خرید و فروش طلا و
-								جواهر با بیش از یک دهه تجربه درخشان
-							</p>
-						</div>
-
-						<div>
-							<h3 className="text-lg font-bold mb-2">
-								مشاوره رایگان
-							</h3>
-							<a
-								href="tel:02112345678"
-								className="text-2xl lg:text-3xl font-bold hover:text-blue-200 transition-colors"
-							>
-								۰۲۱-۲۳۴۵۶۷۸۹
-							</a>
-							<p className="text-blue-200 text-sm mt-1">
-								شنبه تا پنجشنبه ۹ صبح تا ۵ عصر
-							</p>
-						</div>
-
-						<div className="space-y-4">
-							<h4 className="font-bold">ما را دنبال کنید</h4>
-							<div className="flex gap-4">
-								{socialLinks.map(({ Icon, href }, index) => (
-									<a
-										key={index}
-										href={href}
-										className="bg-white/10 p-2 rounded-lg hover:bg-white/20 transition-colors"
-										aria-label={`Follow us on ${Icon.name}`}
-									>
-										<Icon className="w-5 h-5" />
-									</a>
-								))}
-							</div>
-						</div>
-					</div>
-
-					{/* Links Sections */}
-					{Object.entries(footerLinks).map(([key, section]) => (
-						<div
-							key={key}
-							className="space-y-4"
-						>
-							<h3 className="font-bold text-lg">
-								{section.title}
-							</h3>
-							<ul className="space-y-3">
-								{section.links.map((link) => (
-									<li key={link.name}>
-										<a
-											href={link.href}
-											className="text-blue-100 hover:text-white transition-colors inline-flex items-center group"
-										>
-											<span className="opacity-0 -mr-4 group-hover:mr-1 group-hover:opacity-100 transition-all">
-												<ArrowRight className="h-3 w-3" />
-											</span>
-											{link.name}
-										</a>
-									</li>
-								))}
-							</ul>
-						</div>
-					))}
-				</div>
-
-				{/* Trust Badges */}
-				<div className="border-t border-blue-400/30 pt-8">
-					<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6 items-center justify-items-center mb-12">
-						{[1, 2, 3, 4, 5].map((i) => (
-							<div
-								key={i}
-								className="bg-white/10 rounded-lg p-4 w-full max-w-[160px] aspect-[3/2] flex items-center justify-center"
-							>
-								<Image
-									src={DEFAULT_IMAGE}
-									alt={`Trust Badge ${i}`}
-									width={100}
-									height={50}
-									className="object-contain opacity-90"
-								/>
-							</div>
-						))}
-					</div>
-
-					{/* Copyright and Legal */}
-					<div className="text-sm text-blue-100 space-y-6">
-						<div className="grid gap-4 text-center">
-							<p>© ۱۴۰۲ زیبوکو. تمامی حقوق محفوظ است.</p>
-							<p className="max-w-3xl mx-auto">
-								استفاده از مطالب سایت زیبوکو فقط برای مقاصد
-								غیرتجاری و با ذکر منبع بلامانع است. کلیه حقوق
-								این سایت متعلق به شرکت زیبوکو می‌باشد.
-							</p>
-						</div>
-
-						{/* Payment Methods */}
-						<div className="flex flex-wrap justify-center gap-4">
-							{[
-								"visa",
-								"mastercard",
-								"amex",
-								"discover",
-								"paypal",
-							].map((payment) => (
-								<div
-									key={payment}
-									className="bg-white/10 p-2 rounded-lg"
-								>
-									<Image
-										src={DEFAULT_IMAGE}
-										alt={payment}
-										width={40}
-										height={25}
-										className="object-contain opacity-75"
-									/>
-								</div>
-							))}
-						</div>
-					</div>
-				</div>
-			</div>
-		</footer>
-	);
+export function Footer() {
+  return (
+    <div className="w-full border-t-[1px] border-neutral-200 pt-12 pb-8 lg:pt-16 lg:pb-12 dir-rtl" dir="rtl">
+      <div className="container mx-auto px-4">
+        <div className="lg:flex lg:gap-6">
+          <div className="md:flex md:gap-6 lg:w-1/2">
+            <div className="md:w-1/3 md:border-l-[1px] border-l-neutral-200 pr-4">
+              <h3 className="text-xl lg:text-2xl font-semibold text-neutral-900 mb-6">دسترسی سریع</h3>
+              <div className="space-y-4">
+                <Link className="flex gap-2 items-center text-base hover:text-primary-golden transition-colors" href="/">
+                  <div className="w-[10px] h-[10px] border-[2px] border-primary-golden-tint rounded-full"></div>
+                  <span className="text-neutral-700">صفحه اصلی</span>
+                </Link>
+                <Link className="flex gap-2 items-center text-base hover:text-primary-golden transition-colors" href="/products">
+                  <div className="w-[10px] h-[10px] border-[2px] border-primary-golden-tint rounded-full"></div>
+                  <span className="text-neutral-700">محصولات ما</span>
+                </Link>
+                <Link className="flex gap-2 items-center text-base hover:text-primary-golden transition-colors" href="/investment">
+                  <div className="w-[10px] h-[10px] border-[2px] border-primary-golden-tint rounded-full"></div>
+                  <span className="text-neutral-700">سرمایه‌گذاری</span>
+                </Link>
+                <Link className="flex gap-2 items-center text-base hover:text-primary-golden transition-colors" href="/blog">
+                  <div className="w-[10px] h-[10px] border-[2px] border-primary-golden-tint rounded-full"></div>
+                  <span className="text-neutral-700">مجله تخصصی</span>
+                </Link>
+                <Link className="flex gap-2 items-center text-base hover:text-primary-golden transition-colors" href="/privacy">
+                  <div className="w-[10px] h-[10px] border-[2px] border-primary-golden-tint rounded-full"></div>
+                  <span className="text-neutral-700">قوانین و مقررات</span>
+                </Link>
+                <Link className="flex gap-2 items-center text-base hover:text-primary-golden transition-colors" href="/representation-request">
+                  <div className="w-[10px] h-[10px] border-[2px] border-primary-golden-tint rounded-full"></div>
+                  <span className="text-neutral-700">درخواست نمایندگی</span>
+                </Link>
+                <Link className="flex gap-2 items-center text-base hover:text-primary-golden transition-colors" href="/about-us">
+                  <div className="w-[10px] h-[10px] border-[2px] border-primary-golden-tint rounded-full"></div>
+                  <span className="text-neutral-700">درباره ما</span>
+                </Link>
+              </div>
+            </div>
+            <div className="mt-10 md:mt-0 md:w-2/3 lg:border-l-[1px] lg:border-l-neutral-200 lg:pl-10 lg:pr-6">
+              <h3 className="text-xl lg:text-2xl font-semibold text-neutral-900 mb-6">تماس با زیبوکو</h3>
+              <div className="space-y-4">
+                <div className="flex gap-3 items-center">
+                  <div className="p-2 rounded-full bg-primary-golden/10 text-primary-golden">
+                    <IconMapPin size={18} />
+                  </div>
+                  <div>
+                    <p className="text-base font-medium text-neutral-800">دفتر مرکزی:</p>
+                    <p className="text-sm text-neutral-700">تهران، خیابان ولیعصر، برج زیبوکو، طبقه 12، واحد 1204</p>
+                  </div>
+                </div>
+                <div className="flex gap-3 items-center">
+                  <div className="p-2 rounded-full bg-primary-golden/10 text-primary-golden">
+                    <IconPhone size={18} />
+                  </div>
+                  <div>
+                    <p className="text-base font-medium text-neutral-800">شماره تماس:</p>
+                    <p className="text-sm text-neutral-700 font-medium" dir="ltr">021-88776655 (10 خط)</p>
+                  </div>
+                </div>
+                <div className="flex gap-3 items-center">
+                  <div className="p-2 rounded-full bg-primary-golden/10 text-primary-golden">
+                    <IconMail size={18} />
+                  </div>
+                  <div>
+                    <p className="text-base font-medium text-neutral-800">ایمیل:</p>
+                    <p className="text-sm text-neutral-700 font-medium" dir="ltr">info@ziboco.com</p>
+                  </div>
+                </div>
+                <div className="pt-4">
+                  <div className="flex items-center gap-3 flex-wrap">
+                    <div className="flex items-center gap-1 bg-primary-golden/5 px-3 py-1.5 rounded-full">
+                      <IconShield size={16} className="text-primary-golden" />
+                      <span className="text-xs font-medium">ضمانت اصالت کالا</span>
+                    </div>
+                    <div className="flex items-center gap-1 bg-primary-golden/5 px-3 py-1.5 rounded-full">
+                      <IconCertificate size={16} className="text-primary-golden" />
+                      <span className="text-xs font-medium">دارای مجوز رسمی</span>
+                    </div>
+                    <div className="flex items-center gap-1 bg-primary-golden/5 px-3 py-1.5 rounded-full">
+                      <IconTrophy size={16} className="text-primary-golden" />
+                      <span className="text-xs font-medium">برند برتر سال 1402</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="mt-10 lg:mt-0 lg:w-1/2 lg:pr-6">
+            <h3 className="text-xl lg:text-2xl font-semibold text-neutral-900 mb-6">درباره زیبوکو</h3>
+            <p className="text-base text-neutral-700 leading-[170%] text-justify">
+              زیبوکو به عنوان پیشگام در عرصه سرمایه‌گذاری طلا و فلزات گرانبها، از سال 1394 فعالیت خود را آغاز کرده است. ما با بیش از یک دهه تجربه در بازارهای مالی، بستری امن و شفاف برای خرید، فروش و سرمایه‌گذاری در طلا، نقره و سایر فلزات ارزشمند فراهم کرده‌ایم.
+            </p>
+            <p className="text-base text-neutral-700 leading-[170%] text-justify mt-4">
+              مجموعه زیبوکو با اتکا به تیم متخصص و حرفه‌ای، همواره به دنبال ارائه خدمات نوآورانه و متمایز بوده است. با استفاده از فناوری‌های پیشرفته، تمامی فرآیندهای خرید، فروش و نگهداری در امن‌ترین شرایط انجام می‌شود. محصولات ما دارای گواهی اصالت و ضمانتنامه رسمی هستند.
+            </p>
+            <div className="flex items-center gap-4 mt-6">
+              <div className="border border-primary-golden/30 rounded p-3 flex flex-col items-center justify-center w-24 h-24">
+                <p className="text-lg font-bold text-primary-golden">+۲۵,۰۰۰</p>
+                <p className="text-xs text-neutral-600 text-center mt-1">مشتری فعال</p>
+              </div>
+              <div className="border border-primary-golden/30 rounded p-3 flex flex-col items-center justify-center w-24 h-24">
+                <p className="text-lg font-bold text-primary-golden">۹ سال</p>
+                <p className="text-xs text-neutral-600 text-center mt-1">سابقه فعالیت</p>
+              </div>
+              <div className="border border-primary-golden/30 rounded p-3 flex flex-col items-center justify-center w-24 h-24">
+                <p className="text-lg font-bold text-primary-golden">۱۰۰٪</p>
+                <p className="text-xs text-neutral-600 text-center mt-1">تضمین کیفیت</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        {/* Logo Grid Section */}
+        <div className="mt-12">
+          <LogoGrid />
+        </div>
+        
+        <div className="mt-8 mb-8 rounded-lg overflow-hidden">
+          <div className="bg-gradient-to-l from-primary-golden/10 via-primary-golden/30 to-primary-golden/10 py-5 px-6">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+              <h3 className="text-lg font-semibold text-neutral-800 flex items-center">
+                <span className="ml-2">ما را در شبکه های اجتماعی دنبال کنید</span>
+                <span className="h-[1px] w-10 bg-primary-golden/50 hidden md:block"></span>
+              </h3>
+              <div className="flex items-center gap-3">
+                <Link href="#" className="p-2.5 rounded-full bg-white hover:bg-white/90 transition-all hover:shadow-md text-primary-golden hover:scale-105 duration-300">
+                  <IconBrandInstagram size={20} stroke={1.5} />
+                </Link>
+                <Link href="#" className="p-2.5 rounded-full bg-white hover:bg-white/90 transition-all hover:shadow-md text-primary-golden hover:scale-105 duration-300">
+                  <IconBrandTelegram size={20} stroke={1.5} />
+                </Link>
+                <Link href="#" className="p-2.5 rounded-full bg-white hover:bg-white/90 transition-all hover:shadow-md text-primary-golden hover:scale-105 duration-300">
+                  <IconBrandWhatsapp size={20} stroke={1.5} />
+                </Link>
+                <Link href="#" className="p-2.5 rounded-full bg-white hover:bg-white/90 transition-all hover:shadow-md text-primary-golden hover:scale-105 duration-300">
+                  <IconBrandYoutube size={20} stroke={1.5} />
+                </Link>
+                <Link href="#" className="p-2.5 rounded-full bg-white hover:bg-white/90 transition-all hover:shadow-md text-primary-golden hover:scale-105 duration-300">
+                  <IconBrandLinkedin size={20} stroke={1.5} />
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <Separator className="my-8 bg-neutral-200" />
+        
+        <div className="flex flex-col md:flex-row justify-between items-center text-sm text-neutral-500">
+          <p>© تمامی حقوق برای شرکت زیبوکو محفوظ است - {new Date().getFullYear()}</p>
+          <div className="flex items-center gap-4 mt-4 md:mt-0">
+            <Link href="/privacy" className="hover:text-primary-golden transition-colors">حریم خصوصی</Link>
+            <span className="w-1 h-1 bg-neutral-400 rounded-full"></span>
+            <Link href="/terms" className="hover:text-primary-golden transition-colors">شرایط استفاده</Link>
+            <span className="w-1 h-1 bg-neutral-400 rounded-full"></span>
+            <Link href="/faq" className="hover:text-primary-golden transition-colors">سوالات متداول</Link>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
 
+export default Footer;
