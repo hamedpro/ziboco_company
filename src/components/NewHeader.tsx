@@ -95,6 +95,9 @@ export function NewHeader() {
   // Generate breadcrumb items based on current path
   const getBreadcrumbs = () => {
     if (!pathname || pathname === "/") return [];
+    
+    // Skip breadcrumbs for auth pages
+    if (pathname.startsWith("/auth")) return [];
 
     // Remove leading slash and split path segments
     const segments = pathname.substring(1).split("/");
