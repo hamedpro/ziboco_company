@@ -10,6 +10,9 @@ import { API_BASE_URL } from "../../../configs";
 import { Loader } from "@/components/Loader";
 import { IconInfoOctagon } from "@tabler/icons-react";
 import SessionExpiredPopup from "@/components/SessionExpiredPopup";
+import { LogOut, Loader2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 
 export type serverProfileData = {
 	name: string | null;
@@ -19,6 +22,51 @@ export type serverProfileData = {
 	cellNumber: string;
 	referralCode: string;
 };
+
+function LogoutCard() {
+	const [isLoggingOut, setIsLoggingOut] = useState(false);
+
+	const handleLogout = async () => {
+		setIsLoggingOut(true);
+		
+		// Simulate a delay for the animation
+		await new Promise(resolve => setTimeout(resolve, 1500));
+		
+		localStorage.removeItem("accessToken");
+		window.location.assign("/auth/entry");
+	};
+
+	return (
+		<Card className="w-full shadow-md border-blue-200 hover:shadow-lg transition-all duration-300">
+			<CardHeader className="pb-2">
+				<CardTitle className="text-lg font-bold text-primary text-right">خروج از حساب کاربری</CardTitle>
+				<CardDescription className="text-sm text-right">
+					برای خروج از حساب کاربری خود، دکمه زیر را انتخاب کنید
+				</CardDescription>
+			</CardHeader>
+			<CardFooter className="pt-4" dir="rtl">
+				<Button 
+					variant="destructive" 
+					className="w-full flex items-center justify-center gap-2 flex-row-reverse h-11"
+					onClick={handleLogout}
+					disabled={isLoggingOut}
+				>
+					{isLoggingOut ? (
+						<>
+							<Loader2 className="w-5 h-5 animate-spin" />
+							<span>در حال خروج...</span>
+						</>
+					) : (
+						<>
+							<LogOut className="w-5 h-5" />
+							<span>خروج از حساب</span>
+						</>
+					)}
+				</Button>
+			</CardFooter>
+		</Card>
+	);
+}
 
 export default function Profile() {
 	let [profileData, setProfileData] = useState<
@@ -94,6 +142,7 @@ export default function Profile() {
 				<InviteFriendsCard
 					{...{ profileData: profileData as serverProfileData }}
 				/>
+				<LogoutCard />
 			</div>
 			{/* <ProfileAccordions /> */}
 			<SessionExpiredPopup isOpen={showSessionExpired} />
