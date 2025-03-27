@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { Loader2, X, Plus, Minus, ShoppingBag, ArrowLeft } from "lucide-react";
+import { Loader2, X, Plus, Minus, ShoppingBag, ArrowRight, KeyRound, ArrowLeft } from "lucide-react";
 import { 
   fetchBasket, 
   fetchDeleteCartItem, 
@@ -25,6 +25,8 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { useRouter } from "next/navigation";
 
 type ProcessingAction = {
   productId: string;
@@ -38,6 +40,8 @@ function BasketPage() {
   const [products, setProducts] = useState<Record<string, any>>({});
   const [showComingSoon, setShowComingSoon] = useState(false);
   const [processingActions, setProcessingActions] = useState<ProcessingAction[]>([]);
+  const [showLoginRequired, setShowLoginRequired] = useState(false);
+  const router = useRouter();
 
   const isProcessing = (productId: string) => processingActions.some(item => item.productId === productId);
   const isActionProcessing = (productId: string, action: 'delete' | 'increment' | 'decrement') => 
@@ -59,9 +63,17 @@ function BasketPage() {
       // Then load basket
       const basket = await fetchBasket();
       setBasketItems(basket);
-    } catch (err) {
-      setError("خطا در دریافت اطلاعات");
-      console.error("Error loading data:", err);
+    } catch (err: any) {
+      // Check for 401 unauthorized error - handle both axios and regular error formats
+      if (
+        (err.response && err.response.status === 401) || 
+        (err.message && err.message.includes("401"))
+      ) {
+        setShowLoginRequired(true);
+      } else {
+        setError("خطا در دریافت اطلاعات");
+        console.error("Error loading data:", err);
+      }
     } finally {
       setLoading(false);
     }
@@ -113,9 +125,40 @@ function BasketPage() {
     }
   };
 
+  const handleLogin = () => {
+    router.push("/auth/entry?mode=login");
+  };
+
   useEffect(() => {
     loadData();
   }, []);
+
+  if (showLoginRequired) {
+    return (
+      <section className="bg-neutral-100 min-h-screen" dir="rtl">
+        <div className="px-6 pt-8 lg:px-10 2xl:px-[170px] pb-12 max-w-4xl mx-auto">
+          <Card className="bg-white border-0 shadow-sm rounded-[20px] p-8 text-center">
+            <div className="mb-6 text-primary">
+              <KeyRound className="w-16 h-16 mx-auto" />
+            </div>
+            <h2 className="text-2xl font-semibold mb-2 text-neutral-900">ورود به حساب کاربری</h2>
+            <p className="text-neutral-600 mb-6">برای مشاهده سبد خرید، لطفا وارد حساب کاربری خود شوید</p>
+            <div className="flex justify-center gap-3 flex-wrap">
+              <Button onClick={handleLogin} className="rounded-full px-8">
+                ورود به حساب
+              </Button>
+              <Button asChild variant="outline" className="rounded-full gap-2">
+                <Link href="/products">
+                  بازگشت به فروشگاه
+                  <ArrowLeft className="w-4 h-4 mr-1" />
+                </Link>
+              </Button>
+            </div>
+          </Card>
+        </div>
+      </section>
+    );
+  }
 
   if (error) {
     return (
@@ -203,8 +246,8 @@ function BasketPage() {
             <p className="text-lg text-neutral-700 mb-4">سبد خرید شما خالی است</p>
             <Button asChild variant="outline" className="rounded-full gap-2 mt-2">
               <Link href="/products">
-                <ArrowLeft className="w-4 h-4" />
                 بازگشت به فروشگاه
+                <ArrowLeft className="w-4 h-4 mr-1" />
               </Link>
             </Button>
           </Card>
@@ -346,9 +389,10 @@ function BasketPage() {
                 </Button>
                 
                 <div className="text-center">
-                  <Button asChild variant="link" className="text-neutral-500 hover:text-primary">
+                  <Button asChild variant="link" className="text-neutral-500 hover:text-primary gap-2">
                     <Link href="/products">
                       بازگشت به فروشگاه
+                      <ArrowRight className="w-4 h-4 mr-1" />
                     </Link>
                   </Button>
                 </div>
