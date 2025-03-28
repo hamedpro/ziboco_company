@@ -222,39 +222,39 @@ export interface SliderContentResponse {
 
 export const fetchSliderContent = async (): Promise<SliderContentResponse[]> => {
   // Simulate API delay
-  await new Promise(resolve => setTimeout(resolve, 1500));
+  // await new Promise(resolve => setTimeout(resolve, 1500));
   
   // Return fake data from public directory
-  return [
-    {
-      imageUrl: "/fakeSlides/kelly-sikkema-Hl3LUdyKRic-unsplash.jpg",
-      alt: "خرید طلا",
-      link: "/products?category=gold",
-      order: 1
-    },
-    {
-      imageUrl: "/fakeSlides/nathan-anderson-XENuKo9Gn8k-unsplash.jpg",
-      alt: "خرید نقره",
-      link: "/products?category=silver",
-      order: 2
-    },
-    {
-      imageUrl: "/fakeSlides/tr-n-toan-fzG9Jq44iNk-unsplash.jpg",
-      alt: "مجموعه جدید",
-      link: "/products/new",
-      order: 3
-    },
-    {
-      imageUrl: "/fakeSlides/keagan-henman-EulGcuAc1nQ-unsplash.jpg",
-      alt: "سرمایه‌گذاری در فلزات گرانبها",
-      link: "/blogs/investment",
-      order: 4
-    }
-  ];
+  // return [
+  //   {
+  //     imageUrl: "/fakeSlides/kelly-sikkema-Hl3LUdyKRic-unsplash.jpg",
+  //     alt: "خرید طلا",
+  //     link: "/products?category=gold",
+  //     order: 1
+  //   },
+  //   {
+  //     imageUrl: "/fakeSlides/nathan-anderson-XENuKo9Gn8k-unsplash.jpg",
+  //     alt: "خرید نقره",
+  //     link: "/products?category=silver",
+  //     order: 2
+  //   },
+  //   {
+  //     imageUrl: "/fakeSlides/tr-n-toan-fzG9Jq44iNk-unsplash.jpg",
+  //     alt: "مجموعه جدید",
+  //     link: "/products/new",
+  //     order: 3
+  //   },
+  //   {
+  //     imageUrl: "/fakeSlides/keagan-henman-EulGcuAc1nQ-unsplash.jpg",
+  //     alt: "سرمایه‌گذاری در فلزات گرانبها",
+  //     link: "/blogs/investment",
+  //     order: 4
+  //   }
+  // ];
   
   // Original API call - commented out for now
-  // const response = await axios.get<SliderContentResponse[]>(
-  //   `${API_BASE_URL}/api/Content/Slider`
-  // );
-  // return response.data;
+  const response = await axios.get<SliderContentResponse[]>(
+    `${API_BASE_URL}/api/Content/Slider`
+  );
+  return response.data;
 };
