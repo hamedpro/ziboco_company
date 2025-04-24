@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import ProductCard from "@/components/ProductCard";
@@ -13,6 +13,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Card } from "@/components/ui/card";
+import { Loader } from "@/components/Loader";
 
 function ProductsPage() {
 	// Get category from URL if present
@@ -244,4 +245,10 @@ function ProductsPage() {
 	);
 }
 
-export default ProductsPage;
+export default function Wrapper() {
+	return (
+		<Suspense fallback={<Loader isFullScreen />}>
+			<ProductsPage />
+		</Suspense>
+	);
+}			
