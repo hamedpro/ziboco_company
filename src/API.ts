@@ -29,6 +29,7 @@ export interface ProductResponse {
   onSale: boolean;
   hot: boolean;
   categoryId: string;
+  videoUrl?: string;
 }
 
 export const fetchLatestProducts = async (): Promise<ProductResponse[]> => {
@@ -169,6 +170,7 @@ export interface ProductDetailResponse {
   createdAt: number;
   updatedAt: number;
   content: string | null;
+  videoUrl?: string;
 }
 
 export const fetchAllProducts = async (): Promise<ProductDetailResponse[]> => {

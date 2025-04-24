@@ -57,6 +57,7 @@ export type Product = {
 	createdAt: number; // JS epoch timestamp (e.g., 1704105600000 for 2024-01-01T00:00:00Z)
 	updatedAt: number; // JS epoch timestamp (e.g., 1704105600000 for 2024-01-01T00:00:00Z)
 	content: string;
+	videoUrl?: string;
 };
 
 // Category type
@@ -214,6 +215,7 @@ export const fakeData: FakeDataType = {
 			createdAt: 1704105600000,
 			updatedAt: 1704105600000,
 			content: PRODUCT_SAMPLE_CONTENT,
+			videoUrl: "https://helphub.ir/video/Tokeniko1.mp4"
 		},
 		{
 			id: "2",
@@ -284,6 +286,7 @@ export const fakeData: FakeDataType = {
 			createdAt: 1704105600000,
 			updatedAt: 1704105600000,
 			content: PRODUCT_SAMPLE_CONTENT,
+			videoUrl: "https://helphub.ir/video/Tokeniko1.mp4"
 		},
 		{
 			id: "7",

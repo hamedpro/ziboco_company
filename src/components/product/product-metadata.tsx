@@ -3,13 +3,15 @@
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { Folder, Tag, Heart, Share2 } from "lucide-react";
+import { Folder, Tag, Heart, Share2, Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ProductDetailResponse } from "@/API";
 import { BasketWidgetProvider } from "./basket-widget-provider";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { getPersianValue } from "@/lib/utils";
+import { useState } from "react";
+import { VideoModal } from "@/components/ui/video-modal";
 import {
   Tooltip,
   TooltipContent,
@@ -24,6 +26,7 @@ interface ProductMetadataProps {
 
 export function ProductMetadata({ product }: ProductMetadataProps) {
   const router = useRouter();
+  const [videoModalOpen, setVideoModalOpen] = useState(false);
 
   const handleShare = async () => {
     try {
@@ -48,6 +51,16 @@ export function ProductMetadata({ product }: ProductMetadataProps) {
 
   return (
     <div className="mb-12">
+      {/* Video Modal */}
+      {product.videoUrl && (
+        <VideoModal 
+          videoUrl={product.videoUrl}
+          isOpen={videoModalOpen}
+          onOpenChange={setVideoModalOpen}
+          title={product.title}
+        />
+      )}
+      
       {/* Breadcrumb */}
       <div className="mb-6 flex items-center text-sm text-neutral-500">
         <Button 
@@ -75,6 +88,19 @@ export function ProductMetadata({ product }: ProductMetadataProps) {
                 className="object-contain p-8"
                 priority
               />
+              
+              {/* Video Play Button */}
+              {product.videoUrl && (
+                <div
+                  className="absolute bottom-4 right-4 cursor-pointer hidden md:flex"
+                  onClick={() => setVideoModalOpen(true)}
+                >
+                  <div className="flex items-center gap-2 bg-primary text-white py-2 px-4 rounded-full shadow-md hover:bg-primary/90 transition-colors">
+                    <Play className="w-4 h-4" />
+                    <span className="text-sm font-medium">پخش ویدیو</span>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
 
@@ -196,6 +222,22 @@ export function ProductMetadata({ product }: ProductMetadataProps) {
           </div>
         </div>
       </Card>
+      
+      {/* Floating Video Button for Mobile */}
+      {product.videoUrl && (
+        <div 
+          className="fixed bottom-6 left-6 md:hidden z-10 cursor-pointer"
+          onClick={() => setVideoModalOpen(true)}
+        >
+          <Button 
+            size="icon" 
+            className="h-14 w-14 rounded-full shadow-lg bg-primary hover:bg-primary/90"
+            aria-label="پخش ویدیو"
+          >
+            <Play className="h-6 w-6" />
+          </Button>
+        </div>
+      )}
     </div>
   );
 } 
