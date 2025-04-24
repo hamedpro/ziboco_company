@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import ProductCard from "@/components/ProductCard";
 import { fetchAllProducts, fetchCategories, CategoryResponse, ProductDetailResponse } from "@/API";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -14,6 +15,10 @@ import { Separator } from "@/components/ui/separator";
 import { Card } from "@/components/ui/card";
 
 function ProductsPage() {
+	// Get category from URL if present
+	const searchParams = useSearchParams();
+	const categoryParam = searchParams?.get("category");
+
 	// State for API data
 	const [products, setProducts] = useState<ProductDetailResponse[]>([]);
 	const [categories, setCategories] = useState<CategoryResponse[]>([]);
@@ -36,8 +41,21 @@ function ProductsPage() {
 				]);
 				setProducts(productsData);
 				setCategories(categoriesData);
-				// Initialize with all category names since categoryId in products is the category name
-				setSelectedCategories(categoriesData.map(cat => cat.name));
+				
+				// If category param exists, find the category name and only select that
+				if (categoryParam) {
+					const category = categoriesData.find(cat => cat.id === categoryParam);
+					if (category) {
+						setSelectedCategories([category.name]);
+					} else {
+						// If category not found, select all
+						setSelectedCategories(categoriesData.map(cat => cat.name));
+					}
+				} else {
+					// Initialize with all category names if no param
+					setSelectedCategories(categoriesData.map(cat => cat.name));
+				}
+				
 				setError(null);
 			} catch (err) {
 				console.error("Error fetching data:", err);
@@ -48,7 +66,7 @@ function ProductsPage() {
 		};
 
 		fetchData();
-	}, []);
+	}, [categoryParam]);
 
 	// Filter products based on the search query and selected categories
 	const filteredProducts = useMemo(() => {
