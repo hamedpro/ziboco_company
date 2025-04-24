@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
@@ -27,6 +27,7 @@ import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useRouter } from "next/navigation";
+import { getPersianValue } from "@/lib/utils";
 
 type ProcessingAction = {
   productId: string;
@@ -355,13 +356,15 @@ function BasketPage() {
                 <div className="flex justify-between items-center">
                   <span className="text-neutral-500">مجموع قیمت:</span>
                   <span className="font-medium">
-                    {basketItems
+                    {getPersianValue(
+                      basketItems
                       .reduce((total, item) => {
                         const product = products[item.productId];
-                        return total + (product?.price || 0) * item.quantity;
+                        const price = product?.priceWithDiscount || product?.price || 0;
+                        return total + price * item.quantity;
                       }, 0)
-                      .toLocaleString()}{" "}
-                    تومان
+                      .toString(), true)}{" "}
+                    ریال
                   </span>
                 </div>
                 
@@ -370,13 +373,15 @@ function BasketPage() {
                 <div className="flex justify-between items-center">
                   <span className="font-medium text-lg text-neutral-900">مبلغ قابل پرداخت:</span>
                   <span className="font-bold text-lg text-primary">
-                    {basketItems
+                    {getPersianValue(
+                      basketItems
                       .reduce((total, item) => {
                         const product = products[item.productId];
-                        return total + (product?.price || 0) * item.quantity;
+                        const price = product?.priceWithDiscount || product?.price || 0;
+                        return total + price * item.quantity;
                       }, 0)
-                      .toLocaleString()}{" "}
-                    تومان
+                      .toString(), true)}{" "}
+                    ریال
                   </span>
                 </div>
                 

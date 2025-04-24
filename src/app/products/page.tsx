@@ -71,10 +71,18 @@ function ProductsPage() {
 		let sorted = [...filteredProducts];
 		switch (sortMethod) {
 			case "priceAsc":
-				sorted.sort((a, b) => a.price - b.price);
+				sorted.sort((a, b) => {
+					const priceA = a.priceWithDiscount !== undefined ? a.priceWithDiscount : a.price;
+					const priceB = b.priceWithDiscount !== undefined ? b.priceWithDiscount : b.price;
+					return priceA - priceB;
+				});
 				break;
 			case "priceDesc":
-				sorted.sort((a, b) => b.price - a.price);
+				sorted.sort((a, b) => {
+					const priceA = a.priceWithDiscount !== undefined ? a.priceWithDiscount : a.price;
+					const priceB = b.priceWithDiscount !== undefined ? b.priceWithDiscount : b.price;
+					return priceB - priceA;
+				});
 				break;
 			case "createdAsc":
 				sorted.sort(
@@ -176,8 +184,8 @@ function ProductsPage() {
 								<SelectValue placeholder="مرتب‌سازی" />
 							</SelectTrigger>
 							<SelectContent>
-								<SelectItem value="priceAsc">قیمت: کم به زیاد</SelectItem>
-								<SelectItem value="priceDesc">قیمت: زیاد به کم</SelectItem>
+								<SelectItem value="priceAsc">قیمت فروش: کم به زیاد</SelectItem>
+								<SelectItem value="priceDesc">قیمت فروش: زیاد به کم</SelectItem>
 								<SelectItem value="createdAsc">تاریخ: قدیمی به جدید</SelectItem>
 								<SelectItem value="createdDesc">تاریخ: جدید به قدیمی</SelectItem>
 							</SelectContent>

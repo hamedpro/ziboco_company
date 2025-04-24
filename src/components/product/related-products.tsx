@@ -27,6 +27,7 @@ export function RelatedProducts({ products }: RelatedProductsProps) {
                 id: product.id,
                 title: product.title,
                 price: product.price || 0,
+                priceWithDiscount: product.priceWithDiscount,
                 description: product.description || null,
                 image: product.image,
                 tag: product.tag,

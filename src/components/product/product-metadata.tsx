@@ -9,6 +9,7 @@ import { ProductDetailResponse } from "@/API";
 import { BasketWidgetProvider } from "./basket-widget-provider";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { getPersianValue } from "@/lib/utils";
 import {
   Tooltip,
   TooltipContent,
@@ -41,6 +42,9 @@ export function ProductMetadata({ product }: ProductMetadataProps) {
 
   // Extract purity from product tag or use a default value
   const purity = product.tag?.includes("عیار") ? product.tag : null;
+  
+  // Check if product has discount
+  const hasDiscount = product.priceWithDiscount !== undefined && product.priceWithDiscount < product.price;
 
   return (
     <div className="mb-12">
@@ -90,19 +94,30 @@ export function ProductMetadata({ product }: ProductMetadataProps) {
 
             {/* Price Section */}
             <div className="bg-neutral-100 p-4 rounded-[16px]">
-              <div className="flex items-center gap-4">
-                <span className="text-2xl font-bold text-neutral-900">
-                  {product.price.toLocaleString()} تومان
-                </span>
-                {product.onSale && (
-                  <Badge variant="destructive" className="text-sm">
-                    تخفیف ویژه
-                  </Badge>
-                )}
-              </div>
-              {product.onSale && (
-                <div className="mt-2 text-neutral-500 line-through">
-                  {(product.price * 1.15).toLocaleString()} تومان
+              {hasDiscount ? (
+                <>
+                  <div className="flex items-center gap-4">
+                    <span className="text-2xl font-bold text-neutral-900">
+                      {getPersianValue((product.priceWithDiscount || 0).toString(), true)} ریال
+                    </span>
+                    <Badge variant="destructive" className="text-sm">
+                      تخفیف ویژه
+                    </Badge>
+                  </div>
+                  <div className="mt-2 text-neutral-500 line-through">
+                    {getPersianValue(product.price.toString(), true)} ریال
+                  </div>
+                </>
+              ) : (
+                <div className="flex items-center gap-4">
+                  <span className="text-2xl font-bold text-neutral-900">
+                    {getPersianValue(product.price.toString(), true)} ریال
+                  </span>
+                  {product.onSale && (
+                    <Badge variant="destructive" className="text-sm">
+                      تخفیف ویژه
+                    </Badge>
+                  )}
                 </div>
               )}
             </div>

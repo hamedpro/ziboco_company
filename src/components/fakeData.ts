@@ -50,6 +50,7 @@ export type Product = {
 	description: string;
 	image: string;
 	price: number;
+	priceWithDiscount?: number;
 	tag?: string;
 	onSale: boolean;
 	hot: boolean;

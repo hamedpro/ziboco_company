@@ -11,6 +11,7 @@ interface Product {
 	title: string;
 	description: string | null;
 	price: number;
+	priceWithDiscount?: number;
 	tag?: string;
 	image?: string;
 	onSale?: boolean;
@@ -50,6 +51,9 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
 	// Display either purity or categoryId for the product metadata
 	const displayMetadata = product.purity || product.categoryId || "995";
+	
+	// Check if there's a discounted price and it's different from regular price
+	const hasDiscount = product.priceWithDiscount !== undefined && product.priceWithDiscount < product.price;
 
 	return (
 		<div 
@@ -66,12 +70,25 @@ const ProductCard: React.FC<ProductCardProps> = ({
 					)}
 				</div>
 				<h3 className="text-neutral-950 font-medium text-base mt-3">{product.title}</h3>
-				<p className="font-medium text-primary text-sm mt-2">
-					قیمت: {getPersianValue(product.price.toString(), true)} تومان
-				</p>
+				<div className="mt-2">
+					{hasDiscount ? (
+						<>
+							<p className="font-medium text-primary text-sm">
+								{getPersianValue((product.priceWithDiscount || 0).toString(), true)} ریال
+							</p>
+							<p className="text-xs text-neutral-500 line-through">
+								{getPersianValue(product.price.toString(), true)} ریال
+							</p>
+						</>
+					) : (
+						<p className="font-medium text-primary text-sm">
+							{getPersianValue(product.price.toString(), true)} ریال
+						</p>
+					)}
+				</div>
 			</div>
 			<div className="w-full rounded-[16px] bg-neutral-100 h-60 flex justify-center items-center mt-4 relative">
-				{product.onSale && (
+				{(hasDiscount || product.onSale) && (
 					<div className="h-7 flex justify-center items-center text-xs rounded-[6px] px-2 bg-red-100 text-red-600 absolute top-3 left-3 z-10">
 						تخفیف ویژه
 					</div>
