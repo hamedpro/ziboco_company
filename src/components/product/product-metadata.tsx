@@ -168,8 +168,6 @@ export function ProductMetadata({ product }: ProductMetadataProps) {
               )}
             </div>
 
-            <Separator className="bg-neutral-200" />
-
             {/* Product Description */}
             {product.description && (
               <div className="prose max-w-none">
@@ -208,20 +206,20 @@ export function ProductMetadata({ product }: ProductMetadataProps) {
                 </Button>
               </div>
             </div>
-
-            {/* Product Specifications */}
-            {product.content && (
-              <div className="bg-neutral-100 p-4 rounded-[16px]">
-                <h3 className="font-semibold text-lg mb-2">مشخصات فنی</h3>
-                <div 
-                  dangerouslySetInnerHTML={{ __html: product.content }} 
-                  className="text-neutral-600 leading-relaxed"
-                />
-              </div>
-            )}
           </div>
         </div>
       </Card>
+      
+      {/* Technical Specifications - Full Width Section */}
+      {product.content && (
+        <Card className="bg-white border-0 shadow-sm rounded-[20px] p-6 md:p-8 mt-8">
+          <h3 className="text-xl font-semibold text-neutral-900 mb-4">مشخصات فنی</h3>
+          <div 
+            dangerouslySetInnerHTML={{ __html: product.content }} 
+            className="text-neutral-600 leading-relaxed prose max-w-none"
+          />
+        </Card>
+      )}
       
       {/* Floating Video Button for Mobile */}
       {product.videoUrl && (
