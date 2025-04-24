@@ -19,6 +19,12 @@ export function BlogArticles() {
       try {
         setIsLoading(true);
         const data = await fetchBlogPosts();
+        
+        // Make sure we have an array
+        if (!Array.isArray(data)) {
+          throw new Error("Invalid data format");
+        }
+        
         setArticles(data);
         setError(null);
       } catch (err) {

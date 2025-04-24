@@ -75,6 +75,13 @@ export const fetchBlogPosts = async (): Promise<BlogPostResponse[]> => {
   return response.data;
 };
 
+export const fetchBlogPostById = async (id: string): Promise<BlogPostResponse[]> => {
+  const response = await axios.get<BlogPostResponse[]>(
+    `${API_BASE_URL}/api/blog/${id}`
+  );
+  return response.data;
+};
+
 export interface AnnouncementResponse {
   id: string | null;
   title: string;

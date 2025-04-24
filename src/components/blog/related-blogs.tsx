@@ -23,7 +23,7 @@ export function RelatedBlogs({ blogs }: RelatedBlogsProps) {
             <div className="aspect-[3/2] bg-gray-50 rounded-lg overflow-hidden">
               <Image
                 src={blog.image || "/placeholder-blog.jpg"}
-                alt={blog.title}
+                alt={blog.title || "تصویر مقاله مرتبط"}
                 width={300}
                 height={200}
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"

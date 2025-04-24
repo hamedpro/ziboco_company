@@ -5,6 +5,7 @@ import { BlogPostResponse, fetchBlogPosts } from "@/API";
 import { RelatedBlogs } from "./related-blogs";
 import { ErrorDisplayComponent } from "../error-display";
 import { RefreshCcw } from "lucide-react";  
+
 interface RelatedBlogsProviderProps {
   currentBlogId: string;
 }
@@ -19,6 +20,12 @@ export function RelatedBlogsProvider({ currentBlogId }: RelatedBlogsProviderProp
       setLoading(true);
       setError(null);
       const data = await fetchBlogPosts();
+      
+      // Make sure we have an array
+      if (!Array.isArray(data)) {
+        throw new Error("Invalid data format");
+      }
+      
       // Filter out current blog and limit to 4 items
       setBlogs(data.filter(b => b.id !== currentBlogId).slice(0, 4));
     } catch (err) {

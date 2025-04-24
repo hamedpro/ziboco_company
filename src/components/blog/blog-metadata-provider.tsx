@@ -2,10 +2,11 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { BlogPostResponse, fetchBlogPosts } from "@/API";
+import { BlogPostResponse, fetchBlogPostById } from "@/API";
 import { BlogMetadata } from "./blog-metadata";
 import { ErrorDisplayComponent } from "../error-display";
 import { RefreshCcw } from "lucide-react";
+import axios from "axios";
 
 interface BlogMetadataProviderProps {
   blogId: string;
@@ -24,19 +25,25 @@ export function BlogMetadataProvider({ blogId }: BlogMetadataProviderProps) {
       setError(null);
       setNotFound(false);
 
-      const blogs = await fetchBlogPosts();
-      console.log({blogId, blogs })
-      const foundBlog = blogs.find(b => b.id === blogId);
-
-      if (!foundBlog) {
+      const blogData = await fetchBlogPostById(blogId);
+      
+      // Check if response is an array and has at least one element
+      if (!Array.isArray(blogData) || blogData.length === 0) {
         setNotFound(true);
         return;
       }
-
-      setBlog(foundBlog);
+      
+      // Use the first blog post from the array
+      setBlog(blogData[0]);
     } catch (err) {
-      setError("خطا در دریافت اطلاعات مقاله");
       console.error("Blog load error:", err);
+      
+      // Check if it's a 404 error
+      if (axios.isAxiosError(err) && err.response?.status === 404) {
+        setNotFound(true);
+      } else {
+        setError("خطا در دریافت اطلاعات مقاله");
+      }
     } finally {
       setLoading(false);
     }

@@ -52,7 +52,7 @@ export function BlogMetadata({ blog }: BlogMetadataProps) {
       <div className="aspect-[2/1] relative rounded-xl overflow-hidden">
         <Image
           src={blog.image || "/placeholder-blog.jpg"}
-          alt={blog.title}
+          alt={blog.title || "تصویر مقاله"}
           fill
           className="object-cover"
           priority
