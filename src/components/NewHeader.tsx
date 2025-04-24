@@ -20,6 +20,7 @@ import {
   SquareChevronRight,
   Moon,
   Sun,
+  Loader2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -55,6 +56,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { fetchCategories, CategoryResponse } from "@/API";
+import { Skeleton } from "@/components/ui/skeleton";
+
 // Path to Persian title mapping
 const pathToBreadcrumb: Record<string, string> = {
   "": "صفحه اصلی",
@@ -81,6 +85,52 @@ const pathToBreadcrumb: Record<string, string> = {
   notifications: "اعلان ها",
 };
 
+// Image component with skeleton loading
+const CategoryImage = ({ src, alt }: { src: string; alt: string }) => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [imageSrc, setImageSrc] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!src) {
+      setIsLoading(false);
+      return;
+    }
+
+    const img = new Image();
+    img.src = src;
+    
+    img.onload = () => {
+      setImageSrc(src);
+      setIsLoading(false);
+    };
+    
+    img.onerror = () => {
+      setImageSrc("/placeholder-image.png");
+      setIsLoading(false);
+    };
+
+    return () => {
+      img.onload = null;
+      img.onerror = null;
+    };
+  }, [src]);
+
+  return (
+    <div className="h-full w-full relative">
+      {isLoading && (
+        <Skeleton className="h-full w-full absolute inset-0 rounded-md" />
+      )}
+      {imageSrc && (
+        <img
+          src={imageSrc}
+          alt={alt}
+          className={`w-full h-full object-cover transition-opacity duration-200 ${isLoading ? 'opacity-0' : 'opacity-100'}`}
+        />
+      )}
+    </div>
+  );
+};
+
 export function NewHeader() {
   const router = useRouter();
   const [authStatus, setAuthStatus] = useState<
@@ -89,6 +139,8 @@ export function NewHeader() {
   const pathname = usePathname();
   const [showDebug, setShowDebug] = useState(false);
   const { theme, setTheme } = useTheme();
+  const [categories, setCategories] = useState<CategoryResponse[]>([]);
+  const [categoriesLoading, setCategoriesLoading] = useState(true);
 
   // Toggle debug mode with Ctrl+Shift+D
   useEffect(() => {
@@ -171,6 +223,21 @@ export function NewHeader() {
     };
 
     checkAuth();
+  }, []);
+
+  useEffect(() => {
+    const loadCategories = async () => {
+      try {
+        const data = await fetchCategories();
+        setCategories(data);
+        setCategoriesLoading(false);
+      } catch (error) {
+        console.error("Failed to load categories:", error);
+        setCategoriesLoading(false);
+      }
+    };
+
+    loadCategories();
   }, []);
 
   return (
@@ -284,23 +351,30 @@ export function NewHeader() {
 
               <NavigationMenuItem>
                 <NavigationMenuTrigger className="nav-trigger-custom">
-                  خدمات ما
+                  دسته بندی ها
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
                   <div className="flex flex-col w-[400px] gap-3 p-4">
-                    {[
-                      { href: "/services/buy", icon: <CreditCard className="h-6 w-6 text-white transition-all duration-300 group-hover:translate-y-[-1px]" />, label: "خرید آنلاین", color: "bg-green-500" },
-                      { href: "/services/sell", icon: <BadgeDollarSign className="h-6 w-6 text-white transition-all duration-300 group-hover:translate-y-[-1px]" />, label: "فروش طلا", color: "bg-red-500" },
-                    ].map((item) => (
-                      <Link key={item.href} href={item.href} legacyBehavior passHref>
-                        <NavigationMenuLink className="group flex flex-row items-center gap-4 select-none rounded-md bg-gradient-to-r from-muted/50 to-muted p-4 no-underline outline-none transition-all duration-300 hover:rounded-xl">
-                          <div className={cn("h-10 w-10 shrink-0 rounded-md flex items-center justify-center transition-all duration-300 group-hover:rounded-xl", item.color)}>
-                            {item.icon}
-                          </div>
-                          <div className="text-lg font-medium">{item.label}</div>
-                        </NavigationMenuLink>
-                      </Link>
-                    ))}
+                    {categoriesLoading ? (
+                      <div className="flex justify-center items-center h-40 w-full">
+                        <Loader2 className="h-8 w-8 animate-spin text-primary/70" />
+                      </div>
+                    ) : categories.length === 0 ? (
+                      <div className="flex justify-center items-center h-40 w-full text-muted-foreground">
+                        دسته بندی ای یافت نشد
+                      </div>
+                    ) : (
+                      categories.map((category) => (
+                        <Link key={category.id} href={`/products?category=${category.id}`} legacyBehavior passHref>
+                          <NavigationMenuLink className="group flex flex-row items-center gap-4 select-none rounded-md bg-gradient-to-r from-muted/50 to-muted p-4 no-underline outline-none transition-all duration-300 hover:rounded-xl">
+                            <div className="h-10 w-10 shrink-0 rounded-md flex items-center justify-center transition-all duration-300 group-hover:rounded-xl bg-blue-500/20 overflow-hidden">
+                              <CategoryImage src={category.image} alt={category.name} />
+                            </div>
+                            <div className="text-lg font-medium">{category.name}</div>
+                          </NavigationMenuLink>
+                        </Link>
+                      ))
+                    )}
                   </div>
                 </NavigationMenuContent>
               </NavigationMenuItem>
@@ -456,20 +530,27 @@ export function NewHeader() {
                 </div>
 
                 <div className="flex flex-col gap-1">
-                  <h3 className="text-lg font-medium mb-1">خدمات ما</h3>
+                  <h3 className="text-lg font-medium mb-1">دسته بندی ها</h3>
                   <div className="border-s-2 ps-3 flex flex-col gap-2">
-                    <Link
-                      href="/services/buy"
-                      className="text-muted-foreground hover:text-primary"
-                    >
-                      خرید آنلاین
-                    </Link>
-                    <Link
-                      href="/services/sell"
-                      className="text-muted-foreground hover:text-primary"
-                    >
-                      فروش طلا
-                    </Link>
+                    {categoriesLoading ? (
+                      <div className="flex justify-center items-center h-20 w-full">
+                        <Loader2 className="h-5 w-5 animate-spin text-primary/70" />
+                      </div>
+                    ) : categories.length === 0 ? (
+                      <div className="text-muted-foreground py-2">
+                        دسته بندی ای یافت نشد
+                      </div>
+                    ) : (
+                      categories.map((category) => (
+                        <Link
+                          key={category.id}
+                          href={`/products?category=${category.id}`}
+                          className="text-muted-foreground hover:text-primary"
+                        >
+                          {category.name}
+                        </Link>
+                      ))
+                    )}
                   </div>
                 </div>
 
