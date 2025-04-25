@@ -269,3 +269,23 @@ export const fetchSliderContent = async (): Promise<SliderContentResponse[]> => 
   );
   return response.data;
 };
+
+export interface WalletChargeResponse {
+  data: boolean;
+  errorCode: number;
+  errorMessage: string;
+  errorDetail: string;
+}
+
+export const submitWalletChargeCode = async (code: string): Promise<WalletChargeResponse> => {
+  const response = await axios.post<WalletChargeResponse>(
+    `${API_BASE_URL}/api/Wallet`,
+    { code },
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      },
+    }
+  );
+  return response.data;
+};

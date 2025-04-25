@@ -6,12 +6,16 @@ import axios, { AxiosError } from "axios";
 import { API_BASE_URL } from "../../../configs";
 import { WalletWidget } from "./WalletWidget";
 import type { WalletData } from "./WalletWidget";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { ArrowUpCircle, ArrowDownCircle, RefreshCcw } from "lucide-react";
+import { ArrowUpCircle, ArrowDownCircle, RefreshCcw, CheckCircle, AlertCircle } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 import { getPersianValue } from "@/lib/utils";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { submitWalletChargeCode } from "@/API";
 
 export type WalletItem = {
 	id: string;
@@ -44,6 +48,9 @@ export default function Wallet() {
 	const [error, setError] = useState<string | null>(null);
 	const [walletData, setWalletData] = useState<WalletData | null>(null);
 	const [transactions, setTransactions] = useState<Transaction[]>([]);
+	const [chargeCode, setChargeCode] = useState("");
+	const [submitting, setSubmitting] = useState(false);
+	const [chargeResult, setChargeResult] = useState<{ success: boolean; message: string } | null>(null);
 
 	// Safely format a date string that might be in DD/MM/YYYY format
 	const safelyFormatDate = (dateString: string) => {
@@ -159,6 +166,42 @@ export default function Wallet() {
 		}
 	};
 
+	const handleChargeSubmit = async (e: React.FormEvent) => {
+		e.preventDefault();
+		if (!chargeCode.trim()) return;
+		
+		try {
+			setSubmitting(true);
+			setChargeResult(null);
+			
+			const response = await submitWalletChargeCode(chargeCode);
+			
+			if (response.errorCode === 0 && response.data) {
+				setChargeResult({
+					success: true,
+					message: "کد شارژ با موفقیت اعمال شد."
+				});
+				setChargeCode("");
+				
+				// Reload wallet data
+				loadData();
+			} else {
+				setChargeResult({
+					success: false,
+					message: response.errorMessage || "خطا در اعمال کد شارژ"
+				});
+			}
+		} catch (error) {
+			console.error("Error applying charge code:", error);
+			setChargeResult({
+				success: false,
+				message: "خطا در ارتباط با سرور"
+			});
+		} finally {
+			setSubmitting(false);
+		}
+	};
+
 	useEffect(() => {
 		loadData();
 	}, []);
@@ -220,10 +263,53 @@ export default function Wallet() {
 
 			{/* Main Content */}
 			<div className="grid gap-6 md:grid-cols-2">
-				{/* Main Wallet Widget */}
-				<WalletWidget data={walletData!} />
+				{/* Left Column */}
+				<div className="space-y-6">
+					{/* Main Wallet Widget */}
+					<WalletWidget data={walletData!} />
+					
+					{/* Charge Wallet Card */}
+					<Card dir="rtl">
+						<CardHeader>
+							<CardTitle>افزایش موجودی کیف پول</CardTitle>
+							<CardDescription>کد شارژ خود را وارد کنید</CardDescription>
+						</CardHeader>
+						<CardContent>
+							<form onSubmit={handleChargeSubmit} className="space-y-4">
+								<Input
+									
+									placeholder="کد شارژ را وارد کنید"
+									value={chargeCode}
+									onChange={(e) => setChargeCode(e.target.value)}
+									disabled={submitting}
+								/>
+								
+								{chargeResult && (
+									<Alert variant={chargeResult.success ? "default" : "destructive"}>
+										<div className="flex items-center gap-2">
+											{chargeResult.success ? (
+												<CheckCircle className="h-4 w-4" />
+											) : (
+												<AlertCircle className="h-4 w-4" />
+											)}
+											<AlertDescription>{chargeResult.message}</AlertDescription>
+										</div>
+									</Alert>
+								)}
+								
+								<Button 
+									type="submit" 
+									className="w-full" 
+									disabled={submitting || !chargeCode.trim()}
+								>
+									{submitting ? "در حال ثبت..." : "ثبت کد شارژ"}
+								</Button>
+							</form>
+						</CardContent>
+					</Card>
+				</div>
 
-				{/* Additional Info Cards */}
+				{/* Right Column */}
 				<div className="space-y-6" dir="rtl">
 					<Card>
 						<CardHeader>
