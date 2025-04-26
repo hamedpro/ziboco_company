@@ -14,7 +14,7 @@ import { Suspense, useState } from "react";
 import { toast } from "sonner";
 import { API_BASE_URL } from "../../../../configs";
 import { Input } from "@/components/ui/input";
-import { Loader2, Phone, UserSearch } from "lucide-react";
+import { Loader2, Phone, UserSearch, CreditCard } from "lucide-react";
 import AuthToggle from "@/components/AuthToggle";
 import { Loader } from "@/components/Loader";
 import { Button } from "@/components/ui/button";
@@ -29,6 +29,7 @@ function Entry() {
 	const [referralCode, setReferralCode] = useState<string>(
 		referralCodeParam || ""
 	);
+	const [creditCode, setCreditCode] = useState<string>("");
 	const [enteryMode, setEntryMode] = useState<"register" | "login">(
 		referralCodeParam
 			? "register"
@@ -52,6 +53,7 @@ function Entry() {
 				data: {
 					cellNumber: phoneNumber,
 					referralCode: referralCode || null,
+					creditCode: creditCode || null,
 					device: {
 						deviceId: "string",
 						deviceModel: "string",
@@ -74,8 +76,12 @@ function Entry() {
 				enteryMode === "register" && referralCode
 					? `&referralCode=${referralCode}`
 					: "";
+			const creditCodeQueryParam =
+				enteryMode === "register" && creditCode
+					? `&creditCode=${creditCode}`
+					: "";
 			router.push(
-				`/auth/verify-otp?phoneNumber=${phoneNumber}&userId=${userId}${referralQueryParam}`
+				`/auth/verify-otp?phoneNumber=${phoneNumber}&userId=${userId}${referralQueryParam}${creditCodeQueryParam}`
 			);
 		} catch (error) {
 			toast.error("خطای ناشناخته", {
@@ -132,49 +138,82 @@ function Entry() {
 						</div>
 						
 						{enteryMode === "register" && (
-							<div className="relative">
-								<Input
-									className="bg-neutral-50 h-12 pl-10 pr-12 text-base md:text-lg"
-									placeholder="کد معرف (اختیاری)"
-									value={referralCode
-										.split("")
-										.map((char) =>
-											/[a-zA-Z]/.test(char)
-												? char
-												: convertToPersian(char)
-										)
-										.join("")}
-									onChange={(e) => {
-										const rawValue = e.target.value;
-										const converted = rawValue
+							<>
+								<div className="relative">
+									<Input
+										className="bg-neutral-50 h-12 pl-10 pr-12 text-base md:text-lg"
+										placeholder="کد معرف (اختیاری)"
+										value={referralCode
 											.split("")
 											.map((char) =>
 												/[a-zA-Z]/.test(char)
 													? char
-													: convertToEnglish(char)
+													: convertToPersian(char)
 											)
-											.join("");
-										setReferralCode(converted);
-									}}
-									disabled={
-										!!referralCodeParam &&
-										referralCode === referralCodeParam
-									}
-								/>
-								<UserSearch
-									className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"
-									size={20}
-								/>
-								{!!referralCodeParam &&
-									referralCode === referralCodeParam && (
-										<button
-											className="absolute left-4 top-1/2 -translate-y-1/2 text-primary hover:text-primary/80 text-sm font-medium transition-colors"
-											onClick={() => setReferralCode("")}
-										>
-											ویرایش
-										</button>
-									)}
-							</div>
+											.join("")}
+										onChange={(e) => {
+											const rawValue = e.target.value;
+											const converted = rawValue
+												.split("")
+												.map((char) =>
+													/[a-zA-Z]/.test(char)
+														? char
+														: convertToEnglish(char)
+												)
+												.join("");
+											setReferralCode(converted);
+										}}
+										disabled={
+											!!referralCodeParam &&
+											referralCode === referralCodeParam
+										}
+									/>
+									<UserSearch
+										className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"
+										size={20}
+									/>
+									{!!referralCodeParam &&
+										referralCode === referralCodeParam && (
+											<button
+												className="absolute left-4 top-1/2 -translate-y-1/2 text-primary hover:text-primary/80 text-sm font-medium transition-colors"
+												onClick={() => setReferralCode("")}
+											>
+												ویرایش
+											</button>
+										)}
+								</div>
+								
+								<div className="relative">
+									<Input
+										className="bg-neutral-50 h-12 pl-10 pr-12 text-base md:text-lg"
+										placeholder="کد اعتباری (اختیاری)"
+										value={creditCode
+											.split("")
+											.map((char) =>
+												/[a-zA-Z]/.test(char)
+													? char
+													: convertToPersian(char)
+											)
+											.join("")}
+										onChange={(e) => {
+											const rawValue = e.target.value;
+											const converted = rawValue
+												.split("")
+												.map((char) =>
+													/[a-zA-Z]/.test(char)
+														? char
+														: convertToEnglish(char)
+												)
+												.join("");
+											setCreditCode(converted);
+										}}
+									/>
+									<CreditCard
+										className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"
+										size={20}
+									/>
+								</div>
+							</>
 						)}
 					</CardContent>
 					
