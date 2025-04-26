@@ -13,7 +13,7 @@ interface Product {
 	price: number;
 	priceWithDiscount?: number;
 	tag?: string;
-	image?: string;
+	image?: string[];
 	onSale?: boolean;
 	purity?: string;
 	categoryId?: string;
@@ -94,7 +94,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
 					</div>
 				)}
 				<LazyImage
-					src={product.image || DEFAULT_IMAGE}
+					src={product.image && product.image.length > 0 ? product.image[0] : DEFAULT_IMAGE}
 					alt={product.title}
 					width={80}
 					height={120}

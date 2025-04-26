@@ -25,7 +25,7 @@ export interface ProductResponse {
   price: number;
   priceWithDiscount?: number;
   tag: string;
-  image: string;
+  image: string[];
   onSale: boolean;
   hot: boolean;
   categoryId: string;
@@ -161,7 +161,7 @@ export interface ProductDetailResponse {
   categoryId: string;
   title: string;
   description: string | null;
-  image: string;
+  image: string[];
   price: number;
   priceWithDiscount?: number;
   tag: string;

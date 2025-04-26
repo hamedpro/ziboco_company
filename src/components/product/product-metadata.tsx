@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { Folder, Tag, Heart, Share2, Play } from "lucide-react";
+import { Folder, Tag, Heart, Share2, Play, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ProductDetailResponse } from "@/API";
 import { BasketWidgetProvider } from "./basket-widget-provider";
@@ -19,6 +19,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Card } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 
 interface ProductMetadataProps {
   product: ProductDetailResponse;
@@ -27,6 +28,7 @@ interface ProductMetadataProps {
 export function ProductMetadata({ product }: ProductMetadataProps) {
   const router = useRouter();
   const [videoModalOpen, setVideoModalOpen] = useState(false);
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
 
   const handleShare = async () => {
     try {
@@ -48,6 +50,20 @@ export function ProductMetadata({ product }: ProductMetadataProps) {
   
   // Check if product has discount
   const hasDiscount = product.priceWithDiscount !== undefined && product.priceWithDiscount < product.price;
+
+  // Ensure product.image is an array
+  const images = Array.isArray(product.image) && product.image.length > 0 
+    ? product.image 
+    : ["/placeholder-product.jpg"];
+
+  // Navigation functions for image gallery
+  const nextImage = () => {
+    setActiveImageIndex((prev) => (prev + 1) % images.length);
+  };
+
+  const prevImage = () => {
+    setActiveImageIndex((prev) => (prev - 1 + images.length) % images.length);
+  };
 
   return (
     <div className="mb-12">
@@ -78,16 +94,37 @@ export function ProductMetadata({ product }: ProductMetadataProps) {
 
       <Card className="bg-white border-0 shadow-sm rounded-[20px] p-6 md:p-8">
         <div className="grid md:grid-cols-2 gap-8">
-          {/* Image Section */}
+          {/* Image Gallery Section */}
           <div className="space-y-4">
+            {/* Main Image */}
             <div className="aspect-square relative bg-neutral-100 rounded-[16px] overflow-hidden">
               <Image
-                src={product.image || "/placeholder-product.jpg"}
-                alt={product.title}
+                src={images[activeImageIndex]}
+                alt={`${product.title} - تصویر ${activeImageIndex + 1}`}
                 fill
                 className="object-contain p-8"
                 priority
               />
+              
+              {/* Navigation Arrows - only if multiple images */}
+              {images.length > 1 && (
+                <>
+                  <button 
+                    onClick={nextImage} 
+                    className="absolute top-1/2 left-2 transform -translate-y-1/2 bg-white/80 rounded-full p-2 shadow-md hover:bg-white transition-colors"
+                    aria-label="تصویر بعدی"
+                  >
+                    <ChevronLeft className="h-5 w-5 text-neutral-800" />
+                  </button>
+                  <button 
+                    onClick={prevImage} 
+                    className="absolute top-1/2 right-2 transform -translate-y-1/2 bg-white/80 rounded-full p-2 shadow-md hover:bg-white transition-colors"
+                    aria-label="تصویر قبلی"
+                  >
+                    <ChevronRight className="h-5 w-5 text-neutral-800" />
+                  </button>
+                </>
+              )}
               
               {/* Video Play Button */}
               {product.videoUrl && (
@@ -102,6 +139,33 @@ export function ProductMetadata({ product }: ProductMetadataProps) {
                 </div>
               )}
             </div>
+            
+            {/* Thumbnails - only if multiple images */}
+            {images.length > 1 && (
+              <div className="flex gap-2 overflow-x-auto py-2 px-1 scrollbar-thin scrollbar-thumb-neutral-300">
+                {images.map((img, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setActiveImageIndex(index)}
+                    className={cn(
+                      "flex-shrink-0 w-16 h-16 rounded-md overflow-hidden border-2 transition-all",
+                      activeImageIndex === index 
+                        ? "border-primary" 
+                        : "border-transparent hover:border-neutral-300"
+                    )}
+                  >
+                    <div className="relative w-full h-full">
+                      <Image
+                        src={img}
+                        alt={`${product.title} - تصویر کوچک ${index + 1}`}
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Product Details Section */}

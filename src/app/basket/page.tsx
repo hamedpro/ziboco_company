@@ -264,9 +264,9 @@ function BasketPage() {
                     <div key={item.productId}>
                       <div className="flex gap-4 items-center">
                         <div className="relative w-20 h-20 flex-shrink-0 bg-neutral-100 rounded-[16px] p-2">
-                          {product?.image ? (
+                          {product?.image && product.image.length > 0 ? (
                             <Image
-                              src={product.image}
+                              src={product.image[0]}
                               alt={product.title}
                               fill
                               className="object-contain p-2"
