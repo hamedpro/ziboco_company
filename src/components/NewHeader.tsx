@@ -70,7 +70,7 @@ const pathToBreadcrumb: Record<string, string> = {
   "services/buy": "خرید آنلاین",
   "services/sell": "فروش طلا",
   about: "درباره ما",
-  "about/team": "تیم ما",
+  "about/team": "درباره ما",
   "about/contact": "تماس با ما",
   login: "ورود/ثبت نام",
   wallet: "دارایی های من",
@@ -386,7 +386,7 @@ export function NewHeader() {
                 <NavigationMenuContent>
                   <div className="flex flex-col w-[400px] gap-3 p-4">
                     {[
-                      { href: "/about/team", icon: <Users className="h-6 w-6 text-white transition-all duration-300 group-hover:translate-y-[-1px]" />, label: "تیم ما", color: "bg-blue-500" },
+                      { href: "/about/team", icon: <Users className="h-6 w-6 text-white transition-all duration-300 group-hover:translate-y-[-1px]" />, label: "درباره ما", color: "bg-blue-500" },
                       { href: "/about/contact", icon: <Mail className="h-6 w-6 text-white transition-all duration-300 group-hover:translate-y-[-1px]" />, label: "تماس با ما", color: "bg-purple-500" },
                     ].map((item) => (
                       <Link key={item.href} href={item.href} legacyBehavior passHref>
@@ -561,7 +561,7 @@ export function NewHeader() {
                       href="/about/team"
                       className="text-muted-foreground hover:text-primary"
                     >
-                      تیم ما
+                      درباره ما
                     </Link>
                     <Link
                       href="/about/contact"

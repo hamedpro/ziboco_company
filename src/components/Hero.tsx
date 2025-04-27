@@ -26,19 +26,27 @@ export const Hero = () => {
 				<div className="flex flex-col lg:flex-row gap-8 items-center">
 					{/* Hero content */}
 					<div className="w-full lg:w-1/2 text-center lg:text-right">
-						<Badge className="mb-4 bg-amber-500 text-white hover:bg-amber-600 border-none">
-							سرمایه‌گذاری مطمئن
-						</Badge>
-						<h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 font-[vazirmatn] text-white">
-							بازار طلا و جواهر
-						</h1>
-						<p className="text-white/90 text-lg md:text-xl mb-8 max-w-xl mx-auto lg:mr-0 font-[vazirmatn]">
-							امن‌ترین راه برای سرمایه‌گذاری در فلزات گرانبها با پشتوانه معتبرترین صرافی‌های کشور
-						</p>
-						<Button className="bg-amber-500 hover:bg-amber-600 text-white font-[vazirmatn] px-8 py-6 text-lg rounded-full">
-							مشاهده محصولات
-							<ArrowLeft className="mr-2 h-5 w-5" />
-						</Button>
+						<div className="backdrop-blur-sm bg-black/10 p-6 rounded-xl border border-white/5">
+							<Badge className="mb-4 bg-amber-500 text-white hover:bg-amber-600 border-none px-3 py-1">
+								سرمایه‌گذاری مطمئن
+							</Badge>
+							<h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 font-[vazirmatn] text-white">
+								زیبوکو
+							</h1>
+							<div className="mb-6">
+								<p className="text-white/90 text-lg md:text-xl font-[vazirmatn]">
+									<span className="text-amber-300">شکوه طلا</span>
+									<span className="mx-2 text-white/60">|</span>
+									<span className="text-amber-300">زیبایی هنر</span>
+									<span className="mx-2 text-white/60">|</span>
+									<span className="text-amber-300">زیرکی صنعت</span>
+								</p>
+							</div>
+							<Button className="bg-amber-500 hover:bg-amber-600 text-white font-[vazirmatn] px-8 py-6 text-lg rounded-full">
+								مشاهده محصولات
+								<ArrowLeft className="mr-2 h-5 w-5" />
+							</Button>
+						</div>
 					</div>
 
 					{/* Feature cards */}
